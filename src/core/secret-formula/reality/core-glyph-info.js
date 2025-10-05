@@ -165,9 +165,11 @@ export const GlyphInfo = {
     id: "sampleGlyph",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "sampleGlyph")),
     effectIDs: ["sampleEffectA", "sampleEffectB", "sampleEffectC", "sampleEffectD", "sampleEffectE", "sampleEffectF"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""]
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Big", mid: "Medium", low: "Small" },
-    noun: Glyph,
+    noun: "Glyph",
     isBasic: false,
     regularGlyphSymbol: "S",
     cancerGlyphSymbol: "$",

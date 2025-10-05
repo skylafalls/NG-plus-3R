@@ -33,6 +33,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    needsHighZindex: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -60,7 +65,9 @@ export default {
     },
     rootClassObject() {
       return {
-        "l-expanding-control-box--controls-width": this.widthSource !== undefined
+        "l-expanding-control-box--controls-width": this.widthSource !== undefined,
+        "c-high-z-index": this.needsHighZindex,
+        "c-low-z-index": !this.needsHighZindex
       };
     },
     containerStyle() {
@@ -258,5 +265,13 @@ export default {
 .c-indicator-arrow {
   margin-left: 0.6rem;
   transition: transform 0.25s ease-out;
+}
+
+.c-high-z-index {
+  z-index: 5
+}
+
+.c-low-z-index {
+  z-index: 3
 }
 </style>
