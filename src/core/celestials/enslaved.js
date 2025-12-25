@@ -215,8 +215,8 @@ export const Enslaved = {
     return Math.clampMin(hintTime / TimeSpan.fromDays(new Decimal(1)).totalMilliseconds.toNumber(), 0);
   },
   spendTimeForHint() {
-    if (player.celestials.enslaved.stored < this.nextHintCost) return false;
-    player.celestials.enslaved.stored -= this.nextHintCost;
+    if (player.celestials.enslaved.stored.lt(this.nextHintCost)) return false;
+    player.celestials.enslaved.stored = player.celestials.enslaved.stored.sub(this.nextHintCost);
     if (Enslaved.hintCostIncreases === 0) {
       player.celestials.enslaved.zeroHintTime = Date.now() + TimeSpan.fromDays(1).totalMilliseconds.toNumber();
     } else {
