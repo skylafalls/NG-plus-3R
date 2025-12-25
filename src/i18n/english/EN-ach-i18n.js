@@ -280,7 +280,7 @@ export const ach = {
   ach142reward: "Dimension boosts are $1aX stronger.",
   ach143title: "Yo dawg, I heard you like reskins...",
   ach143desc: "Have all your Eternities in your past $1aX Eternities be at least $2aX times higher Eternity Points than the previous one.",
-  ach143reward: "Galaxies no longer reset Dimension Boosts.",
+  ach143reward: "Antimatter Galaxies no longer reset Dimension Boosts.",
   ach144title: "Is this an Interstellar reference?",
   ach144desc: "Unlock the Black Hole.",
   ach145title: "Are you sure these are the right way around?",

@@ -98,6 +98,8 @@ export const eter = {
   costjump: "The cost for the $1aX multiliers jumps at $2aX, $3aX, and $4aX Eternity Points.",
   costjumpb: "The cost increases super-exponentially after $1aX Eternity Points",
   purdilstudy: "Purchase the Dilation Study to unlock.",
+  // This is the text shown when you can click the dilation button to buy the study.
+  unlockdilstudy: "Purchase Dilation Study.",
   dil: "Dilate time.",
   remreq: "Requires $1aX Remnants",
   pelleexitdil: "Dilation is permanent.",

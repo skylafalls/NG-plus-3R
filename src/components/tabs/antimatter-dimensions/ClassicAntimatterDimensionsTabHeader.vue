@@ -31,7 +31,7 @@ export default {
       if (!isSacrificeUnlocked) return;
       this.isSacrificeAffordable = Sacrifice.canSacrifice;
       this.isFullyAutomated = Autobuyer.sacrifice.isActive && Achievement(118).isEffectActive &&
-      (this.isSacrificeAffordable || Sacrifice.nextBoost.lte(1));
+      (this.isSacrificeAffordable || Sacrifice.isDisabledDueToMultiplier);
       this.currentSacrifice.copyFrom(Sacrifice.totalBoost);
       this.sacrificeBoost.copyFrom(Sacrifice.nextBoost);
       this.disabledCondition = Sacrifice.disabledCondition;

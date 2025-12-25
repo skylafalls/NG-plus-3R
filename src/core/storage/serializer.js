@@ -42,6 +42,7 @@ export const GameSaveSerializer = {
   startingString: {
     savefile: "ModdedAntimatterDimensionsSavefileFormat",
     vanillasavefile: "AntimatterDimensionsSavefileFormat",
+    settings: "AntimatterDimensionsOptionsFormat",
     "automator script": "AntimatterDimensionsAutomatorScriptFormat",
     "automator data": "AntimatterDimensionsAutomatorDataFormat",
     "glyph filter": "AntimatterDimensionsGlyphFilterFormat",
@@ -50,6 +51,7 @@ export const GameSaveSerializer = {
   endingString: {
     savefile: "EndOfSavefile",
     vanillasavefile: "EndOfSavefile",
+    settings: "EndOfOptions",
     "automator script": "EndOfAutomatorScript",
     "automator data": "EndOfAutomatorData",
     "glyph filter": "EndOfGlyphFilter",

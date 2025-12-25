@@ -21,6 +21,15 @@ export class Sacrifice {
     return "Need to Crunch";
   }
 
+  static get isDisabledDueToMultiplier() {
+    if (NormalChallenge(10).isRunning ||
+    EternityChallenge(3).isRunning ||
+    DimBoost.purchasedBoosts.lt(5) ||
+    AntimatterDimension(8).totalAmount.eq(0)) return false;
+    if (this.nextBoost.lte(1)) return true;
+    return false;
+  }
+
   static getSacrificeDescription(changes) {
     const f = (name, condition) => (name in changes ? changes[name] : condition);
     let factor = 2;

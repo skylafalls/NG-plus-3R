@@ -24,6 +24,7 @@ export default {
   methods: {
     update() {
       this.isUnlocked = PlayerProgress.dilationUnlocked();
+      this.canUnlock = TimeStudy.dilation.canBeBought;
       this.isRunning = player.dilation.active;
       this.remnantRequirement = Pelle.remnantRequirementForDilation;
       this.showRequirement = Pelle.isDoomed && !Pelle.canDilateInPelle;
@@ -42,7 +43,11 @@ export default {
     },
     dilate() {
       if (this.creditsClosed) return;
+      if (!this.sUnlocked && this.canUnlock) this.unlock();
       startDilatedEternityRequest();
+    },
+    unlock() {
+      TimeStudy.dilation.purchase();
     }
   }
 };
@@ -54,7 +59,8 @@ export default {
     :class="isUnlocked ? 'o-dilation-btn--unlocked' : 'o-dilation-btn--locked'"
     @click="dilate()"
   >
-    <span v-if="!isUnlocked">{{ i18n("eter", "purdilstudy") }}</span>
+    <span v-if="!isUnlocked && !canUnlock">{{ i18n("eter", "purdilstudy") }}</span>
+    <span v-else-if="!isUnlocked && canUnlock">{{ i18n("eter", "unlockdilstudy") }}</span>
     <span v-else-if="!isRunning">
       {{ i18n("eter", "dil") }}
       <div v-if="showRequirement">

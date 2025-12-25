@@ -160,16 +160,17 @@ class AlchemyReaction {
   // Check each reagent for if a full reaction would drop it below the product amount.  If so, reduce reaction yield
   get actualYield() {
     // Assume a full reaction to see what the maximum possible product is
-    const maxFromReaction = this.baseProduction.mul(this.reactionYield).mul(this.reactionEfficiency);
+    const baseYield = this.reactionYield
+    const maxFromReaction = this.baseProduction.mul(baseYield).mul(this.reactionEfficiency);
     const prodBefore = this._product.amount;
     const prodAfter = prodBefore.add(maxFromReaction);
-    let cappedYield = this.reactionYield;
+    let cappedYield = baseYield;
     for (const reagent of this._reagents) {
       const reagentBefore = reagent.resource.amount;
-      const reagentAfter = reagent.resource.amount.sub(this.reactionYield.mul(reagent.cost));
+      const reagentAfter = reagent.resource.amount.sub(baseYield.mul(reagent.cost));
       const diffBefore = reagentBefore.sub(prodBefore);
       const diffAfter = reagentAfter.sub(prodAfter);
-      cappedYield = Decimal.min(cappedYield, this.reactionYield.mul(diffBefore).div(diffBefore.sub(diffAfter)));
+      cappedYield = Decimal.min(cappedYield, baseYield.mul(diffBefore).div(diffBefore.sub(diffAfter)));
     }
     return Decimal.clampMin(cappedYield, 0);
   }
@@ -219,7 +220,7 @@ class AlchemyReaction {
     const unpredictabilityEffect = AlchemyResource.unpredictability.effectValue;
     let times = poissonDistribution(unpredictabilityEffect.div(unpredictabilityEffect.sub(1).neg())).add(1);
     const cap = this._product.cap;
-    times = times.clampMax(1e4).toNumber();
+    times = times.clampMax(50).toNumber();
     for (let i = 0; i < times; i++) {
       const reactionYield = this.actualYield;
       for (const reagent of this._reagents) {
