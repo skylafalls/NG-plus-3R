@@ -14,8 +14,8 @@ export default {
   },
   data() {
     return {
-      currentGlyphSacrifice: 0,
-      gain: 0,
+      currentGlyphSacrifice: new Decimal(),
+      gain: new Decimal(),
       confirmedSacrifice: false
     };
   },
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     update() {
-      this.currentGlyphSacrifice = player.reality.glyphs.sac[this.glyph.type];
+      this.currentGlyphSacrifice.copyFrom(player.reality.glyphs.sac[this.glyph.type]);
       this.gain = GlyphSacrificeHandler.glyphSacrificeGain(this.glyph);
 
       const newGlyph = Glyphs.findByInventoryIndex(this.idx);

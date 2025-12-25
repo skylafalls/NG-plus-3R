@@ -410,7 +410,7 @@ Currency.eternityPoints = new class extends DecimalCurrency {
   }
 
   requiredIPforEP(epAmount) {
-    return Decimal.pow10(Decimal.log10(Decimal.div(epAmount, Currency.eternityPoints.mult), 5).times(308).plus(0.7))
+    return Decimal.pow10(Decimal.log(Decimal.div(epAmount, Currency.eternityPoints.mult), 5).plus(0.7).times(308))
       .clampMin(Number.MAX_VALUE);
   }
 

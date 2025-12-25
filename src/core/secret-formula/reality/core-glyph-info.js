@@ -168,6 +168,12 @@ export const GlyphInfo = {
     excessEffects: () => [
       [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
     ],
+    doomedEffectIDs: [
+      [() => true, "sampleEffectA"]
+      [() => true, "sampleEffectB"]
+      [() => true, "sampleEffectC"]
+      [() => player.realities.log10() > 1000, "sampleEffectC"]
+    ]
     adjective: { high: "Big", mid: "Medium", low: "Small" },
     noun: "Glyph",
     isBasic: false,

@@ -40,7 +40,8 @@ export const GameSaveSerializer = {
   // confuse your saves with AD saves but can still import AD saves (this will
   // also require changing some other code slightly, particularly decode).
   startingString: {
-    savefile: "AntimatterDimensionsSavefileFormat",
+    savefile: "ModdedAntimatterDimensionsSavefileFormat",
+    vanillasavefile: "AntimatterDimensionsSavefileFormat",
     "automator script": "AntimatterDimensionsAutomatorScriptFormat",
     "automator data": "AntimatterDimensionsAutomatorDataFormat",
     "glyph filter": "AntimatterDimensionsGlyphFilterFormat",
@@ -48,6 +49,7 @@ export const GameSaveSerializer = {
   // The ending strings aren't as verbose so that we can save a little space.
   endingString: {
     savefile: "EndOfSavefile",
+    vanillasavefile: "EndOfSavefile",
     "automator script": "EndOfAutomatorScript",
     "automator data": "EndOfAutomatorData",
     "glyph filter": "EndOfGlyphFilter",
@@ -122,6 +124,13 @@ export const GameSaveSerializer = {
   decodeText(text, type) {
     if (text.startsWith(this.startingString[type])) {
       const len = this.startingString[type].length;
+      const version = text.slice(len, len + 3);
+      return this.getSteps(type, version).reduceRight((x, step) => step.decode(x, type), text);
+    }
+    // If we are trying to load a savefile and it doesnt start with the modded string prefix, check if it matches
+    // the vanilla string prefix. If it does, handle it anyways.
+    if (text.startsWith(this.startingString.vanillasavefile) && type === "savefile") {
+      const len = this.startingString.vanillasavefile.length;
       const version = text.slice(len, len + 3);
       return this.getSteps(type, version).reduceRight((x, step) => step.decode(x, type), text);
     }

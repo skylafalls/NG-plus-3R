@@ -24,8 +24,8 @@ export const infinityUpgrades = {
   dim18mult: {
     id: "18Mult",
     cost: 1,
+    checkRequirement: () => InfinityUpgrade.totalTimeMult.isBought,
     get description() { return i18n("inf", "iU12"); },
-    description: "1st and 8th Antimatter Dimensions gain a multiplier based on Infinities",
     effect: () => dimInfinityMult(),
     formatEffect: value => formatX(value, 1, 1),
     charged: {

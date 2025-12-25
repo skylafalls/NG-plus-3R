@@ -332,13 +332,13 @@ class EPMultiplierState extends GameMechanicState {
     if (cur.gt(this.costIncreaseThresholds[1])) {
       bulk = this.costIncreaseThresholds[1].div(500).log(100).floor();
       tempVal = (DC.E2.times(5)).pow(bulk).times(500);
-      cur = cur.div(tempVal.max(1 / 500));
+      cur = cur.div(tempVal).max(1 / 500);
       return bulk.add(cur.log(500).add(1)).floor();
     }
     if (cur.gt(this.costIncreaseThresholds[0])) {
       bulk = this.costIncreaseThresholds[0].div(500).log(50).floor();
       tempVal = DC.E2.pow(bulk).times(500);
-      cur = cur.div(tempVal.max(1 / 100));
+      cur = cur.div(tempVal).max(1 / 100);
       return bulk.add(cur.log(100).add(1)).floor();
     }
     return cur.div(500).max(1 / 50).log(50).add(1).floor();
