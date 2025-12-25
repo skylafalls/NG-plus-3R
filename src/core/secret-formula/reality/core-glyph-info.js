@@ -209,7 +209,13 @@ export const GlyphInfo = {
       unlock: () => player.eternities.gt("ee45")
     },
     hasAlchemyResource: true,
-    pelleUniqueEffect: false,
+    pelleUniqueEffect: [
+      true,
+      () => player.challenge.eternity.current <= 8,
+      0.05,
+      (a, b) => Decimal.add(a, b),
+      `All glyphs are ${formatPercents(0.05)} stronger`
+    ],
     isGenerated: true,
     generationRequirement: () => player.realities.log10() > 777,
     canCustomize: () => player.version > 455,
