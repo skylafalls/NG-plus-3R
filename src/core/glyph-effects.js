@@ -201,16 +201,8 @@ export function makeGlyphEffectBitmask(effectList) {
   return effectList.reduce((mask, eff) => mask + (1 << GlyphEffects[eff].bitmaskIndex), 0);
 }
 
-export function getGlyphEffectsFromBitmask() {
-  throw new Error("Moved to getGlyphEffectsFromArray");
-}
-
 export function getGlyphEffectsFromArray(array) {
   return orderedEffectList
     .map(effectName => GlyphEffects[effectName])
     .filter(effect => array.includes(effect.id));
-}
-
-export function getGlyphIDsFromBitmask(bitmask) {
-  return getGlyphEffectsFromBitmask(bitmask).map(x => x.id);
 }

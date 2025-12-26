@@ -10,7 +10,7 @@
 // rarities are just the rarities. They must be descending in rarity, and must use hex codes
 // GLYPH INFO
 // id is just the glyph type - its used in a couple places, mainly glyph cosmetics. Must be the same as name of glyph type object
-// effects - This just grabs the effects from glyph-effects, you can just put in your glyphs name and leave it, dont worry about it
+// effects - This just grabs the effects from glyph-effects, you can just put in your glyphs name and leave it, don't worry about it
 // effectIDs - This needs to be done manually - A list of all the ids of the effects that can generate on that glyph.
 // excessEffects allows you to add extra effects to glyphs (independant of other generation criteria) similar to Nameless 25.
 // adjective is whats used for GlyphSetName.vue - If undefined, will default to ""
@@ -44,7 +44,7 @@
 // hasRarity basically just states whether it should display (has) rarity or not. Cursed glyphs and reality glyphs, for example, have this as false in vanilla. Defaults to false.
 //
 // To prevent issues, make sure there is always as many note().mp4 files (with the numbers 1-x) as there are glyph types, else you might get errors with music glyphs and audio
-// Its not perfect, you will likely still need to touch GlyphSetName.vue to implement new glyphs completely, but i tried my best :P
+// It's not perfect, you will likely still need to touch GlyphSetName.vue to implement new glyphs completely, but I tried my best :P
 // PS. There is a sample glyph below to show you how the structure of your glyph might look
 
 // TODO: remove this
@@ -317,7 +317,9 @@ export const GlyphInfo = {
     id: "companion",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "companion")),
     effectIDs: ["companiondescription", "companionEP"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: "Huggable",
     noun: "Companion",
     isBasic: false,
@@ -337,7 +339,9 @@ export const GlyphInfo = {
     id: "power",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "power")),
     effectIDs: ["powerpow", "powermult", "powerdimboost", "powerbuy10"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Powerful", mid: "Mastered", low: "Potential" },
     noun: "Power",
     isBasic: true,
@@ -365,7 +369,10 @@ export const GlyphInfo = {
       cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
     },
     hasAlchemyResource: true,
-    pelleUniqueEffect: true,
+    pelleUniqueEffect: {
+      description: "Galaxies are {value} stronger",
+      effect: () => 1.02
+    },
     isGenerated: true,
     adjNounImportance: 1,
     color: "#22aa48",
@@ -378,7 +385,9 @@ export const GlyphInfo = {
     id: "infinity",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "infinity")),
     effectIDs: ["infinitypow", "infinityrate", "infinityIP", "infinityinfmult"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Infinite", mid: "Boundless", low: "Immense" },
     noun: "Infinity",
     isBasic: true,
@@ -410,7 +419,9 @@ export const GlyphInfo = {
     id: "replication",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "replication")),
     effectIDs: ["replicationspeed", "replicationpow", "replicationdtgain", "replicationglyphlevel"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Replicated", mid: "Simulated", low: "Duplicated" },
     noun: "Replication",
     isBasic: true,
@@ -450,7 +461,9 @@ export const GlyphInfo = {
     id: "time",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "time")),
     effectIDs: ["timepow", "timespeed", "timeetermult", "timeEP"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Temporal", mid: "Chronal", low: "Transient" },
     noun: "Time",
     isBasic: true,
@@ -482,7 +495,9 @@ export const GlyphInfo = {
     id: "dilation",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "dilation")),
     effectIDs: ["dilationDT", "dilationgalaxyThreshold", "dilationTTgen", "dilationpow"],
-    excessEffects: () => [Ra.unlocks.allGamespeedGlyphs.canBeApplied ? "timespeed" : ""],
+    excessEffects: () => [
+      [Ra.unlocks.allGamespeedGlyphs.canBeApplied, "timespeed"]
+    ],
     adjective: { high: "Dilated", mid: "Attenuated", low: "Diluted" },
     noun: "Dilation",
     isBasic: true,

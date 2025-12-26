@@ -42,7 +42,7 @@ export function getAdjustedGlyphEffectUncached(effectKey) {
 /**
  * This returns just the value, unlike getTotalEffect(), which outputs the softcap status as well
  * @param {string} effectKey
- * @return {number | Decimal}
+ * @return {Decimal}
  */
 export function getAdjustedGlyphEffect(effectKey) {
   // TODO: make it always be decimal by default
@@ -95,22 +95,12 @@ export function separateEffectKey(effectKey) {
   return [type, effect];
 }
 
-// Turns a glyph effect bitmask into an effect list and corresponding values. This also picks up non-generated effects,
+// Turns a glyph effect list into an effect list and corresponding values. This also picks up non-generated effects,
 // since there is some id overlap. Those should be filtered out as needed after calling this function.
 // eslint-disable-next-line max-params
-export function getGlyphEffectValuesFromBitmask(bitmask, level, baseStrength, type) {
+export function getGlyphEffectValuesFromArray(array, level, baseStrength, type) {
   // If we don't specifically exclude companion glyphs, the first-reality EP record is wrong within Doomed since its
   // value is encoded in the rarity field
-  const strength = (Pelle.isDoomed && type !== "companion") ? Pelle.glyphStrength : baseStrength;
-  return getGlyphEffectsFromBitmask(bitmask)
-    .map(effect => ({
-      id: effect.id,
-      value: effect.effect(level, strength)
-    }));
-}
-
-// eslint-disable-next-line max-params
-export function getGlyphEffectValuesFromArray(array, level, baseStrength, type) {
   const strength = (Pelle.isDoomed && type !== "companion") ? Pelle.glyphStrength : baseStrength;
   return getGlyphEffectsFromArray(array)
     .map(effect => ({

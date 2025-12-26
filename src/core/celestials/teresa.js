@@ -147,7 +147,8 @@ class TeresaUnlockState extends BitUpgradeState {
   }
 
   get description() {
-    return typeof this.config.description === "function" ? this.config.description() : this.config.description;
+    const d = this.config.description;
+    return typeof d === "function" ? d() : d;
   }
 
   onUnlock() {

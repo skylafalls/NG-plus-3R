@@ -1,6 +1,5 @@
 import { GameMechanicState } from "../game-mechanics";
 
-
 class AchievementState extends GameMechanicState {
   constructor(config) {
     super(config);

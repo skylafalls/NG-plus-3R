@@ -315,9 +315,10 @@ export const GlyphGenerator = {
       count = Math.max(count, guarenteedEffects.length + GlyphInfo[type].primaryEffects.length);
     }
     // Sort from highest to lowest value.
-    const effects = Object.keys(effectValues).sort((a, b) => effectValues[b] - effectValues[a]).slice(0, count);
-    for (let i = 0; i < GlyphInfo[type].excessEffects; i++) {
-      if (!GlyphInfo[type].excessEffects[i]()) effects.push(GlyphInfo[type].excessEffects[i]());
+    let effects = Object.keys(effectValues).sort((a, b) => effectValues[b] - effectValues[a]).slice(0, count);
+    for (let i = 0; i < GlyphInfo[type].excessEffects().length; i++) {
+      if (GlyphInfo[type].excessEffects()[i][0])
+        effects = effects.concat(GlyphInfo[type].excessEffects()[i].slice(1));
     }
     return effects;
   },
