@@ -20,7 +20,7 @@ export class Effect {
         property.writable = false;
         property.value = v;
       } else if (isFunction(v)) {
-        property.get = input ? () => v(input()) : v;
+        property.get = input ? () => v(...(Array.isArray(input()) ? input() : [input()])) : v;
       } else {
         throw new Error("Unknown getter type.");
       }
@@ -32,7 +32,7 @@ export class Effect {
       if (inputOverride) inp = inputOverride;
       else if (input) inp = input;
 
-      return inp ? eff(inp) : eff();
+      return inp ? eff(...(Array.isArray(inp) ? inp : [inp])) : eff();
     };
     const applyCap = (eff, c, inputOverride) => {
       const val = parseEffect(eff, inputOverride);
