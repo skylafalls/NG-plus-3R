@@ -369,10 +369,7 @@ export const GlyphInfo = {
       cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
     },
     hasAlchemyResource: true,
-    pelleUniqueEffect: {
-      description: "Galaxies are {value} stronger",
-      effect: () => 1.02
-    },
+    pelleUniqueEffect: true,
     isGenerated: true,
     adjNounImportance: 1,
     color: "#22aa48",
