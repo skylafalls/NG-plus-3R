@@ -776,10 +776,11 @@ export const Glyphs = {
   addGuarenteedEffects(glyph) {
     if (!GlyphInfo[glyph.type].excessEffects) return;
     for (let i = 0; i < GlyphInfo[glyph.type].excessEffects().length; i++) {
-      if (!GlyphInfo[glyph.type].excessEffects()[i] & !(glyph.effects.includes(GlyphInfo[glyph.type].excessEffects()[i]))) {
-        glyph.effects.push(GlyphInfo[glyph.type].excessEffects()[i]);
-      }
+      if (GlyphInfo[glyph.type].excessEffects()[i][0])
+        glyph.effects = glyph.effects.concat(GlyphInfo[glyph.type].excessEffects()[i].slice(1));
     }
+    // Remove duplicates (if any)
+    glyph.effects = [...new Set(glyph.effects)];
   },
   swapIntoActive(glyph, targetSlot) {
     this.removeFromInventory(glyph);

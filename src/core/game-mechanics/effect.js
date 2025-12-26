@@ -1,19 +1,17 @@
 export class Effect {
-  constructor(effect, cap, condition) {
-    if (effect === undefined || this.isCustomEffect) {
-      return;
-    }
+  // eslint-disable-next-line max-params
+  constructor(effect, cap, condition, input) {
+    if (effect === undefined || this.isCustomEffect) return;
     const isFunction = v => typeof v === "function";
     const isNumber = v => typeof v === "number";
     const isDecimal = v => v instanceof Decimal;
     const isConstant = v => isNumber(v) || isDecimal(v);
     const isString = v => typeof v === "string";
-    if (isString(effect)) {
-      return;
-    }
+    if (isString(effect)) return;
     if (!isFunction(effect) && !isConstant(effect)) {
       throw new Error("Unknown effect value type.");
     }
+
     const createProperty = () => ({
       configurable: false
     });
@@ -22,11 +20,31 @@ export class Effect {
         property.writable = false;
         property.value = v;
       } else if (isFunction(v)) {
-        property.get = v;
+        property.get = input ? () => v(input()) : v;
       } else {
         throw new Error("Unknown getter type.");
       }
     };
+    const parseEffect = (eff, inputOverride) => {
+      if (isConstant(eff)) return eff;
+
+      let inp;
+      if (inputOverride) inp = inputOverride;
+      else if (input) inp = input;
+
+      return inp ? eff(inp) : eff();
+    };
+    const applyCap = (eff, c, inputOverride) => {
+      const val = parseEffect(eff, inputOverride);
+      let min;
+
+      if (isDecimal(val)) min = Decimal.min;
+      else if (isNumber(val)) min = Math.min;
+      else throw new Error("Unknown effect value type.");
+
+      return min(val, c);
+    };
+
     if (condition !== undefined) {
       if (!isFunction(condition)) {
         throw new Error("Effect condition must be a function.");
@@ -35,74 +53,31 @@ export class Effect {
       conditionProperty.get = condition;
       Object.defineProperty(this, "isEffectConditionSatisfied", conditionProperty);
     }
+
     const uncappedEffectValueProperty = createProperty();
     addGetter(uncappedEffectValueProperty, effect);
     Object.defineProperty(this, "uncappedEffectValue", uncappedEffectValueProperty);
-    if (cap !== undefined) {
+
+    const effectValueProperty = createProperty();
+    if (cap === undefined) {
+      addGetter(effectValueProperty, effect);
+    } else {
       const capProperty = createProperty();
       addGetter(capProperty, cap);
       Object.defineProperty(this, "cap", capProperty);
+
+      // Postpone effectValue specialization until the first call
+      if (isFunction(effect)) effectValueProperty.configurable = true;
+      effectValueProperty.get = () => applyCap(effect, this.cap);
     }
-    const effectValueProperty = createProperty();
-    addGetter(effectValueProperty, effect);
-    if (isConstant(cap)) {
-      if (isNumber(effect)) {
-        effectValueProperty.get = () => Math.min(effect, this.cap);
-      } else if (isDecimal(effect)) {
-        effectValueProperty.get = () => Decimal.min(effect, this.cap);
-      } else if (isFunction(effect)) {
-        // Postpone effectValue specialization until the first call
-        effectValueProperty.configurable = true;
-        effectValueProperty.get = () => {
-          const effectValue = effect();
-          const specializedProperty = createProperty();
-          if (isNumber(effectValue)) {
-            specializedProperty.get = () => Math.min(effect(), this.cap);
-          } else if (isDecimal(effectValue)) {
-            specializedProperty.get = () => Decimal.min(effect(), this.cap);
-          } else {
-            throw new Error("Unknown effect value type.");
-          }
-          Object.defineProperty(this, "effectValue", specializedProperty);
-          return specializedProperty.get();
-        };
-      }
-    } else if (isFunction(cap)) {
-      if (isNumber(effect)) {
-        effectValueProperty.get = () => {
-          const capValue = this.cap;
-          return capValue === undefined ? effect : Math.min(effect, capValue);
-        };
-      } else if (isDecimal(effect)) {
-        effectValueProperty.get = () => {
-          const capValue = this.cap;
-          return capValue === undefined ? effect : Decimal.min(effect, capValue);
-        };
-      } else if (isFunction(effect)) {
-        // Postpone effectValue specialization until the first call
-        effectValueProperty.configurable = true;
-        effectValueProperty.get = () => {
-          const effectValue = effect();
-          const specializedProperty = createProperty();
-          if (isNumber(effectValue)) {
-            specializedProperty.get = () => {
-              const capValue = this.cap;
-              return capValue === undefined ? effect() : Math.min(effect(), capValue);
-            };
-          } else if (isDecimal(effectValue)) {
-            specializedProperty.get = () => {
-              const capValue = this.cap;
-              return capValue === undefined ? effect() : Decimal.min(effect(), capValue);
-            };
-          } else {
-            throw new Error("Unknown effect value type.");
-          }
-          Object.defineProperty(this, "effectValue", specializedProperty);
-          return specializedProperty.get();
-        };
-      }
-    }
+
     Object.defineProperty(this, "effectValue", effectValueProperty);
+    Object.defineProperty(this, "uncappedEffectValueForInput",
+      { value: (...inputs) => parseEffect(effect, inputs) }
+    );
+    Object.defineProperty(this, "effectValueForInput",
+      { value: (...inputs) => applyCap(effect, this.cap, inputs) }
+    );
   }
 
   /**
@@ -136,6 +111,16 @@ export class Effect {
 
   get canBeApplied() {
     return this.isEffectActive && this.isEffectConditionSatisfied;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  effectValueForInput(...inputs) {
+    throw new Error("Effect is undefined.");
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  uncappedEffectValueForInput(...inputs) {
+    throw new Error("Effect is undefined.");
   }
 
   /**

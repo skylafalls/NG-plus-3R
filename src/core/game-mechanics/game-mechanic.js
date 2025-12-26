@@ -8,7 +8,7 @@ export class GameMechanicState extends Effect {
     if (!config) {
       throw new Error("Must specify config for GameMechanicState");
     }
-    super(config.effect, config.cap, config.effectCondition);
+    super(config.effect, config.cap, config.effectCondition, config.input);
     this._config = config;
     if (config.effects !== undefined) {
       this.effects = {};
@@ -18,7 +18,7 @@ export class GameMechanicState extends Effect {
         if (typeof nested === "number" || typeof nested === "function" || nested instanceof Decimal) {
           effect = new Effect(nested);
         } else {
-          effect = new Effect(nested.effect, nested.cap, nested.effectCondition);
+          effect = new Effect(nested.effect, nested.cap, nested.effectCondition, nested.input);
         }
         Object.defineProperty(effect, "isEffectActive", {
           configurable: false,
