@@ -134,7 +134,7 @@ export const Achievements = {
   },
 
   autoAchieveUpdate(diff) {
-    if (!PlayerProgress.realityUnlocked()) return;
+    if (player.realities.lte(0)) return;
     if (!player.reality.autoAchieve || RealityUpgrade(8).isLockingMechanics) {
       player.reality.achTimer = Decimal.clampMax(player.reality.achTimer.add(diff), this.period);
       return;
@@ -153,7 +153,7 @@ export const Achievements = {
   },
 
   get timeToNextAutoAchieve() {
-    if (!PlayerProgress.realityUnlocked()) return DC.D0;
+    if (player.realities.lte(0)) return DC.D0;
     if (GameCache.achievementPeriod.value.eq(0)) return DC.D0;
     if (Achievements.preReality.countWhere(a => !a.isUnlocked) === 0) return DC.D0;
     return this.period.sub(player.reality.achTimer);

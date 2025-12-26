@@ -29,6 +29,7 @@ export default {
       runReward: new Decimal(),
       perkPoints: new Decimal(),
       hasReality: false,
+      seeReality: false,
       hasEPGen: false,
       hasPerkShop: false,
       raisedPerkShop: false,
@@ -56,9 +57,10 @@ export default {
     runButtonClassObject() {
       return {
         "c-teresa-run-button__icon": true,
+        "c-teresa-run-button__icon-disabled": !this.hasReality,
         "c-teresa-run-button__icon--running": this.isRunning,
-        "c-celestial-run-button--clickable": !this.isDoomed,
-        "o-pelle-disabled-pointer": this.isDoomed
+        "c-celestial-run-button--clickable": !this.isDoomed && this.hasReality,
+        "o-pelle-disabled-pointer": this.isDoomed || !this.hasReality
       };
     },
     pourButtonClassObject() {
@@ -66,9 +68,10 @@ export default {
         "o-teresa-shop-button": true,
         "c-teresa-pour": true,
         "o-teresa-shop-button--available": !this.isPouredAmountCapped,
+        "o-teresa-shop-button--unavailable": !this.isPouredAmountCapped,
         "o-teresa-shop-button--capped": this.isPouredAmountCapped,
         "c-teresa-pour--unlock-available": this.canUnlockNextPour,
-        "c-disabled-pour": this.isPouredAmountCapped
+        "c-disabled-pour": this.isPouredAmountCapped,
       };
     },
     pourText() {
@@ -92,7 +95,7 @@ export default {
   methods: {
     update() {
       const now = new Date().getTime();
-      if (this.pour) {
+      if (this.pour && Achievement(147).canBeApplied) {
         const diff = (now - this.time) / 1000;
         Teresa.pourRM(diff);
       } else {
@@ -105,6 +108,7 @@ export default {
       this.possibleFillPercentage = `${(Teresa.possibleFill * 100).toFixed(2)}%`;
       this.rmMult = Teresa.rmMultiplier;
       this.hasReality = TeresaUnlocks.run.isUnlocked;
+      this.seeReality = this.hasReality || PlayerProgress.gameBeaten();
       this.hasEPGen = TeresaUnlocks.epGen.isUnlocked;
       this.hasPerkShop = TeresaUnlocks.shop.isUnlocked;
       this.raisedPerkShop = Ra.unlocks.perkShopIncrease.canBeApplied;
@@ -149,7 +153,7 @@ export default {
     </div>
     <div class="l-mechanics-container">
       <div
-        v-if="hasReality"
+        v-if="seeReality"
         class="l-teresa-mechanic-container"
       >
         <div class="c-teresa-unlock c-teresa-run-button">

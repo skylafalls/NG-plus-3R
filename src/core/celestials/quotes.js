@@ -114,7 +114,8 @@ class CelQuotes extends BitUpgradeState {
   constructor(config, celestial) {
     super(config);
     this._celestial = celestial;
-    this._lines = config.lines.map(line => new QuoteLine(line, this));
+    const lines = config.lines;
+    this._lines = lines.map(line => new QuoteLine(line(), this));
   }
 
   get bits() { return player.celestials[this._celestial].quoteBits; }

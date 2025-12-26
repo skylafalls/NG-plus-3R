@@ -134,7 +134,7 @@ export const GameSaveSerializer = {
     if (text.startsWith(this.startingString.vanillasavefile) && type === "savefile") {
       const len = this.startingString.vanillasavefile.length;
       const version = text.slice(len, len + 3);
-      return this.getSteps(type, version).reduceRight((x, step) => step.decode(x, type), text);
+      return this.getSteps("vanillasavefile", version).reduceRight((x, step) => step.decode(x, "vanillasavefile"), text);
     }
     return atob(text);
   }

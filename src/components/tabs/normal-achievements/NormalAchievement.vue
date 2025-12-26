@@ -83,7 +83,7 @@ export default {
       };
     },
     isPreRealityAchievement() {
-      return this.realityUnlocked && this.achievement.row <= 13;
+      return !player.realities.lte(0) && this.achievement.row <= 13;
     },
     hasReward() {
       return this.config.reward !== undefined && !this.isObscured;

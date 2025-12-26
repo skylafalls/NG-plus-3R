@@ -1,42 +1,39 @@
-function i18nquote(quoteArray, showCelName = true) {
-  const returnArray = [];
-  for (let value = 0; value < quoteArray.length; value++) {
-    returnArray.push(showCelName === false && value === 0 ? { text: i18n("quotes", quoteArray[value]), showCelestialName: showCelName } : i18n("quotes", quoteArray[value]));
-  }
-  return quoteArray;
+function i(value, hideName = false) {
+  if (hideName) return { text: i18n("quotes", value), showCelestialName: false };
+  return i18n("quotes", value);
 }
 
 export const effarigQuotes = {
   initial: {
     id: 0,
-    lines: i18nquote(["effarig0q0", "effarig0q1", "effarig0q2", "effarig0q3", "effarig0q4"])
+    lines: [() => i("effarig0q0"), () => i("effarig0q1"), () => i("effarig0q2"), () => i("effarig0q3"), () => i("effarig0q4")]
   },
   unlockWeights: {
     id: 1,
-    lines: i18nquote(["effarig1q0"])
+    lines: [() => i("effarig1q0")]
   },
   unlockGlyphFilter: {
     id: 2,
-    lines: i18nquote(["effarig2q0"])
+    lines: [() => i("effarig2q0")]
   },
   unlockSetSaves: {
     id: 3,
-    lines: i18nquote(["effarig3q0"])
+    lines: [() => i("effarig3q0")]
   },
   unlockRun: {
     id: 4,
-    lines: i18nquote(["effarig4q0", "effarig4q1", "effarig4q2"])
+    lines: [() => i("effarig4q0"), () => i("effarig4q1"), () => i("effarig4q2")]
   },
   completeInfinity: {
     id: 5,
-    lines: i18nquote(["effarig5q0", "effarig5q1", "effarig5q2"], false)
+    lines: [() => i("effarig5q0", false), () => i("effarig5q1"), () => i("effarig5q2")]
   },
   completeEternity: {
     id: 6,
-    lines: i18nquote(["effarig6q0", "effarig6q1", "effarig6q2", "effarig6q3"], false)
+    lines: [() => i("effarig6q0", false), () => i("effarig6q1"), () => i("effarig6q2"), () => i("effarig6q3")]
   },
   completeReality: {
     id: 7,
-    lines: i18nquote(["effarig7q0", "effarig7q1", "effarig7q2", "effarig7q3", "effarig7q4"], false)
+    lines: [() => i("effarig7q0", false), () => i("effarig7q1"), () => i("effarig7q2"), () => i("effarig7q3"), () => i("effarig7q4")]
   }
 };

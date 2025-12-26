@@ -12,7 +12,7 @@ export class PlayerProgress {
   }
 
   get isRealityUnlocked() {
-    return new Decimal(this._player.realities).gt(0);
+    return new Decimal(this._player.realities).gt(0) || this.hasFullCompletion;
   }
 
   get hasFullCompletion() {
@@ -51,9 +51,13 @@ export class PlayerProgress {
     return PlayerProgress.current.isRealityUnlocked;
   }
 
+  static gameBeaten() {
+    return PlayerProgress.current.hasFullCompletion;
+  }
+
   static seenAlteredSpeed() {
     const ec12 = EternityChallenge(12);
-    return this.realityUnlocked() || ec12.completions > 0 || ec12.isRunning;
+    return this.gameBeaten() || this.realityUnlocked() || ec12.completions > 0 || ec12.isRunning;
   }
 
   static challengeCompleted() {

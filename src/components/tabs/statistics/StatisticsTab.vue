@@ -42,6 +42,7 @@ export default {
       reality: {
         isUnlocked: false,
         count: new Decimal(),
+        hasBest: false,
         best: TimeSpan.zero,
         bestReal: TimeSpan.zero,
         this: TimeSpan.zero,
@@ -70,6 +71,12 @@ export default {
       return num.gt(0)
         ? `${this.formatDecimalAmount(num)} ${pluralize("Eternity", num.floor())}`
         : "no Eternities";
+    },
+    realityCountString() {
+      const num = this.reality.count;
+      return num.gt(0)
+        ? `${this.formatDecimalAmount(num)} ${pluralize("Reality", num.floor())}`
+        : "no Realities";
     },
     fullGameCompletions() {
       return player.records.fullGameCompletions;
@@ -131,6 +138,7 @@ export default {
 
       if (isRealityUnlocked) {
         reality.count.copyFrom(Currency.realities);
+        reality.hasBest = !bestReality.time.eq(DC.BEMAX);
         reality.best.setFrom(bestReality.time);
         reality.bestReal.setFrom(bestReality.realTime);
         reality.this.setFrom(records.thisReality.time);
@@ -303,9 +311,14 @@ export default {
       <div :class="realityClassObject()">
         {{ isDoomed ? "Doomed Reality" : "Reality" }}
       </div>
-      <div>You have {{ quantifyInt("Reality", reality.count) }}.</div>
-      <div>Your fastest game-time Reality was {{ reality.best.toStringShort() }}.</div>
-      <div>Your fastest real-time Reality was {{ reality.bestReal.toStringShort() }}.</div>
+      <div>You have {{ realityCountString }}.</div>
+      <div v-if="reality.hasBest">
+        <div>Your fastest game-time Reality was {{ reality.best.toStringShort() }}.</div>
+        <div>Your fastest real-time Reality was {{ reality.bestReal.toStringShort() }}.</div>
+      </div>
+      <div v-else>
+        You have no fastest Reality this Playthrough.
+      </div>
       <div :class="{ 'c-stats-tab-doomed' : isDoomed }">
         You have spent {{ reality.this.toStringShort() }}
         in this {{ isDoomed ? "Armageddon" : "Reality" }}.
@@ -320,7 +333,9 @@ export default {
       <div>
         Your best Reality Machines per minute is {{ format(reality.bestRate, 2, 2) }}.
       </div>
-      <div>Your best Glyph rarity is {{ formatRarity(reality.bestRarity) }}.</div>
+      <div v-if="reality.hasBest">
+        Your best Glyph rarity is {{ formatRarity(reality.bestRarity) }}.
+      </div>
       <br>
     </div>
   </div>

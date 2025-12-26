@@ -5940,6 +5940,16 @@ kbd {
   animation: a-teresa-run-button__icon--super-glow 1.2s infinite, a-teresa-run-button__icon--spin 5s infinite;
 }
 
+.c-teresa-run-button__icon-disabled {
+  filter: grayscale(0.85)
+}
+
+.c-teresa-run-button__icon-disbled:hover {
+  color: var(--color-teresa--accent);
+  background-color: var(--color-teresa--base);
+  filter: grayscale(0.85)
+}
+
 .c-celestial-run-button--clickable {
   cursor: pointer;
 }
@@ -6012,6 +6022,21 @@ kbd {
   color: var(--color-teresa--accent);
   background-color: var(--color-teresa--base);
 }
+
+.o-teresa-shop-button--unavailable {
+  color: var(--color-teresa--base);
+  text-decoration: line-through;
+  background-color: var(--color-teresa--accent);
+  filter: grayscale(0.85);
+}
+
+.o-teresa-shop-button--unavailable:hover {
+  color: var(--color-teresa--accent);
+  text-decoration: line-through;
+  background-color: var(--color-teresa--base);
+  filter: grayscale(0.85)
+}
+
 
 .o-teresa-shop-button--capped {
   color: var(--color-teresa--accent);

@@ -204,6 +204,7 @@ export const tabs = [
     name: "Challenges",
     hideAt: 2,
     condition: () =>
+      PlayerProgress.gameBeaten() ||
       PlayerProgress.realityUnlocked() ||
       PlayerProgress.eternityUnlocked() ||
       PlayerProgress.infinityUnlocked(),
@@ -403,7 +404,7 @@ export const tabs = [
     name: "Celestials",
     hideAt: 2.4,
     UIClass: "o-tab-btn--celestial",
-    condition: () => Teresa.isUnlocked,
+    condition: () => PlayerProgress.gameBeaten() || Teresa.isUnlocked,
     id: 9,
     hidable: true,
     subtabs: [
@@ -428,7 +429,7 @@ export const tabs = [
         name: "Effarig",
         symbol: "Ϙ",
         component: "EffarigTab",
-        condition: () => TeresaUnlocks.effarig.isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || TeresaUnlocks.effarig.isUnlocked,
         id: 2,
         hidable: true,
       },
@@ -437,7 +438,7 @@ export const tabs = [
         name: "The Nameless Ones",
         symbol: "<div class='o-tab-btn--cel3'>\uf0c1</div>",
         component: "EnslavedTab",
-        condition: () => EffarigUnlock.eternity.isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || EffarigUnlock.eternity.isUnlocked,
         id: 3,
         hidable: true,
       },
@@ -446,7 +447,7 @@ export const tabs = [
         name: "V",
         symbol: "⌬",
         component: "VTab",
-        condition: () => Achievement(151).isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || Achievement(151).isUnlocked,
         id: 4,
         hidable: true,
       },
@@ -455,7 +456,7 @@ export const tabs = [
         name: "Ra",
         symbol: "<i class='fas fa-sun'></i>",
         component: "RaTab",
-        condition: () => VUnlocks.raUnlock.isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || VUnlocks.raUnlock.isUnlocked,
         id: 5,
         hidable: true,
       },
@@ -464,7 +465,7 @@ export const tabs = [
         name: "Lai'tela",
         symbol: "ᛝ",
         component: "LaitelaTab",
-        condition: () => Laitela.isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || Laitela.isUnlocked,
         id: 6,
         hidable: true,
       },
@@ -473,7 +474,7 @@ export const tabs = [
         name: "Pelle",
         symbol: "♅",
         component: "PelleTab",
-        condition: () => Pelle.isUnlocked,
+        condition: () => PlayerProgress.gameBeaten() || Pelle.isUnlocked,
         id: 7,
         hidable: true,
       }
