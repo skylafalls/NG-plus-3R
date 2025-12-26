@@ -9,6 +9,7 @@
 // sacrificeGlyphTypes is used throughout the code for taking all the glyphs that can be sacrificed.
 // rarities are just the rarities. They must be descending in rarity, and must use hex codes
 // GLYPH INFO
+// name is the name of the Glyph. This can be a function (i.e. i18n) but should be CONSTANT at all times.
 // id is just the glyph type - its used in a couple places, mainly glyph cosmetics. Must be the same as name of glyph type object
 // effects - This just grabs the effects from glyph-effects, you can just put in your glyphs name and leave it, don't worry about it
 // effectIDs - This needs to be done manually - A list of all the ids of the effects that can generate on that glyph.
@@ -162,6 +163,7 @@ export const GlyphInfo = {
   // eslint-disable-next-line capitalized-comments, multiline-comment-style
   /*
   sampleGlyph: {
+    name: "Glyph of Magic"
     id: "sampleGlyph",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "sampleGlyph")),
     effectIDs: ["sampleEffectA", "sampleEffectB", "sampleEffectC", "sampleEffectD", "sampleEffectE", "sampleEffectF"],
@@ -182,18 +184,18 @@ export const GlyphInfo = {
     strOverride: x => cbrt(x.sub(1)).add(1),
     levelOverride: x => x.div(3).add(x.cbrt()),
     effectOverride: x => Math.max(4, x/3)
-    appearanceWeight: 0.2,
+    appearanceWeight: () => 0.2,
     bannedEffectPairs: [
       ["sampleEffectA", "sampleEffectD", () => player.realities.log10() > 1000],
       ["sampleEffectA", "sampleEffectB", () => false],
       ["sampleEffectD", "sampleEffectE"]
     ],
     effectWeights: {
-      sampleEffectA: 0.5,
+      sampleEffectA: () => 0.5,
       sampleEffectB: 1.4,
       sampleEffectC: 2.5,
       sampleEffectD: 2,
-      sampleEffectE: 1.5,
+      sampleEffectE: () => (player.realities.gt("1e750") ? 2 : 1.5),
       sampleEffectF: 0.5
     }
     hasSacrifice: true,
@@ -224,10 +226,11 @@ export const GlyphInfo = {
     hasRarity: true,
     color: "#ABCDEF",
     setColor: true,
-    maxEquipped: 3,
+    maxEquipped: () => 3,
   }
   */
   cursed: {
+    name: "Cursed Glyph",
     id: "cursed",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "cursed")),
     effectIDs: ["cursedgalaxies", "curseddimensions", "cursedtickspeed", "cursedEP"],
@@ -247,6 +250,7 @@ export const GlyphInfo = {
   },
 
   reality: {
+    name: "Glyph of Reality",
     id: "reality",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "reality")),
     effectIDs: ["realityglyphlevel", "realitygalaxies", "realityrow1pow", "realityDTglyph"],
@@ -278,6 +282,7 @@ export const GlyphInfo = {
   },
 
   effarig: {
+    name: "Glyph of Effarig",
     id: "effarig",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "effarig")),
     effectIDs: ["effarigrm", "effarigglyph", "effarigblackhole", "effarigachievement", "effarigforgotten", "effarigdimensions", "effarigantimatter"],
@@ -314,6 +319,7 @@ export const GlyphInfo = {
   },
 
   companion: {
+    name: "Companion Glyph",
     id: "companion",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "companion")),
     effectIDs: ["companiondescription", "companionEP"],
@@ -336,6 +342,7 @@ export const GlyphInfo = {
   },
 
   power: {
+    name: "Glyph of Power",
     id: "power",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "power")),
     effectIDs: ["powerpow", "powermult", "powerdimboost", "powerbuy10"],
@@ -379,6 +386,7 @@ export const GlyphInfo = {
   },
 
   infinity: {
+    name: "Glyph of Infinity",
     id: "infinity",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "infinity")),
     effectIDs: ["infinitypow", "infinityrate", "infinityIP", "infinityinfmult"],
@@ -413,6 +421,7 @@ export const GlyphInfo = {
   },
 
   replication: {
+    name: "Glyph of Replication",
     id: "replication",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "replication")),
     effectIDs: ["replicationspeed", "replicationpow", "replicationdtgain", "replicationglyphlevel"],
@@ -455,6 +464,7 @@ export const GlyphInfo = {
   },
 
   time: {
+    name: "Glyph of Time",
     id: "time",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "time")),
     effectIDs: ["timepow", "timespeed", "timeetermult", "timeEP"],
@@ -489,6 +499,7 @@ export const GlyphInfo = {
   },
 
   dilation: {
+    name: "Glyph of Dilation",
     id: "dilation",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "dilation")),
     effectIDs: ["dilationDT", "dilationgalaxyThreshold", "dilationTTgen", "dilationpow"],

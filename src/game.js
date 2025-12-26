@@ -11,6 +11,9 @@ if (GlobalErrorHandler.handled) {
 }
 GlobalErrorHandler.cleanStart = true;
 
+export function handlePossibleFunction(value) {
+  return (typeof value === "function" ? value() : value);
+}
 export function playerInfinityUpgradesOnReset() {
   const infinityUpgrades = new Set(
     ["timeMult", "dimMult", "timeMult2",
