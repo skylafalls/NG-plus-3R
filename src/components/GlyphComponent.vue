@@ -263,6 +263,7 @@ export default {
     return {
       componentID: UIID.next(),
       isDragging: false,
+      canDrag: false,
       // This flag is used to prevent the tooltip from being shown in some touch event sequences
       suppressTooltip: false,
       isTouched: false,
@@ -496,6 +497,7 @@ export default {
   },
   methods: {
     update() {
+      this.canDrag = player.realities.gt(0) || TimeStudy.reality.isBought;
       this.logTotalSacrifice = GameCache.logTotalGlyphSacrifice.value;
       // This needs to be reactive in order to animate while using our low-lag workaround, but we also need to make
       // sure it only animates when that color is actually active
@@ -597,6 +599,7 @@ export default {
       this.moveTooltipTo(ev.clientX, ev.clientY);
     },
     dragStart(ev) {
+      if (!this.canDrag) return;
       this.hideTooltip();
       this.isDragging = true;
       this.suppressTooltip = true;
@@ -611,6 +614,7 @@ export default {
       dragInfo.sacrificeValue = GlyphSacrificeHandler.glyphSacrificeGain(this.glyph);
     },
     dragEnd() {
+      if (!this.canDrag || !this.isDragging) return;
       this.isDragging = false;
       this.suppressTooltip = false;
       this.$viewModel.scrollWindow = 0;
@@ -620,6 +624,7 @@ export default {
       if (this.$viewModel.draggingUIID === this.componentID) this.$viewModel.draggingUIID = -1;
     },
     drag(ev) {
+      if (!this.canDrag) return;
       // It looks like dragging off the bottom of the window sometimes fires these
       // odd events
       if (ev.screenX === 0 && ev.screenY === 0) {
@@ -719,7 +724,7 @@ export default {
   <div
     :style="outerStyle"
     :class="['l-glyph-component', {'c-glyph-component--dragging': isDragging}]"
-    :draggable="draggable"
+    :draggable="draggable && canDrag"
     v-on="draggable ? { dragstart: dragStart, dragend: dragEnd, drag: drag } : {}"
   >
     <div

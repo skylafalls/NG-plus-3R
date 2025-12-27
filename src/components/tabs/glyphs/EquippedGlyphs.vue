@@ -16,6 +16,7 @@ export default {
       undoAvailable: false,
       undoVisible: false,
       cosmeticGlow: false,
+      canEquip: false,
     };
   },
   computed: {
@@ -76,6 +77,7 @@ export default {
   },
   methods: {
     update() {
+      this.canEquip = player.realities.gt(0) || TimeStudy.reality.isBought;
       this.respec = player.reality.respec;
       this.respecIntoProtected = player.options.respecIntoProtected;
       this.undoSlotsAvailable = this.respecIntoProtected
@@ -180,10 +182,12 @@ export default {
           @shiftClicked="clickGlyph(glyph, idx, true)"
           @ctrlShiftClicked="clickGlyph(glyph, idx, true)"
         />
+        <!-- eslint-disable vue/no-multiple-objects-in-class -->
         <div
-          v-else
+          v-else 
           :class="['l-equipped-glyphs__empty', 'c-equipped-glyphs__empty',
-                   {'c-equipped-glyphs__empty--dragover': dragoverIndex === idx}]"
+                   {'c-equipped-glyphs__empty--dragover': dragoverIndex === idx},
+                   {'c-equipped-glyphs__cantequip': !canEquip}]"
         />
       </div>
     </div>

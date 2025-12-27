@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      isVisibleAnyways: false,
       isUnlocked: false,
       ascension: new Decimal(0),
       hasAscended: false,
@@ -31,7 +32,7 @@ export default {
       darkEnergyPerSecond: new Decimal(0),
       portionDE: new Decimal(0),
       productionPerSecond: new Decimal(0),
-      percentPerSecond: 0,
+      percentPerSecond: new Decimal(0),
       hoverOverAscension: false,
     };
   },
@@ -103,6 +104,7 @@ export default {
   methods: {
     update() {
       const dim = DarkMatterDimension(this.tier);
+      this.isVisibleAnyways = PlayerProgress.gameBeaten();
       this.isUnlocked = dim.isUnlocked;
       this.ascension.copyFrom(dim.ascensions);
       this.hasAscended = this.ascension.gt(0);
@@ -124,8 +126,10 @@ export default {
       this.intervalAfterAscension.copyFrom(dim.intervalAfterAscension.div(getRealSpeedupForDisplay()));
       this.darkEnergyPerSecond.copyFrom(dim.productionPerSecond);
       this.portionDE.copyFrom(this.darkEnergyPerSecond.div(Currency.darkEnergy.productionPerSecond));
+      if (!this.portionDE.isFinite()) this.portionDE = new Decimal();
       this.productionPerSecond = this.dimensionProduction(this.tier);
-      this.percentPerSecond = Decimal.divide(this.productionPerSecond, this.amount).clampMax(1).toNumber();
+      this.percentPerSecond = Decimal.divide(this.productionPerSecond, this.amount).clampMax(1);
+      if (!this.percentPerSecond.isFinite()) this.percentPerSecond = new Decimal();
       if (!this.isIntervalCapped) this.hoverOverAscension = false;
     },
     handleIntervalClick() {
@@ -159,7 +163,7 @@ export default {
 
 <template>
   <div
-    v-if="isUnlocked"
+    v-if="isUnlocked || isVisibleAnyways"
     class="c-dark-matter-dimension-container"
   >
     <div class="o-dark-matter-dimension-amount">

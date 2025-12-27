@@ -15,6 +15,7 @@ export default {
       clickedGlyphId: null,
       glyphSacrificeUnlocked: false,
       protectedRows: 0,
+      canEquipGlyphs: false
     };
   },
   computed: {
@@ -28,6 +29,7 @@ export default {
   },
   methods: {
     update() {
+      this.canEquipGlyphs = player.realities.gt(0) || TimeStudy.reality.isBought;
       this.glyphSacrificeUnlocked = GlyphSacrificeHandler.canSacrifice;
       this.protectedRows = player.reality.glyphs.protectedRows;
       this.newGlyphs = Glyphs.unseen;
@@ -50,6 +52,7 @@ export default {
       GlyphSacrificeHandler.removeGlyph(Glyphs.findById(id), force);
     },
     clickGlyph(col, id) {
+      if (!this.canEquipGlyphs) return;
       const glyph = Glyphs.findById(id);
       // If single click
       if (!this.doubleClickTimeOut) {

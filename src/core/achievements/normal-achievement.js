@@ -42,6 +42,11 @@ class AchievementState extends GameMechanicState {
     return this.isUnlocked && !this.isDisabled;
   }
 
+  get isObscured() {
+    if (!PlayerProgress.gameBeaten() && !Pelle.isDoomed) return this.row > 17;
+    return false;
+  }
+
   tryUnlock(args) {
     if (this.isUnlocked) return;
     if (!this.config.checkRequirement(args)) return;

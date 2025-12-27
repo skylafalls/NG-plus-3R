@@ -145,7 +145,6 @@ export const GameStorage = {
     Tabs.all.find(t => t.id === player.options.lastOpenTab).show(false);
     Modal.hideAll();
     GameUI.notify.info("Game loaded");
-    Achievements.updateSteamStatus();
   },
 
   import(saveData) {
@@ -173,7 +172,6 @@ export const GameStorage = {
     // is showing
     Tab.options.subtabs[0].show();
     GameUI.notify.info("Game imported");
-    Achievements.updateSteamStatus();
   },
 
   importAsFile() {

@@ -15,14 +15,11 @@ export default {
       type: Object,
       required: true
     },
-    isObscured: {
-      type: Boolean,
-      required: false
-    }
   },
   data() {
     return {
       isDisabled: false,
+      isObscured: false,
       isUnlocked: false,
       isMouseOver: false,
       isCancer: false,
@@ -111,6 +108,7 @@ export default {
   },
   methods: {
     update() {
+      this.isObscured = this.achievement.isObscured;
       this.isDisabled = Pelle.disabledAchievements.includes(this.id) && Pelle.isDoomed;
       this.isUnlocked = this.achievement.isUnlocked && !this.isDisabled;
       this.isCancer = Theme.current().name === "S4" || player.secretUnlocks.cancerAchievements;

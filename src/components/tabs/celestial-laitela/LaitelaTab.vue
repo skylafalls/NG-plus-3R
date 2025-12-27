@@ -34,7 +34,8 @@ export default {
       singularitiesUnlocked: false,
       singularityCap: new Decimal(0),
       singularityWaitTime: "",
-      showAnnihilation: false
+      showAnnihilation: false,
+      genIsZero: false,
     };
   },
   computed: {
@@ -59,8 +60,9 @@ export default {
       this.singularityPanelVisible = Currency.singularities.gt(0);
       this.singularitiesUnlocked = Singularity.capIsReached || this.singularityPanelVisible;
       this.singularityCap.copyFrom(Singularity.cap);
-      this.singularityWaitTime = TimeSpan.fromSeconds((this.singularityCap.sub(this.darkEnergy))
-        .div(Currency.darkEnergy.productionPerSecond)).toStringShort();
+      this.genIsZero = Currency.darkEnergy.productionPerSecond.eq(0);
+      this.singularityWaitTime = this.genIsZero ? "after unlocking Lai'tela" : `in ${TimeSpan.fromSeconds((this.singularityCap.sub(this.darkEnergy))
+        .div(Currency.darkEnergy.productionPerSecond)).toStringShort()}`;
       this.showAnnihilation = Laitela.annihilationUnlocked;
 
       const d1 = DarkMatterDimension(1);
@@ -112,8 +114,10 @@ export default {
       v-if="!singularitiesUnlocked"
       class="c-laitela-singularity-container"
     >
-      Unlock Singularities in {{ singularityWaitTime }}.
-      ({{ format(darkEnergy, 2, 2) }}/{{ format(singularityCap, 2) }} Dark Energy)
+      Unlock Singularities {{ singularityWaitTime }}.
+      <div v-if="!genIsZero">
+        ({{ format(darkEnergy, 2, 2) }}/{{ format(singularityCap, 2) }} Dark Energy)
+      </div>
     </h2>
     <SingularityPane v-if="singularitiesUnlocked" />
     <LaitelaAutobuyerPane v-if="autobuyersUnlocked" />

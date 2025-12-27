@@ -625,6 +625,10 @@
   background-color: var(--color-glyph-empty-slot);
 }
 
+.c-equipped-glyphs__cantequip {
+  filter: brightness(0.4)
+}
+
 .t-dark-metro .c-equipped-glyphs__empty,
 .t-dark .c-equipped-glyphs__empty,
 .t-amoled .c-equipped-glyphs__empty,
