@@ -25,24 +25,24 @@ export class Effect {
         throw new Error("Unknown getter type.");
       }
     };
-    const parseEffect = (eff, inputOverride) => {
-      if (isConstant(eff)) return eff;
+    const parseEffect = (localEffect, inputOverride) => {
+      if (isConstant(localEffect)) return localEffect;
 
-      let inp;
-      if (inputOverride) inp = inputOverride;
-      else if (input) inp = input;
+      let inputValues;
+      if (inputOverride) inputValues = inputOverride;
+      else if (input) inputValues = input;
 
-      return inp ? eff(...(Array.isArray(inp) ? inp : [inp])) : eff();
+      return inputValues ? localEffect(...(Array.isArray(inputValues) ? inputValues : [inputValues])) : localEffect();
     };
-    const applyCap = (eff, c, inputOverride) => {
-      const val = parseEffect(eff, inputOverride);
+    const applyCap = (localEffect, localCap, inputOverride) => {
+      const val = parseEffect(localEffect, inputOverride);
       let min;
 
       if (isDecimal(val)) min = Decimal.min;
       else if (isNumber(val)) min = Math.min;
       else throw new Error("Unknown effect value type.");
 
-      return min(val, c);
+      return min(val, localCap);
     };
 
     if (condition !== undefined) {
