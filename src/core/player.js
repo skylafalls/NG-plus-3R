@@ -909,7 +909,7 @@ window.player = {
     },
     invertTTgenDisplay: false,
     autoRealityForFilter: false,
-    language: "EN",
+    language: "GBR_EN",
     englishLangNames: true,
     showFomula: false,
   },

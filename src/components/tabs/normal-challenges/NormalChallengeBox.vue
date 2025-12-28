@@ -30,6 +30,11 @@ export default {
       if (this.isUnlocked) {
         return this.challenge.config;
       }
+      if (!(Currency.infinitiesTotal.gt(0) || Currency.eternities.gt(0) || Currency.realities.gt(0))) {
+        return {
+          description: `Reach Infinity this Playthrough to unlock.`
+        };
+      }
       return {
         description: `Infinity ${formatInt(this.challenge.config.lockedAt)} times to unlock.`
       };

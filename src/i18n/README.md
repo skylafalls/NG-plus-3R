@@ -10,7 +10,9 @@
 https://www.loc.gov/standards/iso639-2/php/code_list.php<br>
 Use ISO 639-1 where possible<br>
 ISO 639-2 otherwise<br>
-Else use whatever is reasonable and **NOT** already on that list
+Else use whatever is reasonable and **NOT** already on that list<br>
+If you are using a regional dialect (i.e. Brazilian Portuguese vs Portuagal Portuguese) use the Alpha-3 code of the language, followed by a -, then the language code<br>
+https://www.iban.com/country-codes
 
 Extra Info:
 

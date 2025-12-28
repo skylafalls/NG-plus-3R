@@ -14,7 +14,7 @@ window.i18n = function(type, id, mods = []) {
   }
   // If it's not defined for that language, default to English
   if (text === undefined || text === "") {
-    text = Lang.EN.allText[type][id];
+    text = Lang.GBR_EN.allText[type][id];
   }
   // If it's not defined for English, default to "Placeholder"
   if (text === undefined || text === "") {
@@ -74,7 +74,7 @@ export const Lang = mgdtoLocal(
 );
 
 Object.defineProperty(Lang, "current", {
-  get() { return Lang[typeof player !== "undefined" ? player.options.language : "EN"]; }
+  get() { return Lang[typeof player !== "undefined" ? player.options.language : "GBR_EN"]; }
 });
 
 Object.defineProperty(Lang, "showFormula", {
