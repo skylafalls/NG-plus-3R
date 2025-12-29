@@ -1,2 +1,2 @@
-export * as EN from "./english/GBR_EN-exports";
+export * as EN from "./british_english/GBR_EN-exports";
 export * as PL from "./polish/PL-exports";
