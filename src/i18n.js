@@ -49,7 +49,7 @@ class LanguageState {
 
   setAsCurrent(silent) {
     player.options.language = this.shortName;
-    // TODO: This should be i18n, how the fuck did we miss this
+    // TODO: This should be i18n, how did we miss this
     if (!silent) GameUI.notify.success(`Set language to ${this.name}`);
   }
 }

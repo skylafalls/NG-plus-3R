@@ -64,8 +64,8 @@ export const chall = {
   ec6rew: "Further reduce Antimatter Dimension cost multiplier growth",
   ec6rewFormat: "-$1aX ($2aX total)",
   // For Translators:
-  // Attempt to keep the scramble the same, changing the letters that arent different in the scramble to match the language
-  ec6enslavedScramble: "cannot gain Antimatter Galaxies normally$c㏰'퐚 gai鸭 Anti꟢at랜erﻪﶓa⁍axie㮾 䂇orma㦂l",
+  // Attempt to keep the scramble the same, changing the letters that arent different in the scramble to match the language. Keep space around $
+  ec6enslavedScramble: "cannot gain Antimatter Galaxies normally $ c㏰'퐚 gai鸭 Anti꟢at랜erﻪﶓa⁍axie㮾 䂇orma㦂l",
   ec7: "1st Time Dimensions produce 8th Infinity Dimensions and 1st Infinity Dimensions produce 7th Antimatter Dimensions. Tickspeed also directly applies to Infinity and Time Dimensions.",
   ec7rew: "1st Time Dimension produces 8th Infinity Dimensions",
   ec7rewFormat: "$1aX per second",

@@ -90,7 +90,7 @@ export const eternityChallenges = [
         return i18n("chall", "ec6rewFormat", [value, total]);
       }
     },
-    get scrambleText() { return i18n("chall", "ec6enslavedScramble").split("$"); },
+    get scrambleText() { return i18n("chall", "ec6enslavedScramble").split(" $ "); },
   },
   {
     id: 7,

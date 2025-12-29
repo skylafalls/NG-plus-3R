@@ -54,7 +54,7 @@ export class Galaxy {
     }
     // eslint-disable-next-line multiline-comment-style
     /*
-    // Might not be perfect but at this point who gives a shit
+    // Might not be perfect but at this point who cares
       - If we can buy more we will loop a bit at the end to go through till we cant
     const delay = minV;
     const remote = Galaxy.remoteStart;

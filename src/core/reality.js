@@ -335,7 +335,7 @@ function giveRealityRewards(realityProps) {
     const current = Teresa.runRewardMultiplier;
     const newMultiplier = Teresa.rewardMultiplier(player.antimatter);
     const isHigher = newMultiplier.gt(current);
-    // TODO: Fucking this
+    // TODO: i18n
     const modalText = `You have completed Teresa's Reality! ${isHigher
       ? `Since you gained more Antimatter, you increased your
       Glyph Sacrifice multiplier from ${format(current, 2, 2)} to ${format(newMultiplier, 2, 2)}`
@@ -346,7 +346,6 @@ function giveRealityRewards(realityProps) {
       player.celestials.teresa.bestRunAM = Currency.antimatter.value;
       player.celestials.teresa.bestAMSet = Glyphs.copyForRecords(Glyphs.active.filter(g => g !== null));
 
-      // Encode iM values into the RM variable as e10000 * iM in order to only require one prop
       player.celestials.teresa.lastRepeatedMachines = player.reality.maxRM;
       player.celestials.teresa.lastRepeatediM = Currency.imaginaryMachines.value;
     }

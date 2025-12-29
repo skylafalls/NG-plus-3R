@@ -388,7 +388,7 @@ class EPMultiplierState extends GameMechanicState {
       const cost = Decimal.pow(multPerUpgrade[i], count).times(500);
       if (cost.lt(costThresholds[i])) return cost;
     }
-    // This formula is slightly weaker than base AD but who gives a fuck
+    // This formula is slightly weaker than base AD
     return DC.E3.pow(count.pow(1.2).sub(Math.pow(1332, 1.2))).times(500);
   }
 }

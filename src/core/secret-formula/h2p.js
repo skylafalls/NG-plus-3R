@@ -1040,7 +1040,7 @@ will not be lost or overwritten.
 <br>
 <b>Hotkey: U</b> will pause/unpause the Automator.
 `,
-      isUnlocked: () => Player.automatorUnlocked,
+      isUnlocked: () => Player.automatorUnlocked || PlayerProgress.gameBeaten(),
       tags: ["automation", "reality", "code", "script", "endgame", "lategame"],
       tab: "automation/automator"
     }, {
@@ -1096,7 +1096,7 @@ in large chunks instead of more continuously. This may have potentially adverse 
 behavior while offline, depending on how exactly your script depends on the game state to work properly.
 Additionally, the PAUSE command may behave oddly due to it also being based on real time.
 `,
-      isUnlocked: () => Player.automatorUnlocked,
+      isUnlocked: () => Player.automatorUnlocked || PlayerProgress.gameBeaten(),
       tags: ["automation", "reality", "code", "script", "endgame", "lategame"],
       tab: "automation/automator"
     }, {
@@ -1183,7 +1183,7 @@ but the same cost multipliers.
 <br>
 <b>Hotkey: B</b> will pause/unpause the Black Holes.
 `,
-      isUnlocked: () => player.blackHole[0].unlocked,
+      isUnlocked: () => player.blackHole[0].unlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "time", "speed", "duration", "interval", "rm", "endgame", "lategame"],
       tab: "reality/hole"
     }, {
@@ -1206,7 +1206,7 @@ the game will depend on the Celestial.
 Celestials are timeless entities. Unless otherwise stated, any new mechanics introduced by Celestials are not affected
 by game speed multipliers and instead refer specifically to real time instead of game time.
 `,
-      isUnlocked: () => Teresa.isUnlocked,
+      isUnlocked: () => Teresa.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "challenges", "endgame", "lategame"],
       tab: "celestials/celestial-navigation"
     }, {
@@ -1234,7 +1234,7 @@ ${Teresa.runCompleted
       "reach a higher amount of antimatter on this repeat run."
     : "(More information available - complete Teresa's Reality)"}
 `,
-      isUnlocked: () => Teresa.isUnlocked,
+      isUnlocked: () => Teresa.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["rm", "endgame", "lategame", "perks", "sacrifice", "boo", "ghost", "celestial"],
       tab: "celestials/teresa"
     }, {
@@ -1257,7 +1257,7 @@ allow you to filter them based on their effects and rarity when you are doing fu
 <br>
 Effarig's final unlock is their own Reality at ${format(GameDatabase.celestials.effarig.unlocks.run.cost)} Relic
 Shards.
-${EffarigUnlock.run.isUnlocked
+${EffarigUnlock.run.isUnlocked || PlayerProgress.gameBeaten()
     ? "Their Reality is divided into three layers: Infinity, Eternity, and Reality. You must complete each layer " +
       "before getting access to the next one. Completing Effarig's Eternity unlocks the next Celestial."
     : "<div style='color: var(--color-effarig--base);'>(unlock Effarig's Reality to see details about it)</div>"
@@ -1265,7 +1265,7 @@ ${EffarigUnlock.run.isUnlocked
 <br>
 <br>
 Completing Effarig's Reality unlocks
-${EffarigUnlock.reality.isUnlocked
+${EffarigUnlock.reality.isUnlocked || PlayerProgress.gameBeaten()
     ? `a new Glyph type, <span style='color: var(--color-effarig--base);'>Effarig</span> Glyphs. Effarig Glyphs have
       ${formatInt(7)} different possible effects, which you can view in the Glyph filter settings. You can only
       have one Effarig Glyph equipped at a time.
@@ -1278,7 +1278,7 @@ ${Ra.unlocks.glyphEffectCount.canBeApplied
 <br>
 <br>
 `,
-      isUnlocked: () => TeresaUnlocks.effarig.canBeApplied,
+      isUnlocked: () => TeresaUnlocks.effarig.canBeApplied || PlayerProgress.gameBeaten(),
       tags: ["glyph", "sacrifice", "shards", "reality", "spectralflame", "lategame", "endgame", "celestial"],
       tab: "celestials/effarig"
     }, {
@@ -1348,7 +1348,7 @@ When loading a set, you can be Level and/or Rarity sensitive. The best Glyph fro
 will always be the one equipped. Just like other groups of circular Glyphs, you can click any of them
 in order to bring up a modal summarizing the whole set of Glyphs.
 `,
-      isUnlocked: () => EffarigUnlock.adjuster.isUnlocked,
+      isUnlocked: () => EffarigUnlock.adjuster.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["glyph", "weight", "adjustment", "sacrifice", "filter", "threshold", "set", "save", "reality", "lategame",
         "endgame"],
       tab: "celestials/glyphfilter"
@@ -1398,14 +1398,14 @@ by ${format(1e5)} Tickspeed Upgrades.
 <br>
 At ${format(TimeSpan.fromMilliseconds(new Decimal(ENSLAVED_UNLOCKS.RUN.price)).totalYears)} years of stored game time, you are able
 to finally unlock their Reality. The reward for completing The Nameless Ones' Reality is
-${Enslaved.isCompleted
+${Enslaved.isCompleted || PlayerProgress.gameBeaten()
     ? "unlocking Tesseracts, which have their own How To Play entry."
     : "<span style='color: var(--color-bad);'>(complete The Nameless Ones' Reality to see reward details)</span>"}
 <br>
 <br>
 The Nameless Ones will not directly unlock the next Celestial.
 `,
-      isUnlocked: () => EffarigUnlock.eternity.isUnlocked,
+      isUnlocked: () => EffarigUnlock.eternity.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "time", "blackhole", "lategame", "endgame", "testers", "celestial",
         ...credits.people.map(p => p.name)
       ],
@@ -1430,7 +1430,7 @@ You can see additional information about your current Tesseract count and the co
 Dimensions tab. Additionally, your current Infinity Points will now also show a percentage towards the next Tesseract.
 If affordable, the Infinity button itself will visually change and bring you to the Infinity Dimension tab when clicked.
 `,
-      isUnlocked: () => Enslaved.isCompleted,
+      isUnlocked: () => Enslaved.isCompleted || PlayerProgress.gameBeaten(),
       tags: ["reality", "lategame", "endgame", "tesseract", "id", "celestial"],
       tab: "celestials/tesseract"
     }, {
@@ -1453,7 +1453,7 @@ ${format(GameDatabase.celestials.v.mainUnlock.replicanti.requirement)} Replicant
 <br>
 <br>
 When you meet all of those requirements, you will be able to access V's Reality.
-${VUnlocks.vAchievementUnlock.isUnlocked
+${VUnlocks.vAchievementUnlock.isUnlocked || PlayerProgress.gameBeaten()
     ? `However, completing the Reality itself is only the beginning. V has six different requirements, each of which
       require you to make a certain amount of progress within V's Reality. Completing a requirement rewards you with a
       V-Achievement.
@@ -1485,7 +1485,7 @@ ${VUnlocks.vAchievementUnlock.isUnlocked
       Celestial.`
     : "<span style='color: var(--color-bad);'>(unlock V's Reality to see further details)</span>"}
 `,
-      isUnlocked: () => Achievement(151).isUnlocked,
+      isUnlocked: () => Achievement(151).isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "lategame", "endgame", "girlfriend", "challenges", "achievement", "space", "theorems",
         "study", "triad", "celestial"],
       tab: "celestials/v"
@@ -1516,20 +1516,20 @@ improve your Glyph effects once you reach certain thresholds in Glyph sacrifice 
 <br>
 <br>
 At level ${formatInt(2)}, Effarig unlocks
-${Ra.unlocks.effarigUnlock.canBeApplied
+${Ra.unlocks.effarigUnlock.canBeApplied || PlayerProgress.gameBeaten()
     ? "a new mechanic called Glyph Alchemy and later on also makes Effarig Glyphs stronger while gradually removing " +
       "almost all random elements of Glyph generation. Glyph Alchemy also has its own How To Play entry."
     : "<span style='color: var(--color-bad);'>(unlock Effarig within Ra to see unlock details)</span>"}
 <br>
 <br>
 The Nameless Ones unlocks
-${Ra.unlocks.enslavedUnlock.canBeApplied
+${Ra.unlocks.enslavedUnlock.canBeApplied || PlayerProgress.gameBeaten()
     ? "additional mechanics related to charging the Black Holes, as well as making them significantly stronger."
     : "<span style='color: var(--color-bad);'>(unlock The Nameless Ones within Ra to see unlock details)</span>"}
 <br>
 <br>
 V unlocks
-${Ra.unlocks.vUnlock.canBeApplied
+${Ra.unlocks.vUnlock.canBeApplied || PlayerProgress.gameBeaten()
     ? "Triad Studies, which are new studies near the bottom of the tree which cost Space Theorems. Each Triad Study " +
       "requires you to also have the three nearby studies as well in order to purchase them. They also unlock a " +
       "smaller set of more difficult V-Achievements to complete for additional Space Theorems."
@@ -1537,7 +1537,7 @@ ${Ra.unlocks.vUnlock.canBeApplied
 <br>
 <br>
 Ra will not directly unlock the next Celestial.`,
-      isUnlocked: () => VUnlocks.raUnlock.isUnlocked,
+      isUnlocked: () => VUnlocks.raUnlock.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "memories", "razenpok", "levels", "glyphs", "lategame", "endgame",
         "effarig", "teresa", "nameless", "v", "celestial"],
       tab: "celestials/ra"
@@ -1566,7 +1566,7 @@ matter how many Time Glyphs you refine, you can never have more than
 ${formatInt(GlyphSacrificeHandler.levelRefinementValue(8000))} of the Time resource until you refine another Time Glyph
 with a higher refinement value.
 `,
-      isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied,
+      isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied || PlayerProgress.gameBeaten(),
       // Oh god I'm so sorry this is so many words
       tags: ["reality", "lategame", "endgame", "ra", "effarig", "alchemy", "power", "infinity", "time", "replication",
         "dilation", "cardinality", "eternity", "dimensionality", "inflation", "alternation", "synergism", "momentum",
@@ -1595,7 +1595,7 @@ To activate or deactivate a reaction, click the circle corresponding to the reac
 be applied, moving lines will be shown from all reagents to the product. If a connection is a solid line, that means
 that the reaction cannot proceed due to not having enough of that reagent to get more of the product due to its cap.
 `,
-      isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied,
+      isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied || PlayerProgress.gameBeaten(),
       tags: ["reality", "lategame", "endgame", "ra", "effarig", "alchemy", "power", "infinity", "time", "replication",
         "dilation", "cardinality", "eternity", "dimensionality", "inflation", "alternation", "synergism", "momentum",
         "decoherence", "force", "exponential", "uncountability", "boundless", "unpredictability", "multiversal",
@@ -1628,7 +1628,7 @@ modifiers to game speed.
 <br>
 Imaginary Machine upgrades will unlock the final two Celestials.
 `,
-      isUnlocked: () => Currency.imaginaryMachines.isUnlocked,
+      isUnlocked: () => Currency.imaginaryMachines.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["imaginary", "machines", "reality", "lategame", "endgame"],
       tab: "reality/imag_upgrades"
     }, {
@@ -1677,7 +1677,7 @@ to Dark Energy gain.
 <br>
 Lai'tela will not directly unlock the next Celestial.
 `,
-      isUnlocked: () => Laitela.isUnlocked,
+      isUnlocked: () => Laitela.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["omsi", "reality", "dark", "matter", "dimensions", "lategame", "endgame", "ascend", "celestial"],
       tab: "celestials/laitela"
     }, {
@@ -1704,7 +1704,7 @@ so all the related autobuyer settings for these autobuyers are now hidden on tha
 `,
       // Apparently continuumUnlocked is really important in a lot of places and if we keep it unlocked
       // Things break, so we check for the iMU instead.
-      isUnlocked: () => ImaginaryUpgrade(15).isBought,
+      isUnlocked: () => ImaginaryUpgrade(15).isBought || PlayerProgress.gameBeaten(),
       tags: ["continuum", "purchase", "reality", "lategame", "endgame"],
       tab: ""
     }, {
@@ -1739,7 +1739,7 @@ Independently of the milestone type, milestones also have an icon indicating wha
 <br>
 <i class="fas fa-compress-arrows-alt"></i> These milestones improve Lai'tela based on something outside of Lai'tela
 `,
-      isUnlocked: () => Laitela.isUnlocked,
+      isUnlocked: () => Laitela.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "lategame", "endgame", "laitela", "dark"],
       tab: ""
     }, {
@@ -1751,7 +1751,7 @@ When you purchase the last Imaginary Upgrade and unlock Pelle, you unlock their 
 available to you at this point, and attained ${formatInt(25000)} of each Alchemy Resource.
 <br>
 <br>
-${Pelle.isDoomed
+${Pelle.isDoomed || PlayerProgress.gameBeaten()
     ? `Dooming your Reality will start a new <b>Doomed Reality</b>, resetting almost the entire game up to
       Reality, not giving you any rewards from your progress in your current Reality.
       <br>
@@ -1783,7 +1783,7 @@ ${Pelle.isDoomed
     : "<span style='color: var(--color-bad);'><b>You must Doom your Reality to read the rest of this entry.</b></span>"
 }
 `,
-      isUnlocked: () => Pelle.isUnlocked,
+      isUnlocked: () => Pelle.isUnlocked || PlayerProgress.gameBeaten(),
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "hevipelle", "celestial", "doom"],
       tab: "celestials/pelle"
     }, {
@@ -1798,13 +1798,13 @@ Each Pelle Strike also unlocks a Rift bar.
 Rift bars can be filled by clicking them to toggle between "Idle" and "Filling", although only two Rifts can be
 "Filling" at any given time. When active, Rifts consume ${formatInt(3)}% of a Rift-specific resource per second. Each
 Rift offers a Rift-specific effect which are based on the total amount filled.
-${PelleStrikes.eternity.hasStrike
+${PelleStrikes.eternity.hasStrike || PlayerProgress.gameBeaten()
     ? `An exception for this is Decay/Collapse/Disarray, whose effect gets capped once you have drained a total of
     ${formatPostBreak(DC.E2000)} Replicanti.`
     : ""}
 In addition, each Rift offers three milestone rewards for filling them up to a certain percentage.
 `,
-      isUnlocked: () => PelleStrikes.infinity.hasStrike,
+      isUnlocked: () => PelleStrikes.infinity.hasStrike || PlayerProgress.gameBeaten(),
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "strike", "rift", "celestial"],
       tab: "celestials/pelle"
     }, {
@@ -1820,7 +1820,7 @@ Generated Galaxies. Replicanti or Tachyon Galaxies cannot be spent for purchasin
 <br>
 The <b>Galaxy Generator</b> has a maximum number of Galaxies it can generate, which can only be increased by draining
 Rifts once the current cap has been reached.`,
-      isUnlocked: () => Pelle.hasGalaxyGenerator,
+      isUnlocked: () => Pelle.hasGalaxyGenerator || PlayerProgress.gameBeaten(),
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "galaxy",
         "galaxies", "generator", "celestial"],
       tab: "celestials/pelle"

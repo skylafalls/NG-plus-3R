@@ -161,15 +161,14 @@ export const quotes = {
   lai3q5: "You have taken control of the darkness so quickly.",
   lai3q6: "Molded them into your own design, and now into a singular point...",
   lai3q7: "It... it does not matter. The end will remain the same.",
-  // Yes this is fucking stupid. 4 is annihilation quotes, 5 is dmd3 quotes, cause those are the
-  // internal ids, but not the fucking order theyre shown. What the hell? How do you fuck that up?
+  // Internal id bullshit means 4 is annihilation, 5 is dmd3. Someone shout at me if i forget to change this later.
   lai4q0: "Back to square one, again.",
   lai4q1: "Your chains shall bind you tighter, as your end slowly nears.",
   lai4q2: "While we transcend time and existence itself.",
   lai4q3: "Even if we may cease, we just come back. Never the exact same as before.",
   lai4q4: "And so... we repeat forever.",
   lai4q5: "And you?",
-  // Sorry I just really dont want to have to edgecase a fucking elipsis so its now i18n.
+  // Don't want to edge case so, uh, deal with ellipsis being here?
   // Who knows, maybe it needs to be edgecased.
   lai4q6: "...",
   lai4q7: "The answer... eludes me...",

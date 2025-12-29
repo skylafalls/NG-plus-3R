@@ -124,8 +124,8 @@ export function beMigration(player) {
   delete player.chall8TotalSacrifice;
   player.challengeData.nc9tickspeedCostIncreases = D(player.chall9TickspeedCostBumps);
   delete player.chall9TickspeedCostBumps;
-  player.challenge.infinity.bestTimes = player.challenge.infinity.bestTimes.map(n => ((!(n instanceof Decimal) && n > 1.6e308) ? BEMAX : D(n)));
-  player.challenge.normal.bestTimes = player.challenge.normal.bestTimes.map(n => ((!(n instanceof Decimal) && n > 1.6e308) ? BEMAX : D(n)));
+  player.challenge.infinity.bestTimes = player.challenge.infinity.bestTimes.map(n => (D(n).gt(1e308) ? DC.BEMAX : D(n)));
+  player.challenge.normal.bestTimes = player.challenge.normal.bestTimes.map(n => (D(n).gt(1e308) ? DC.BEMAX : D(n)));
   player.dilation.baseTachyonGalaxies = D(player.dilation.baseTachyonGalaxies);
   delete player.dilation.nextThreshold;
   player.dilation.totalTachyonGalaxies = D(player.dilation.totalTachyonGalaxies);

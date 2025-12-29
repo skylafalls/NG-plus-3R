@@ -175,7 +175,7 @@ export const singularityMilestones = {
     repeat: 0,
     limit: 1,
     description: "Singularities improve the repeatable Dilated Time multiplier upgrade",
-    // Note that at ~2.15x this causes a runaway purely because of cost scaling - no the fuck it doesnt
+    // Note that at ~2.15x this causes a runaway purely because of cost scaling - no it doesnt
     effect: () => Decimal.clampMax(Currency.singularities.value.max(1).log10().div(100), 0.35).add(1),
     effectFormat: x => `${formatX(2)} ➜ ${formatX(Decimal.clampMin(x, 1).mul(2), 2, 2)}`,
     upgradeDirection: LAITELA_UPGRADE_DIRECTION.BOOSTS_MAIN,

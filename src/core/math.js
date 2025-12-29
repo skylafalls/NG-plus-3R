@@ -227,7 +227,7 @@ window.dBBBS = function dBBBS(money, costInfo, alreadyBought) {
 
   val = canBuy.floor();
   if (isCumulative) {
-    // If the layer > 0 this is far too insignificant to give a fuck about
+    // If the layer > 0 this is far too insignificant
     if (canBuy.layer === 0) {
       // Go 100 purchases back or to 0. Anything lower shouldnt be significant
       val = Decimal.max(canBuy.sub(100), 0);
