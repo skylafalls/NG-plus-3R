@@ -167,7 +167,8 @@ export const AutomatorData = {
   MAX_ALLOWED_SCRIPT_COUNT: 20,
   MAX_ALLOWED_CONSTANT_NAME_LENGTH: 20,
   // Note that a study string with ALL studies in unshortened form without duplicated studies is ~230 characters
-  MAX_ALLOWED_CONSTANT_VALUE_LENGTH: 250,
+  // Note 2: Increased from 250 to 500 to allow other stuff, and hopefully not hit the cap
+  MAX_ALLOWED_CONSTANT_VALUE_LENGTH: 500,
   MAX_ALLOWED_CONSTANT_COUNT: 30,
   MIN_CHARS_BETWEEN_UNDOS: 10,
   MAX_UNDO_ENTRIES: 30,
@@ -177,10 +178,14 @@ export const AutomatorData = {
   MAX_ALLOWED_VARIABLE_VALUE_LENGTH: 500,
 
   MAX_ALLOWED_FUNCTION_COUNT: 5,
+  // At most, allow a 3 deep stack of functions.
   MAX_ALLOWED_FUNCTION_STACK: 3,
   MAX_ALLOWED_FUNCTION_INPUTS: 3,
   MAX_ALLOWED_FUNCTION_NAME_LENGTH: 25,
   MAX_ALLOWED_FUNCTION_INPUT_NAME_LENGTH: 10,
+  // You arent going to be passing in massive amounts to functions, so lets limit them to 100 characters per.
+  // This should allow any study string (in vanilla) to be written as a parameter, using shortened form
+  MAX_ALLOWED_FUNCTION_INPUT_VALUE_LENGTH: 100,
 
   scriptIndex() {
     return player.reality.automator.state.editorScript;
