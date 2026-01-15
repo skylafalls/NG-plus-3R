@@ -345,6 +345,9 @@ Currency.infinityPoints = new class extends DecimalCurrency {
 
   get gain() {
     let ip = this.pureGain;
+    if (Pelle.isDisabled("IPMults")) {
+      return ip.timesEffectsOf(PelleRifts.vacuum, GlyphInfo.infinity.pelleEffect).floor();
+    }
     if (Teresa.isRunning) {
       ip = ip.pow(0.55);
     } else if (V.isRunning) {
@@ -395,7 +398,7 @@ Currency.eternityPoints = new class extends DecimalCurrency {
   }
 
   get startingValue() {
-    if (Pelle.isDisabled()) return new Decimal(0);
+    if (Pelle.isDisabled()) return DC.D0;
     return Effects.max(
       0,
       Perk.startEP1,
@@ -416,17 +419,17 @@ Currency.eternityPoints = new class extends DecimalCurrency {
 
   get mult() {
     return Pelle.isDisabled("EPMults")
-      ? Pelle.specialGlyphEffect.time.timesEffectOf(PelleRifts.vacuum.milestones[2])
-      : getAdjustedGlyphEffect("cursedEP")
-        .timesEffectsOf(
-          EternityUpgrade.epMult,
-          TimeStudy(61),
-          TimeStudy(122),
-          TimeStudy(121),
-          TimeStudy(123),
-          RealityUpgrade(12),
-          GlyphEffect.epMult
-        );
+      ? DC.D1.timesEffectsOf(GlyphInfo.time.pelleEffect, PelleRifts.vacuum.milestones[2])
+      : DC.D1.timesEffectsOf(
+        EternityUpgrade.epMult,
+        TimeStudy(61),
+        TimeStudy(122),
+        TimeStudy(121),
+        TimeStudy(123),
+        RealityUpgrade(12),
+        GlyphEffects.timeEP.primary,
+        GlyphEffects.cursedEP.primary,
+      );
   }
 
   get pureGain() {
@@ -524,8 +527,11 @@ Currency.realityMachines = new class extends DecimalCurrency {
   }
 
   get mult() {
-    return Teresa.rmMultiplier.times(PerkShopUpgrade.rmMult.effectOrDefault(DC.D1))
-      .times(getAdjustedGlyphEffect("effarigrm")).times(Achievement(167).effectOrDefault(1));
+    return Teresa.rmMultiplier.timesEffectsOf(
+      PerkShopUpgrade.rmMult,
+      GlyphEffects.effarigrm.primary,
+      Achievement(167),
+    );
   }
 
   get pureGain() {

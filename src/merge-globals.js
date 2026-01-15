@@ -1,10 +1,9 @@
 /* eslint-disable import/newline-after-import, import/first, import/order */
 function mergeIntoGlobal(object) {
   for (const key in object) {
-    if (key === "default") {
-      // Skip default exports
-      continue;
-    }
+    // Skip default exports
+    if (key === "default") continue;
+
     const value = object[key];
     const existingValue = window[key];
     if (existingValue !== undefined) {

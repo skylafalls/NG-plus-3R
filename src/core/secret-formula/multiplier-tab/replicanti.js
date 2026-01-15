@@ -27,13 +27,12 @@ export const replicanti = {
   glyph: {
     name: "Glyph Effects",
     multValue: () => {
-      const baseEffect = (Pelle.isDoomed ? DC.D1 : getAdjustedGlyphEffect("replicationspeed"))
-        .times(Pelle.specialGlyphEffect.replication);
+      const baseEffect = DC.D1.timesEffectsOf(GlyphEffects.replicationspeed.primary, GlyphInfo.replication.pelleEffect);
       const alteredEffect = Math.clampMin(
         Decimal.log10(Replicanti.amount) * getSecondaryGlyphEffect("replicationdtgain"), 1);
       return GlyphAlteration.isAdded("replication") ? baseEffect.times(alteredEffect) : baseEffect;
     },
-    isActive: () => PlayerProgress.realityUnlocked() && (!Pelle.isDoomed || Pelle.specialGlyphEffect.replication > 1),
+    isActive: () => PlayerProgress.realityUnlocked() && (!Pelle.isDoomed || GlyphInfo.replication.pelleEffect.effectValue.gt(1)),
     icon: MultiplierTabIcons.GENERIC_GLYPH,
   },
   amplifierRep: {

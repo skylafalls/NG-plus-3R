@@ -1,5 +1,3 @@
-import { isDecimal } from "@/utility";
-
 Array.prototype.distinct = function() {
   return this.filter((value, index, self) => self.indexOf(value) === index);
 };
@@ -322,7 +320,12 @@ String.isWhiteSpace = function(value) {
   return value && !value.trim();
 };
 
+// TODO: remove once implemented in "custom be"
 Decimal.isFinite = function(value) {
   if (!isDecimal(value)) return isFinite(value);
   return (isFinite(value.m) || isFinite(value.e)) && !(value.e >= 9e15);
+};
+
+Array.prototype.removeDuplicates = function() {
+  return [...new Set(this)];
 };

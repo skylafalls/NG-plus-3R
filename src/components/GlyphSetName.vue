@@ -1,5 +1,5 @@
 <script>
-import { GlyphInfo } from "../core/secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../core/glyphs/glyph-types";
 
 const GLYPH_NAMES = {
   music: {
@@ -127,8 +127,7 @@ export default {
       // eslint-disable-next-line max-len
       const v = { ...GlyphInfo };
       for (const item in GlyphInfo) {
-        if (!GlyphInfo.glyphTypes.includes(item)) delete v[item];
-        else if (!(GlyphInfo[item].maxEquipped === 1)) delete v[item];
+        if (!GlyphInfo.glyphTypes.includes(item) || GlyphInfo[item].maxEquipped !== 1) delete v[item];
       }
       const singleGlyphTypes = Object.keys(v);
       for (const key of singleGlyphTypes) {

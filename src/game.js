@@ -11,10 +11,6 @@ if (GlobalErrorHandler.handled) {
 }
 GlobalErrorHandler.cleanStart = true;
 
-export function handlePossibleFunction(value) {
-  return (typeof value === "function" ? value() : value);
-}
-
 export function playerInfinityUpgradesOnReset() {
   const infinityUpgrades = new Set(
     ["timeMult", "dimMult", "timeMult2",
@@ -192,7 +188,7 @@ export function addRealityTime(trueTime, time, realTime, rm, level, realities, a
 
 export function gainedInfinities() {
   if (EternityChallenge(4).isRunning || Pelle.isDisabled("InfinitiedMults")) return DC.D1;
-  let infGain = Decimal.max(1, Achievement(87));
+  let infGain = Effects.max(1, Achievement(87));
 
   infGain = infGain.timesEffectsOf(
     TimeStudy(32),
@@ -200,9 +196,9 @@ export function gainedInfinities() {
     RealityUpgrade(7),
     Achievement(131).effects.infinitiesGain,
     Achievement(164),
-    Ra.unlocks.continuousTTBoost.effects.infinity
+    Ra.unlocks.continuousTTBoost.effects.infinity,
+    GlyphEffects.infinityinfmult.primary,
   );
-  infGain = infGain.times(getAdjustedGlyphEffect("infinityinfmult"));
   infGain = infGain.powEffectOf(SingularityMilestone.infinitiedPow);
   return infGain;
 }
@@ -254,18 +250,19 @@ export function getGameSpeedupFactor(effectsToConsider, blackHolesActiveOverride
           : blackHole.id <= blackHolesActiveOverride;
         if (!isActive) break;
         factor = factor.mul(blackHole.power.pow(BlackHoles.unpauseAccelerationFactor));
-        factor = factor.mul(VUnlocks.achievementBH.effectOrDefault(1));
+        factor = factor.timesEffectOf(VUnlocks.achievementBH);
       }
     }
   }
 
   if (effects.includes(GAME_SPEED_EFFECT.SINGULARITY_MILESTONE)) {
-    factor = factor.mul(SingularityMilestone.gamespeedFromSingularities.effectOrDefault(1));
+    factor = factor.timesEffectOf(SingularityMilestone.gamespeedFromSingularities);
   }
 
   if (effects.includes(GAME_SPEED_EFFECT.TIME_GLYPH)) {
-    factor = factor.mul(getAdjustedGlyphEffect("timespeed"));
-    factor = factor.pow(getAdjustedGlyphEffect("effarigblackhole"));
+    factor = factor
+      .timesEffectOf(GlyphEffects.timespeed.primary)
+      .powEffectOf(GlyphEffects.effarigblackhole.primary);
   }
 
   if (Enslaved.isStoringGameTime && effects.includes(GAME_SPEED_EFFECT.TIME_STORAGE)) {
@@ -628,16 +625,15 @@ function updatePrestigeRates() {
 }
 
 function passivePrestigeGen() {
-  let eternitiedGain = 0;
+  let eternitiedGain = DC.D0;
   if (RealityUpgrade(14).isBought) {
     eternitiedGain = DC.D1.timesEffectsOf(
       Achievement(113),
       RealityUpgrade(3),
-      RealityUpgrade(14)
+      RealityUpgrade(14),
+      GlyphEffects.timeetermult.primary,
     );
-    eternitiedGain = Decimal.times(eternitiedGain, getAdjustedGlyphEffect("timeetermult"));
-    eternitiedGain = new Decimal(Time.deltaTime).times(
-      Decimal.pow(eternitiedGain, AlchemyResource.eternity.effectValue));
+    eternitiedGain = Time.deltaTime.times(eternitiedGain.powEffectOf(AlchemyResource.eternity));
     player.reality.partEternitied = player.reality.partEternitied.plus(eternitiedGain);
     Currency.eternities.add(player.reality.partEternitied.floor());
     player.reality.partEternitied = player.reality.partEternitied.sub(player.reality.partEternitied.floor());
@@ -651,9 +647,9 @@ function passivePrestigeGen() {
       infGen = infGen.timesEffectsOf(
         RealityUpgrade(5),
         RealityUpgrade(7),
-        Ra.unlocks.continuousTTBoost.effects.infinity
+        Ra.unlocks.continuousTTBoost.effects.infinity,
+        GlyphEffects.infinityinfmult.primary,
       );
-      infGen = infGen.times(getAdjustedGlyphEffect("infinityinfmult"));
     }
     if (RealityUpgrade(11).isBought) {
       infGen = infGen.plus(RealityUpgrade(11).effectValue.times(Time.deltaTime));
@@ -812,8 +808,8 @@ export function getTTPerSecond() {
 
   // Glyph TT generation
   const glyphTT = Teresa.isRunning || Enslaved.isRunning || Pelle.isDoomed
-    ? 0
-    : new Decimal(getAdjustedGlyphEffect("dilationTTgen")).times(ttMult);
+    ? DC.D0
+    : ttMult.timesEffectOf(GlyphEffects.dilationTTgen.primary);
 
   // Dilation TT generation
   const dilationTT = DilationUpgrade.ttGenerator.isBought

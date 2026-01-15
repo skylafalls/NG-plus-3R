@@ -47,7 +47,7 @@ export default {
     </div>
     <EPMultiplierButton />
     <div>
-      {{ i18n("eter", "costjump", [formatX(5), format(costIncreases[0]), formatPostBreak(costIncreases[1], 2), formatPostBreak(costIncreases[1])]) }}
+      {{ i18n("eter", "costjump", [formatX(5), format(costIncreases[0]), formatPostBreak(costIncreases[1], 2), formatPostBreak(costIncreases[2])]) }}
       <br>
       {{ i18n("eter", "costjumpb", [formatPostBreak(costIncreases[3])]) }}
     </div>

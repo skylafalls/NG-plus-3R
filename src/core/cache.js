@@ -1,4 +1,4 @@
-class Lazy {
+export class Lazy {
   constructor(getValue) {
     this._getValue = getValue;
     Lazy.registerLazy(this);
@@ -42,7 +42,6 @@ class Lazy {
     return this;
   }
 }
-window.Lazy = Lazy;
 
 function highestInArray(array, isNum = false) {
   let i = 0;

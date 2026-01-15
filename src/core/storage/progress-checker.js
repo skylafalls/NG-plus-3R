@@ -10,9 +10,7 @@ class GameProgressState extends GameMechanicState {
   }
 
   get suggestedResource() {
-    return typeof this.config.suggestedResource === "function"
-      ? this.config.suggestedResource()
-      : this.config.suggestedResource;
+    return handlePossibleFunction(this.config.suggestedResource);
   }
 }
 
@@ -29,7 +27,7 @@ class CatchupResource extends GameMechanicState {
   }
 
   get description() {
-    return typeof this.config.description === "function" ? this.config.description() : this.config.description;
+    return handlePossibleFunction(this.config.description);
   }
 }
 

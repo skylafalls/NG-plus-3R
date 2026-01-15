@@ -65,7 +65,7 @@ export default {
 
 <template>
   <ResetModal
-    :header="exitingEC ? topLabelRegular : topLabelEC"
+    :header="exitingEC ? topLabelEC : topLabelRegular"
     :message="message"
     :gained-resources="gainedEPOnEternity"
     :starting-resources="startWithIP"

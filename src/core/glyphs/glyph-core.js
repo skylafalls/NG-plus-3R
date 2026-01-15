@@ -1,4 +1,4 @@
-import { GlyphInfo } from "../secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../glyphs/glyph-types";
 
 export const orderedEffectList = ["powerpow", "infinitypow", "replicationpow", "timepow",
   "dilationpow", "timeshardpow", "powermult", "powerdimboost", "powerbuy10",
@@ -22,9 +22,6 @@ function getGlyphTypes() {
 }
 
 export const generatedTypes = Object.keys(getGlyphTypes());
-
-// eslint-disable-next-line no-unused-vars
-export const GlyphEffectOrder = orderedEffectList.mapToObject(e => e, (e, idx) => idx);
 
 export function rarityToStrength(x) {
   return new Decimal(x).div(40).add(1);
@@ -73,10 +70,7 @@ export const Glyphs = {
     return this.inventory.filter((e, idx) => e === null && idx >= this.protectedSlots).length;
   },
   get activeSlotCount() {
-    if (Pelle.isDoomed) {
-      if (PelleRifts.vacuum.milestones[0].canBeApplied) return 1;
-      return 0;
-    }
+    if (Pelle.isDoomed) return PelleRifts.vacuum.milestones[0].effectOrDefault(0);
     return 3 + (Effects.sum(RealityUpgrade(9), RealityUpgrade(24))).toNumber();
   },
   get protectedSlots() {
@@ -551,8 +545,8 @@ export const Glyphs = {
     function hasSomeBetterEffects(glyphA, glyphB, comparedEffects) {
       for (const effect of comparedEffects) {
         const c = effect.compareValues(
-          effect.effect(glyphA.level, glyphA.strength),
-          effect.effect(glyphB.level, glyphB.strength));
+          effect.primary.effectValueForInput(glyphA.level, glyphA.strength),
+          effect.primary.effectValueForInput(glyphB.level, glyphB.strength));
         // If the glyph in question is better in even one effect, it passes this comparison
         if (c > 0) return true;
       }
@@ -563,7 +557,6 @@ export const Glyphs = {
         g.type === glyph.type &&
         g.id !== glyph.id &&
         (g.level.gte(glyph.level) || g.strength.gte(glyph.strength)) &&
-        // eslint-disable-next-line eqeqeq
         (glyph.effects.every(el => g.effects.includes(el)))
       );
     let compareThreshold = ["effarig", "reality"].includes(glyph.type) ? 1 : 5;
@@ -675,7 +668,10 @@ export const Glyphs = {
     return DC.BEMAX;
   },
   get instabilityThreshold() {
-    return DC.E3.add(getAdjustedGlyphEffect("effarigglyph")).add(ImaginaryUpgrade(7).effectOrDefault(0));
+    return DC.E3.plusEffectsOf(
+      GlyphEffects.effarigglyph.primary,
+      ImaginaryUpgrade(7)
+    );
   },
   get hyperInstabilityThreshold() {
     return this.instabilityThreshold.add(3000);
@@ -774,13 +770,8 @@ export const Glyphs = {
   },
   // Adds the "excess effects" (guarenteed effects assuming conditions are met)
   addGuarenteedEffects(glyph) {
-    if (!GlyphInfo[glyph.type].excessEffects) return;
-    for (let i = 0; i < GlyphInfo[glyph.type].excessEffects().length; i++) {
-      if (GlyphInfo[glyph.type].excessEffects()[i][0])
-        glyph.effects = glyph.effects.concat(GlyphInfo[glyph.type].excessEffects()[i].slice(1));
-    }
-    // Remove duplicates (if any)
-    glyph.effects = [...new Set(glyph.effects)];
+    if (GlyphInfo[glyph.type].excessEffects.length < 1) return;
+    glyph.effects = glyph.effects.concat(GlyphInfo[glyph.type].excessEffects).removeDuplicates();
   },
   swapIntoActive(glyph, targetSlot) {
     this.removeFromInventory(glyph);

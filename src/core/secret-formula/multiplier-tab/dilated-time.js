@@ -48,9 +48,9 @@ export const DT = {
   glyph: {
     name: "Glyph Effects",
     multValue: () => {
-      const dtMult = getAdjustedGlyphEffect("dilationDT").times(Pelle.specialGlyphEffect.dilation);
+      const dtMult = DC.D1.timesEffectsOf(GlyphEffects.dilationDT.primary, GlyphInfo.dilation.pelleEffect);
       const repliDT = Replicanti.areUnlocked
-        ? Math.clampMin(Decimal.log10(Replicanti.amount) * getAdjustedGlyphEffect("replicationdtgain"), 1)
+        ? Replicanti.amount.log10().timesEffectOf(GlyphEffects.replicationdtgain.primary).clampMin(1)
         : DC.D1;
       return dtMult.times(repliDT);
     },

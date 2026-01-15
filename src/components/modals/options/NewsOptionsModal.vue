@@ -152,7 +152,7 @@ export default {
     <ModalOptionsToggleButton
       v-model="includeAnimated"
       class="o-primary-btn o-primary-btn--option-wide"
-      @text="aniEff"
+      :text="aniEff"
     />
   </ModalWrapperOptions>
 </template>

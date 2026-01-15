@@ -135,7 +135,7 @@ export default {
         <EffectDisplay
           v-if="completions < 5"
           :config="nextRewardConfig"
-          :label="next()"
+          :label="next"
           :ignore-capped="true"
         />
       </span>

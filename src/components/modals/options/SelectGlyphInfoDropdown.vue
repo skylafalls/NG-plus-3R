@@ -11,6 +11,7 @@ export const GlyphInfoVue = {
   },
   labels: () => i18n("modal", "selectGlyphLabels").split("$")
 };
+
 export default {
   name: "SelectGlyphInfoDropdown",
   computed: {

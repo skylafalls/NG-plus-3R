@@ -14,25 +14,22 @@ class DimBoostRequirement {
 
 export class DimBoost {
   static get power() {
-    if (NormalChallenge(8).isRunning) {
-      return DC.D1;
-    }
+    if (NormalChallenge(8).isRunning) return DC.D1;
 
-    let boost = new Decimal(Effects.max(
+    let boost = Effects.max(
       2,
       InfinityUpgrade.dimboostMult,
       InfinityChallenge(7).reward,
       InfinityChallenge(7),
       TimeStudy(81)
-    ))
-      .timesEffectsOf(
-        TimeStudy(83),
-        TimeStudy(231),
-        Achievement(117),
-        Achievement(142),
-        GlyphEffect.dimBoostPower,
-        PelleRifts.recursion.milestones[0]
-      ).powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
+    ).timesEffectsOf(
+      TimeStudy(83),
+      TimeStudy(231),
+      Achievement(117),
+      Achievement(142),
+      GlyphEffects.powerdimboost.primary,
+      PelleRifts.recursion.milestones[0]
+    ).powEffectOf(InfinityUpgrade.dimboostMult.chargedEffect);
     if (GlyphAlteration.isAdded("effarig")) boost = boost.pow(getSecondaryGlyphEffect("effarigforgotten"));
     return boost;
   }

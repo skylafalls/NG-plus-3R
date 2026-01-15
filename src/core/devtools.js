@@ -25,12 +25,12 @@ dev.multiplyEverythingBy = function(amount) {
   amount = new Decimal(amount);
   const numAmnt = amount.min(Number.MAX_VALUE).toNumber();
   Object.keys(player).forEach(key => {
-    if (typeof player[key] === "number") player[key] *= numAmnt;
-    if (player[key] instanceof Decimal && Decimal.isFinite(player[key])) player[key] = player[key].times(amount);
-    if (typeof player[key] === "object" && !(player[key] instanceof Decimal)) {
+    if (isNumber(player[key])) player[key] *= numAmnt;
+    if (isDecimal(player[key]) && Decimal.isFinite(player[key])) player[key] = player[key].times(amount);
+    if (typeof player[key] === "object" && !isDecimal(player[key])) {
       Object.keys(player[key]).forEach(key2 => {
-        if (typeof player[key][key2] === "number") player[key][key2] *= numAmnt;
-        if (player[key][key2] instanceof Decimal) player[key][key2] = player[key][key2].times(amount);
+        if (isNumber(player[key][key2])) player[key][key2] *= numAmnt;
+        if (isDecimal(player[key][key2])) player[key][key2] = player[key][key2].times(amount);
       });
     }
   });
@@ -48,8 +48,8 @@ dev.barrelRoll = function() {
   FullScreenAnimationHandler.display("a-barrel-roll", 5);
 };
 
-dev.spin3d = function() {
-  if (document.body.style.animation === "") document.body.style.animation = "a-spin3d 3s infinite";
+dev.spin3d = function(len = 3) {
+  if (document.body.style.animation === "") document.body.style.animation = `a-spin3d ${len}s infinite`;
   else document.body.style.animation = "";
 };
 
@@ -152,7 +152,7 @@ dev.removeAch = function(name) {
     for (const achievement of allAchievements) achievement.lock();
     return "removed all achievements";
   }
-  if (typeof (name) === "number") return Achievement(name).lock();
+  if (isNumber(name)) return Achievement(name).lock();
   if (name.startsWith("r")) return Achievement(parseInt(name.slice(1), 10)).lock();
   if (name.startsWith("s")) return SecretAchievement(parseInt(name.slice(1), 10)).lock();
   return "failed to delete achievement";
@@ -267,165 +267,7 @@ dev.presentCelestialQuotes = function(celestial) {
   Quotes[celestial].all.forEach(x => x.present());
 };
 
-// This doesn't check everything but hopefully it gets some of the more obvious ones.
-dev.testReplicantiCode = function(singleId, useDebugger = false) {
-  const situationLists = [
-    [
-      function() {
-        player.infinities = DC.E12;
-        player.celestials.effarig.unlockBits = 64;
-      }
-    ],
-    [
-      function() {
-        player.replicanti.interval = 1;
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(33);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(62);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(131);
-      },
-      function() {
-        player.timestudy.studies.push(132);
-      },
-      function() {
-        player.timestudy.studies.push(133);
-      },
-      function() {
-        player.timestudy.studies.push(131, 132, 133);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(192);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(213);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(225);
-      }
-    ],
-    [
-      function() {
-        player.timestudy.studies.push(226);
-      }
-    ],
-    [
-      function() {
-        player.achievementBits[8] |= 16;
-      }
-    ],
-    [
-      function() {
-        player.achievementBits[12] |= 8;
-      }
-    ],
-    [
-      function() {
-        player.achievementBits[12] |= 128;
-      }
-    ],
-    [
-      function() {
-        player.reality.perks = new Set([32]);
-      }
-    ],
-    [
-      function() {
-        Autobuyer.replicantiGalaxy.isActive = true;
-      }
-    ],
-    [
-      function() {
-        Replicanti.galaxies.isPlayerHoldingR = true;
-      }
-    ],
-    [
-      function() {
-        player.replicanti.boughtGalaxyCap = 100;
-      },
-      function() {
-        player.replicanti.boughtGalaxyCap = 100;
-        player.replicanti.galaxies = 50;
-      }
-    ],
-    [
-      function() {
-        player.reality.upgReqs = (1 << 6);
-        player.reality.upgradeBits = 64;
-      }
-    ]
-  ];
-  const situationCount = situationLists.map(x => x.length + 1).reduce((x, y) => x * y);
-  const resultList = [];
-  const runSituation = function(id) {
-    Replicanti.galaxies.isPlayerHoldingR = false;
-    GameStorage.loadPlayerObject(Player.defaultStart);
-    player.infinities = DC.D1;
-    player.infinityPoints = DC.E150;
-    Replicanti.unlock();
-    player.replicanti.chance = 1;
-    for (let i = 0; i < situationLists.length; i++) {
-      const div = situationLists.slice(0, i).map(x => x.length + 1).reduce((x, y) => x * y, 1);
-      // eslint-disable-next-line no-empty-function
-      const situation = [() => {}].concat(situationLists[i])[Math.floor(id / div) % (situationLists[i].length + 1)];
-      situation();
-    }
-    function doReplicantiTicks() {
-      for (let j = 0; j <= 5; j++) {
-        replicantiLoop(Math.pow(10, j));
-        resultList.push(Notation.scientific.formatDecimal(Replicanti.amount, 5, 5));
-        resultList.push(player.replicanti.galaxies);
-        resultList.push(Replicanti.galaxies.total);
-      }
-    }
-    doReplicantiTicks();
-    player.antimatter = DC.E309;
-    player.records.thisInfinity.maxAM = DC.E309;
-    bigCrunchReset();
-    doReplicantiTicks();
-  };
-  if (singleId === undefined) {
-    const total = 4000;
-    const p = 10007;
-    if (total * p < situationCount) {
-      throw new Error("Prime p is not large enough to go through all situations.");
-    }
-    for (let i = 0; i < total; i++) {
-      const actual = i * p % situationCount;
-      if (i % 100 === 0) {
-        console.log(`Considering situation #${i}/${total} (${actual})`);
-      }
-      runSituation(actual);
-    }
-  } else {
-    runSituation(singleId);
-  }
-  const hash = sha512_256(resultList.toString());
-  console.log(hash);
-  if (useDebugger) {
-    // eslint-disable-next-line no-debugger
-    debugger;
-  }
-  return hash;
-};
-
-dev.testGlyphs = function(config) {
+dev.testGlyphs = function(config = {}) {
   const glyphLevel = config.glyphLevel || 6500;
   const duration = config.duration || 4000;
   let glyphId = Date.now();
@@ -433,13 +275,13 @@ dev.testGlyphs = function(config) {
   const makeGlyph = (type, effects) => ({
     type,
     level: glyphLevel,
-    strength: 3.5,
+    strength: new Decimal(3.5),
     rawLevel: glyphLevel,
     idx: null,
     id: glyphId++,
-    effects: makeGlyphEffectBitmask(effects),
+    effects,
   });
-  const makeAllEffectGlyph = type => makeGlyph(type, GlyphTypes[type].effects.map(e => e.id));
+  const makeAllEffectGlyph = type => makeGlyph(type, GlyphInfo[type].allEffects.map(e => e.id));
   const effarigGlyphs = [
     makeGlyph("effarig", ["effarigantimatter", "effarigdimensions", "effarigforgotten", "effarigblackhole"]),
     makeGlyph("effarig", ["effarigantimatter", "effarigdimensions", "effarigforgotten", "effarigachievement"]),
@@ -470,22 +312,24 @@ dev.testGlyphs = function(config) {
     if (glyph.type === "effarig") {
       return effarigGlyphs.findIndex(e => e.id === glyph.id).toString();
     }
-    return GLYPH_SYMBOLS[glyph.type];
+    return GlyphInfo[glyph.type].regularGlyphSymbol;
   }
   function padString(s, length, before = false) {
-    if (s.length >= length) return s;
-    return before ? (" ").repeat(length - s.length) + s : s + (" ").repeat(length - s.length);
+    if (Decimal.gte(s.length, length)) return s;
+    return before
+      ? (" ").repeat(Decimal.sub(length, s.length).toNumber()) + s
+      : s + (" ").repeat(Decimal.sub(length, s.length).toNumber());
   }
   function finishTrial(index) {
     const done = padString(`${Math.floor(100 * (index + 1) / glyphSets.length)}%`, 4, true);
     const rm = padString(Currency.realityMachines.cappedGain.toPrecision(2), 9);
-    const gl = padString(gainedGlyphLevel().actualLevel, 4);
+    const gl = padString(gainedGlyphLevel().actualLevel.toString(), 4);
     const ep = padString(player.eternityPoints.exponent.toString(), 6);
     const ip = padString(player.infinityPoints.exponent.toString(), 8);
-    const am = padString(Currency.antimatter.exponent.toString(), 12);
+    const am = padString(Currency.antimatter.value.exponent.toString(), 12);
     const dimboosts = DimBoost.purchasedBoosts;
-    const galaxies = Replicanti.galaxies.total + player.galaxies + player.dilation.totalTachyonGalaxies;
-    const glyphData = glyphSets[index].map(glyphToShortString).sum();
+    const galaxies = Replicanti.galaxies.total.add(player.galaxies).add(player.dilation.totalTachyonGalaxies);
+    const glyphData = glyphSets[index].map(glyphToShortString).join("");
     console.log(`${done} ${glyphData} rm=${rm} gl=${gl} ep=${ep} ip=${ip} am=${am} ` +
       `dimboosts=${dimboosts} galaxies=${galaxies}`);
     GameStorage.offlineEnabled = false;
@@ -577,13 +421,8 @@ dev.beTests.nanFuck = function() {
   GameStorage.save();
 };
 
-dev.beTests.prepare = function(completeAllChallenges = false) {
-  if (completeAllChallenges) dev.beTests.completeChalleges.all();
-  else dev.beTests.completeChalleges.normal();
-
-  dev.beTests.consecutiveInfinities(new Decimal("1e350"));
+dev.beTests.prepare = function() {
   dev.beTests.speed();
   GameStorage.import("blob");
   Notation.scientific.setAsCurrent();
-  Achievement(61).unlock();
 };

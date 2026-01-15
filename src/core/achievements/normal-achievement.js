@@ -1,4 +1,5 @@
 import { GameMechanicState } from "../game-mechanics";
+import { Lazy } from "../cache";
 
 class AchievementState extends GameMechanicState {
   constructor(config) {

@@ -123,8 +123,6 @@ export class GalaxyGeneratorUpgrade extends RebuyableMechanicState {
     player.celestials.pelle.rebuyables[this.id] = value;
   }
 
-  get isCustomEffect() { return true; }
-
   get effectValue() {
     return this.config.effect(this.boughtAmount);
   }

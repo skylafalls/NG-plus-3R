@@ -37,6 +37,7 @@ export const AutoGlyphProcessor = {
   // higher numbers correspond to better glyphs. This value is also displayed on tooltips when it depends
   // on only the glyph itself and not external factors.
   filterValue(glyph) {
+    const nogen = ["reality"];
     const typeCfg = this.types[glyph.type];
     if (["companion", "reality"].includes(glyph.type)) return new Decimal(Infinity);
     if (glyph.type === "cursed") return new Decimal(-Infinity);
@@ -44,7 +45,7 @@ export const AutoGlyphProcessor = {
       case AUTO_GLYPH_SCORE.LOWEST_SACRIFICE:
         // Picked glyphs are never kept in this mode. Sacrifice cap needs to be checked since effarig caps
         // at a lower value than the others and we don't want to uselessly pick that to sacrifice all the time
-        return player.reality.glyphs.sac[glyph.type].gte(GlyphInfo[glyph.type].sacrificeInfo.cap)
+        return player.reality.glyphs.sac[glyph.type].gte(GlyphInfo[glyph.type].sacrifice.cap)
           ? new Decimal(-Infinity)
           : player.reality.glyphs.sac[glyph.type].mul(-1);
       case AUTO_GLYPH_SCORE.EFFECT_COUNT:
@@ -56,13 +57,14 @@ export const AutoGlyphProcessor = {
         // Value is equal to rarity but minus 200 for each missing effect. This makes all glyphs which don't
         // satisfy the requirements have a negative score and generally the worse a glyph misses the requirements,
         // the more negative of a score it will have
+        if (nogen.includes(glyph.type)) return strengthToRarity(glyph.strength);
         const glyphEffectCount = glyph.effects.length;
         if (glyphEffectCount < typeCfg.effectCount) {
           return strengthToRarity(glyph.strength).sub(200 * (typeCfg.effectCount - glyphEffectCount));
         }
         // The missing effect count can be gotten by taking the full filter bitmask, removing only the bits which are
         // present on both the filter and the glyph, and then counting the bits up
-        const missingEffects = countValuesFromBitmask(typeCfg.specifiedMask - (typeCfg.specifiedMask & glyph.effects));
+        const missingEffects = [...typeCfg.specifiedMask, ...glyph.effects].removeDuplicates().length - glyph.effects.length;
         return strengthToRarity(glyph.strength).sub(200 * missingEffects);
       }
       case AUTO_GLYPH_SCORE.EFFECT_SCORE: {

@@ -1,6 +1,4 @@
 <script>
-import { GlyphInfo } from "../../../core/secret-formula/index";
-
 import TypeSacrifice from "./TypeSacrifice";
 
 

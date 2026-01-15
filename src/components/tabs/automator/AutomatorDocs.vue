@@ -148,7 +148,6 @@ export default {
     onGameLoad() {
       this.updateCurrentScriptID();
       this.updateScriptList();
-      this.fixAutomatorTypeDocs();
     },
     updateScriptList() {
       this.scripts = Object.values(player.reality.automator.scripts).map(script => ({

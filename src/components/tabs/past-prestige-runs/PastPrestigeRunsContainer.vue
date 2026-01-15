@@ -8,13 +8,13 @@ function averageRun(allRuns) {
   const longestRow = allRuns.map(r => r.length).max();
   const avgAttr = [];
   for (let index = 0; longestRow.gt(index); index++) {
-    if (typeof runs[0][index] === "string") {
+    if (isString(runs[0][index])) {
       avgAttr.push("");
       continue;
     }
-    const isNumber = typeof runs[0][index] === "number";
-    const total = runs.map(run => run[index]).reduce(isNumber ? Number.sumReducer : Decimal.sumReducer);
-    avgAttr.push(isNumber ? total / runs.length : Decimal.div(total, runs.length));
+    const isNum = isNumber(runs[0][index]);
+    const total = runs.map(run => run[index]).reduce(isNum ? Number.sumReducer : Decimal.sumReducer);
+    avgAttr.push(isNum ? total / runs.length : Decimal.div(total, runs.length));
   }
   return avgAttr;
 }

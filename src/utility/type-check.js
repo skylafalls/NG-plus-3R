@@ -1,15 +1,5 @@
-export function isNumber(value) {
-  return typeof value === "number";
-}
-
-export function isString(value) {
-  return typeof value === "string";
-}
-
-export function isFunction(value) {
-  return typeof value === "function";
-}
-
-export function isDecimal(value) {
-  return value instanceof Decimal;
-}
+window.isNumber = value => typeof value === "number";
+window.isDecimal = value => value instanceof Decimal;
+window.isConstant = value => isNumber(value) || isDecimal(value);
+window.isFunction = value => typeof value === "function";
+window.isString = value => typeof value === "string";

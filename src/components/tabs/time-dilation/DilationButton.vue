@@ -12,7 +12,8 @@ export default {
       tachyonGain: new Decimal(),
       remnantRequirement: 0,
       showRequirement: false,
-      creditsClosed: false
+      creditsClosed: false,
+      canUnlock: false,
     };
   },
   computed: {
@@ -43,7 +44,7 @@ export default {
     },
     dilate() {
       if (this.creditsClosed) return;
-      if (!this.sUnlocked && this.canUnlock) this.unlock();
+      if (!this.isUnlocked && this.canUnlock) this.unlock();
       startDilatedEternityRequest();
     },
     unlock() {
@@ -70,7 +71,7 @@ export default {
     <span v-else-if="canEternity && hasGain">
       {{ disableText }}
       <br>
-      {{ i18n("eter", "tpgain", [quantify(i18n("eter", "tp"), tachyonGain, 2, 1)]) }}.
+      {{ i18n("eter", "tpgain", [quantify(i18n("eter", "tp"), tachyonGain, 2, 1)]) }}
     </span>
     <span v-else-if="hasGain">
       {{ disableText }}

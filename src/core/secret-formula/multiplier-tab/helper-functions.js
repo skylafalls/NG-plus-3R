@@ -28,8 +28,9 @@ export const MultiplierTabHelper = {
       Achievement(178),
       InfinityChallenge(5).reward,
       PelleUpgrade.galaxyPower,
-      PelleRifts.decay.milestones[1]
-    ).mul(Pelle.specialGlyphEffect.power);
+      PelleRifts.decay.milestones[1],
+      GlyphInfo.power.pelleEffect
+    );
   },
 
   // Helper method for galaxies and tickspeed, broken up as contributions of tickspeed*log(perGalaxy) and galaxyCount to
@@ -53,7 +54,7 @@ export const MultiplierTabHelper = {
       const logBase = Decimal.log10(baseMult);
 
       const perGalaxy = effects.mul(0.02);
-      effectiveCount = effectiveCount.mul(Pelle.specialGlyphEffect.power);
+      effectiveCount = effectiveCount.timesEffectOf(GlyphInfo.power.pelleEffect);
 
       tickFrac = Tickspeed.totalUpgrades.mul(logBase);
       galFrac = Decimal.log10(Decimal.max(0.01, new Decimal(1).div(baseMult).sub(effectiveCount.mul(perGalaxy))))
@@ -63,7 +64,7 @@ export const MultiplierTabHelper = {
       effectiveCount = effectiveCount.mul(effects);
       effectiveCount = effectiveCount.mul(getAdjustedGlyphEffect("realitygalaxies")
         .mul(ImaginaryUpgrade(9).effectOrDefault(0).add(1)));
-      effectiveCount = effectiveCount.mul(Pelle.specialGlyphEffect.power);
+      effectiveCount = effectiveCount.timesEffectOf(GlyphInfo.power.pelleEffect);
 
       // These all need to be framed as INCREASING x/sec tick rate (ie. all multipliers > 1, all logs > 0)
       const baseMult = new Decimal(0.965 ** 2).div(NormalChallenge(5).isRunning ? 0.83 : 0.8);

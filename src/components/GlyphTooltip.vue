@@ -1,5 +1,5 @@
 <script>
-import { GlyphInfo } from "../core/secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../core/glyphs/glyph-types";
 
 import GlyphTooltipEffect from "@/components/GlyphTooltipEffect";
 
@@ -201,9 +201,11 @@ export default {
   },
   methods: {
     update() {
-      this.showChaosText = Pelle.specialGlyphEffect.isUnlocked;
+      this.showChaosText = Pelle.specialGlyphEffectInfo.isUnlocked;
       if (this.showChaosText) {
-        this.chaosDescription = Pelle.getSpecialGlyphEffectDescription(this.type);
+        this.chaosDescription = GlyphInfo[this.type].pelleEffect === undefined
+          ? "You cannot equip this Glyph while Doomed!"
+          : GlyphInfo[this.type].pelleEffect.descriptionForEffectInput(this.level, this.strength);
       }
     },
     touchStart() {
@@ -227,7 +229,7 @@ export default {
       return Theme.current().isDark() ? "#cccccc" : "black";
     },
     sacrificeText() {
-      if (!GlyphInfo[this.type].hasSacrifice) return "";
+      if (GlyphInfo[this.type].sacrifice === undefined) return "";
       const powerText = `${format(this.sacrificeReward, 2, 2)}`;
       const isCurrentAction = this.currentAction === "sacrifice";
       return `<span style="font-weight: ${isCurrentAction ? "bold" : ""};">

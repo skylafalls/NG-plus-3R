@@ -1,4 +1,4 @@
-import { isDecimal } from "../utility/type-check";
+import { Lazy } from "./cache";
 
 class BlackHoleUpgradeState {
   constructor(config) {

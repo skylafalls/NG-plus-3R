@@ -62,10 +62,11 @@ export const EP = {
   },
   glyph: {
     name: "Equipped Glyphs",
-    multValue: () => DC.D1
-      .timesEffectsOf(Pelle.isDoomed ? null : GlyphEffect.epMult)
-      .times(Pelle.specialGlyphEffect.time),
-    powValue: () => (GlyphAlteration.isAdded("time") ? getSecondaryGlyphEffect("timeEP") : 1),
+    multValue: () => DC.D1.timesEffectsOf(
+      GlyphEffects.timeEP.primary,
+      GlyphInfo.time.pelleEffect,
+    ),
+    powValue: () => (GlyphAlteration.isAdded("time") ? GlyphEffects.timeEP.secondary.effectValue : 1),
     isActive: () => PlayerProgress.realityUnlocked(),
     icon: MultiplierTabIcons.GENERIC_GLYPH,
   },

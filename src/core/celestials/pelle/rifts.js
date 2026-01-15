@@ -32,8 +32,7 @@ class RiftMilestoneState extends GameMechanicState {
   }
 
   get description() {
-    const d = this.config.description;
-    return typeof d === "function" ? d() : d;
+    return handlePossibleFunction(this.config.description);
   }
 
   get formattedEffect() {
@@ -120,7 +119,6 @@ class RiftState extends GameMechanicState {
     return [base, ...additional];
   }
 
-  get isCustomEffect() { return true; }
 
   get effectValue() {
     return this.config.effect(this.config.percentageToFill(this.percentage));

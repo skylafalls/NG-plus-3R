@@ -1,4 +1,3 @@
-export * from "./glyph-effects";
 export * from "./player";
 
 export * from "./performance-stats";
@@ -54,6 +53,7 @@ export * from "./glyphs/glyph-cosmetics";
 export * from "./glyphs/glyph-effects";
 export * from "./glyphs/glyph-generator";
 export * from "./glyphs/glyph-purge-handler";
+export * from "./glyphs/glyph-types";
 export * from "./glyphs/auto-glyph-processor";
 
 export * from "./time";

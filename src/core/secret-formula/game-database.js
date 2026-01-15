@@ -1,4 +1,4 @@
-import { multiplierTabTree, multiplierTabValues } from "./multiplier-tab";
+// import { multiplierTabTree, multiplierTabValues } from "./multiplier-tab";
 
 import { achievements } from "./achievements";
 import { awayProgressTypes } from "./away-progress-types";
@@ -33,15 +33,15 @@ export const GameDatabase = {
   eternity,
   h2p,
   infinity,
-  multiplierTabTree,
-  multiplierTabValues,
+  // multiplierTabTree,
+  // multiplierTabValues,
   news,
   progressStages,
   reality,
   sidebarResources,
   speedrunMilestones,
   tabNotifications,
-  tabs
+  tabs,
 };
 
 window.GameDatabase = GameDatabase;
@@ -54,11 +54,11 @@ window.mapGameData = function mapGameData(gameData, mapFn) {
   return result;
 };
 
-window.mapGameDataToObject = function mapGameDataToObject(gameData, mapFun) {
+window.mapGameDataToObject = function mapGameDataToObject(gameData, mapFn) {
   const array = Object.entries(gameData);
   const out = {};
   for (let idx = 0; idx < array.length; idx++) {
-    out[array[idx][0]] = mapFun(array[idx][1]);
+    out[array[idx][0]] = mapFn(array[idx][1]);
   }
   return {
     all: Object.values(out),

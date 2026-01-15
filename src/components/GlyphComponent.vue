@@ -415,8 +415,8 @@ export default {
     glyphEffects() {
       // Get intIDs, then subtract smallest in next code
       if (!this.glyph.effects) return {};
-      const subVal = Object.values(GlyphInfo[this.glyph.type].effects().mapToObject(x => x.intID, x => x.intID)).nMin();
-      const glyphEffects = GlyphInfo[this.glyph.type].effects().filter(e => this.glyph.effects.includes(e.id));
+      const subVal = GlyphInfo[this.glyph.type].effects.map(x => x.intID).nMin();
+      const glyphEffects = GlyphInfo[this.glyph.type].effects.filter(e => this.glyph.effects.includes(e.id));
       // eslint-disable-next-line consistent-return
       return glyphEffects.mapToObject(x => x.intID - subVal, x => x.id);
     },
@@ -670,7 +670,7 @@ export default {
     effectIconPos(id) {
       // Place dots clockwise starting from the bottom left
       // eslint-disable-next-line max-len
-      let numOfEffects = GlyphInfo[this.glyph.type].effects().length;
+      let numOfEffects = GlyphInfo[this.glyph.type].effects.length;
       if (numOfEffects > 6) numOfEffects += 1;
       // Take the smallest power of 2, greater than the number of effects
       const angle = (Math.PI / (numOfEffects / 2)) * (parseInt(id, 10) + (numOfEffects / 8));

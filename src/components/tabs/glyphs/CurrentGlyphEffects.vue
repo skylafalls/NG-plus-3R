@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     isSoftcapActive() {
-      return this.effects.length && !this.effects.every(e => e.value.capped === false);
+      return this.effects.length && this.effects.some(e => GlyphEffects[e].isEffectCapped === true);
     },
     uniqueGlyphText() {
       if (!this.hasEffarig && !this.hasReality) return "";
@@ -59,7 +59,7 @@ export default {
     showChaosText() {
       return this.pelleChaosEffect.isUnlocked && !this.noEffects;
     },
-    chaosEffect() {
+    chaosEffects() {
       return this.pelleChaosEffect.description;
     },
   },
@@ -80,11 +80,11 @@ export default {
 
       this.logTotalSacrifice = GameCache.logTotalGlyphSacrifice.value;
 
-      this.pelleChaosEffect = Pelle.specialGlyphEffect;
+      this.pelleChaosEffect = Pelle.specialGlyphEffectInfo;
     },
     glyphsChanged() {
-      this.effects = getActiveGlyphEffects();
-      this.effects.sort((a, b) => glyphEffectsOrder.indexOf(a.id) - glyphEffectsOrder.indexOf(b.id));
+      this.effects = getActiveGlyphEffects().map(eff => eff.id);
+      this.effects.sort((a, b) => glyphEffectsOrder.indexOf(a) - glyphEffectsOrder.indexOf(b));
     },
   }
 };
@@ -114,15 +114,19 @@ export default {
     </div>
     <CurrentGlyphEffect
       v-for="effect in effects"
-      :key="effect.id + logTotalSacrifice"
+      :key="effect + logTotalSacrifice"
       :effect="effect"
       :is-colored="isColored"
     />
     <div
       v-if="showChaosText"
-      class="pelle-current-glyph-effects"
     >
-      {{ chaosEffect }}
+      <div
+        v-for="effect in chaosEffects"
+        class="pelle-current-glyph-effects"
+      >
+        {{ effect }}
+      </div>
     </div>
   </div>
 </template>

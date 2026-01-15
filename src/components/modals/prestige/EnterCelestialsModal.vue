@@ -34,8 +34,7 @@ export default {
       return GameDatabase.celestials.descriptions[this.number].effects().split("\n");
     },
     description() {
-      const description = GameDatabase.celestials.descriptions[this.number].description;
-      return description ? description() : "";
+      return handlePossibleFunction(GameDatabase.celestials.descriptions[this.number].description);
     },
     topLabel() {
       return i18n("modal", "celsReality", [this.name]);

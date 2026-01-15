@@ -65,7 +65,7 @@ export default {
       v-else-if="!isBought"
       br
       :config="upgrade.config"
-      :name="ep()"
+      :name="ep"
     />
   </button>
 </template>

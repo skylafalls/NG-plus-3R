@@ -37,11 +37,11 @@ export default {
     effectData() {
       const changes = [];
       for (let index = 0; index < this.currSettings.effectScores.length; index++) {
-        const bitmaskIndex = AutoGlyphProcessor.bitmaskIndexOffset(this.type) + index;
+        const intID = AutoGlyphProcessor.bitmaskIndexOffset(this.type) + index;
         changes.push({
-          bitmaskIndex,
-          oldReq: (this.currSettings.specifiedMask & (1 << bitmaskIndex)) !== 0,
-          newReq: (this.newSettings.specifiedMask & (1 << bitmaskIndex)) !== 0,
+          intID,
+          oldReq: (this.currSettings.specifiedMask & (1 << intID)) !== 0,
+          newReq: (this.newSettings.specifiedMask & (1 << intID)) !== 0,
           oldScore: this.currSettings.effectScores[index],
           newScore: this.newSettings.effectScores[index],
         });
@@ -78,7 +78,7 @@ export default {
       };
     },
     getEffectDesc(effectEntry) {
-      return GlyphEffects.all.find(e => e.bitmaskIndex === effectEntry.bitmaskIndex && e.isGenerated).genericDesc;
+      return GlyphEffects.all.find(e => e.intID === effectEntry.intID && e.isGenerated).genericDesc;
     },
     getTooltip(effectEntry) {
       return i18n("modal", `${effectEntry}FilterTT`);

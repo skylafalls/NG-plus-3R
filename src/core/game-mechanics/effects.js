@@ -1,5 +1,3 @@
-import { isDecimal } from "../../utility/type-check";
-
 export const Effects = {
   /**
    * @param effectSources

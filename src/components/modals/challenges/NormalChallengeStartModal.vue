@@ -30,7 +30,7 @@ export default {
       return i18n("modal", "ncModalRewardText", [this.rewardDescription]);
     },
     condition() {
-      let conditionOfChallenge = this.challenge._config.description;
+      let conditionOfChallenge = this.challenge.config.description;
       if (typeof conditionOfChallenge === "function") {
         conditionOfChallenge = conditionOfChallenge();
       }

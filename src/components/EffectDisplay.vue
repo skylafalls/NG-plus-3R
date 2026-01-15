@@ -1,6 +1,4 @@
 <script>
-import { isDecimal, isFunction, isNumber } from "@/utility";
-
 /* eslint-disable no-empty-function */
 export default {
   name: "EffectDisplay",

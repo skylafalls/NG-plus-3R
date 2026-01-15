@@ -80,9 +80,7 @@ export class InfinityUpgradeState extends SetPurchasableMechanicState {
 }
 
 export function totalIPMult() {
-  if (Effarig.isRunning && Effarig.currentStage === EFFARIG_STAGES.INFINITY) {
-    return DC.D1;
-  }
+  if (Effarig.isRunning && Effarig.currentStage === EFFARIG_STAGES.INFINITY) return DC.D1;
   let ipMult = DC.D1
     .timesEffectsOf(
       TimeStudy(41),
@@ -97,7 +95,7 @@ export function totalIPMult() {
       Achievement(141).effects.ipGain,
       InfinityUpgrade.ipMult,
       DilationUpgrade.ipMultDT,
-      GlyphEffect.ipMult
+      GlyphEffects.infinityIP.primary
     );
   ipMult = ipMult.times(Replicanti.amount.powEffectOf(AlchemyResource.exponential));
   return ipMult;

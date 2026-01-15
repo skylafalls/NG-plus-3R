@@ -8,9 +8,8 @@ export function watchLatestCommit() {
     fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(json => {
-        if (json === undefined) {
-          return;
-        }
+        if (json === undefined) return;
+
         current = current ?? json.sha;
         if (current === json.sha) return;
 

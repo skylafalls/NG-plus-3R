@@ -140,11 +140,8 @@ export default {
       this.mult.copyFrom(replicantiMult());
       this.hasTDMult = DilationUpgrade.tdMultReplicanti.isBought;
       this.multTD.copyFrom(DilationUpgrade.tdMultReplicanti.effectValue);
-      this.hasDTMult = getAdjustedGlyphEffect("replicationdtgain").neq(0) && !Pelle.isDoomed;
-      this.multDT = Decimal.max(
-        Decimal.log10(Replicanti.amount).times(getAdjustedGlyphEffect("replicationdtgain")),
-        1
-      );
+      this.hasDTMult = GlyphEffects.replicationdtgain.primary.effectValue.neq(0) && !Pelle.isDoomed;
+      this.multDT = Decimal.log10(Replicanti.amount).timesEffectOf(GlyphEffects.replicationdtgain.primary).max(1);
       this.hasIPMult = AlchemyResource.exponential.amount.gt(0) && !this.isDoomed;
       this.multIP = Replicanti.amount.powEffectOf(AlchemyResource.exponential);
       this.isUncapped = PelleRifts.vacuum.milestones[1].canBeApplied;

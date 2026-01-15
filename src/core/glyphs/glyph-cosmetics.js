@@ -1,4 +1,4 @@
-import { GlyphInfo } from "../secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../glyphs/glyph-types";
 
 class CosmeticGlyphType {
   constructor(setup, isCosmetic) {
@@ -228,7 +228,7 @@ export const GlyphAppearanceHandler = {
   },
 
   get unlockedSets() {
-    return [...new Set(player.reality.glyphs.cosmetics.unlockedFromNG)];
+    return player.reality.glyphs.cosmetics.unlockedFromNG.removeDuplicates();
   },
   get lockedSets() {
     return Object.keys(GameDatabase.reality.glyphCosmeticSets).filter(set => !this.unlockedSets.includes(set));

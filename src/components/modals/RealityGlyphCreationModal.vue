@@ -23,7 +23,7 @@ export default {
       const realityEffectConfigs = GlyphEffects.all
         .filter(eff => eff.glyphTypes.includes("reality"))
         .sort((a, b) => a.intID - b.intID);
-      const minRealityEffectIndex = realityEffectConfigs.map(cfg => cfg.intID).min();
+      const minRealityEffectIndex = realityEffectConfigs.map(cfg => cfg.intID).nMin();
       this.possibleEffects = realityEffectConfigs
         .map(cfg => [realityGlyphEffectLevelThresholds[cfg.intID - minRealityEffectIndex], cfg.id]);
     },
@@ -41,9 +41,8 @@ export default {
     formatGlyphEffect(effect) {
       if (this.realityGlyphLevel.lt(effect[0])) return i18n("modal", "reqGlX", [formatInt(effect[0])]);
       const config = GlyphEffects[effect[1]];
-      const value = config.effect(this.realityGlyphLevel, rarityToStrength(100));
-      const effectTemplate = config.singleDesc;
-      return effectTemplate.replace("{value}", config.formatEffect(value));
+      const value = config.primary.effectValueForInput(this.realityGlyphLevel);
+      return config.singleDesc.replace("{value}", config.primary.formatEffect(value));
     }
   },
 };

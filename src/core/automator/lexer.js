@@ -389,27 +389,6 @@ for (const token of lexer.lexerDefinition) {
 // We use this while building up the grammar
 export const tokenMap = automatorTokens.mapToObject(e => e.name, e => e);
 
-const automatorCurrencyNames = tokenLists.AutomatorCurrency.map(i => i.$autocomplete.toUpperCase());
-
-export const standardizeAutomatorValues = function(x) {
-  try {
-    if (automatorCurrencyNames.includes(x.toUpperCase())) return x.toUpperCase();
-  } catch {
-    // This only happens if the input is a number or Decimal, in which case we don't attempt to change any formatting
-    // and simply return
-    return x;
-  }
-  for (const i of tokenLists.AutomatorCurrency) {
-    // Check for a match of the full string.
-    if (x.match(i.PATTERN) && x.match(i.PATTERN)[0].length === x.length) {
-      return i.$autocomplete.toUpperCase();
-    }
-  }
-  // If we get to this point, we haven't matched a currency name and instead assume it's a defined constant and
-  // return it without any format changes since these are case-sensitive
-  return x;
-};
-
 // In order to disallow individual words within command key words/phrases, we need to ignore certain patterns (mostly
 // ones with special regex characters), split the rest of them up across all spaces and tabs, and then flatten the
 // final resulting array. Note that this technically duplicates words present in multiple phrases (eg. "pending")

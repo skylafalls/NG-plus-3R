@@ -7,29 +7,26 @@ export default {
       default: true
     },
     effect: {
-      type: Object,
+      type: String,
       required: true
     }
   },
   computed: {
     effectConfig() {
-      return GlyphEffects[this.effect.id];
+      return GlyphEffects[this.effect];
     },
     formatValue() {
       if (this.effectConfig.isDisabledByDoomed) return "";
-      const baseValue = this.effect.value.value;
-      const value1 = this.effectConfig.formatEffect(baseValue);
-      const value2 = this.effectConfig.conversion === undefined
+      const value2 = this.effectConfig.secondary === undefined
         ? ""
-        : this.effectConfig.formatSecondaryEffect(this.effectConfig.conversion(baseValue));
-      const desc = this.effectConfig.totalDesc;
-      return desc
-        .replace("{value}", value1)
+        : this.effectConfig.secondary.formattedEffect;
+      return this.effectConfig.totalDesc
+        .replace("{value}", this.effectConfig.primary.formattedEffect)
         .replace("{value2}", value2);
     },
     textColor() {
       if (!this.isColored) return { };
-      const typeObject = this.effectConfig.id === "timeshardpow"
+      const typeObject = this.effect === "timeshardpow"
         ? CosmeticGlyphTypes.time
         : CosmeticGlyphTypes[this.effectConfig.glyphTypes[0]];
 
@@ -45,7 +42,7 @@ export default {
       };
     },
     valueClass() {
-      return this.effect.value.capped ? "c-current-glyph-effects__effect--capped" : "";
+      return this.effectConfig.isEffectCapped ? "c-current-glyph-effects__effect--capped" : "";
     }
   },
   created() {

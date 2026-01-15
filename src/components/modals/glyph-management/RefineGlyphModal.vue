@@ -27,7 +27,7 @@ export default {
       return Glyphs.findByInventoryIndex(this.idx);
     },
     resource() {
-      return GlyphSacrificeHandler.glyphAlchemyResource(this.glyph);
+      return AlchemyResource[this.glyph.type];
     },
     resourceName() {
       return this.resource.name;

@@ -5,21 +5,12 @@ import { Effect } from "./effect";
  */
 export class GameMechanicState extends Effect {
   constructor(config) {
-    if (!config) {
-      throw new Error("Must specify config for GameMechanicState");
-    }
-    super(config.effect, config.cap, config.effectCondition, config.input);
-    this._config = config;
+    super(config);
     if (config.effects !== undefined) {
       this.effects = {};
       for (const key in config.effects) {
         const nested = config.effects[key];
-        let effect;
-        if (typeof nested === "number" || typeof nested === "function" || nested instanceof Decimal) {
-          effect = new Effect(nested);
-        } else {
-          effect = new Effect(nested.effect, nested.cap, nested.effectCondition, nested.input);
-        }
+        const effect = new Effect(isConstant(nested) || isFunction(nested) ? { effect: nested } : nested);
         Object.defineProperty(effect, "isEffectActive", {
           configurable: false,
           get: () => this.isEffectActive
@@ -27,10 +18,6 @@ export class GameMechanicState extends Effect {
         this.effects[key] = effect;
       }
     }
-  }
-
-  get config() {
-    return this._config;
   }
 
   get id() {

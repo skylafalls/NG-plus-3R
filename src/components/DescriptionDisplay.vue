@@ -1,8 +1,6 @@
 <script>
 import wordShift from "@/core/word-shift";
 
-import { isFunction, isString } from "@/utility";
-
 /* eslint-disable no-empty-function */
 export default {
   name: "DescriptionDisplay",

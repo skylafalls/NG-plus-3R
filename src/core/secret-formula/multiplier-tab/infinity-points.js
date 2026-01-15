@@ -83,7 +83,7 @@ export const IP = {
   },
   glyph: {
     name: "Equipped Glyphs",
-    multValue: () => Pelle.specialGlyphEffect.infinity.times(Pelle.isDoomed ? 1 : getAdjustedGlyphEffect("infinityIP")),
+    multValue: () => DC.D1.timesEffectsOf(GlyphEffects.infinityIP.primary, GlyphInfo.infinity.pelleEffect),
     powValue: () => (GlyphAlteration.isAdded("infinity") ? getSecondaryGlyphEffect("infinityIP") : 1),
     isActive: () => PlayerProgress.realityUnlocked(),
     icon: MultiplierTabIcons.GENERIC_GLYPH,

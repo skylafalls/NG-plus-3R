@@ -142,8 +142,7 @@ export class Modal {
   static sortModalQueue() {
     const modalQueue = ui.view.modal.queue;
     modalQueue.sort((x, y) => y.priority - x.priority);
-    // Filter out multiple instances of the same modal.
-    const singleQueue = [...new Set(modalQueue)];
+    const singleQueue = modalQueue.removeDuplicates();
     ui.view.modal.queue = singleQueue;
     ui.view.modal.current = singleQueue[0];
   }

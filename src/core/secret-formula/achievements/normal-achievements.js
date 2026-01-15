@@ -4,49 +4,41 @@ export const normalAchievements = [
     id: 11,
     get name() { return i18n("ach", "ach11title"); },
     get description() { return i18n("ach", "ach11desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 12,
     get name() { return i18n("ach", "ach12title"); },
     get description() { return i18n("ach", "ach12desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 13,
     get name() { return i18n("ach", "ach13title"); },
     get description() { return i18n("ach", "ach13desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 14,
     get name() { return i18n("ach", "ach14title"); },
     get description() { return i18n("ach", "ach14desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 15,
     get name() { return i18n("ach", "ach15title"); },
     get description() { return i18n("ach", "ach15desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 16,
     get name() { return i18n("ach", "ach16title"); },
     get description() { return i18n("ach", "ach16desc").split("$")[Enslaved.isRunning ? 1 : 0]; },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 17,
     get name() { return i18n("ach", "ach17title"); },
     get description() { return i18n("ach", "ach17desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 18,
     get name() { return i18n("ach", "ach18title"); },
     get description() { return i18n("ach", "ach18desc").split("$")[Enslaved.isRunning ? 1 : 0]; },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 21,
@@ -105,7 +97,6 @@ export const normalAchievements = [
     get name() { return i18n("ach", "ach28title"); },
     get description() { return i18n("ach", "ach28desc", [format(DC.E150)]); },
     checkRequirement: () => AntimatterDimension(1).amount.gte(DC.E150),
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
     get reward() { return i18n("ach", "ach28reward", [formatPercents(0.1)]); },
     effect: 1.1
   },
@@ -734,7 +725,6 @@ export const normalAchievements = [
     id: 115,
     get name() { return i18n("ach", "ach115title"); },
     get description() { return i18n("ach", "ach115desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 116,
@@ -896,7 +886,6 @@ export const normalAchievements = [
     id: 136,
     get name() { return i18n("ach", "ach136title"); },
     get description() { return i18n("ach", "ach136desc"); },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },
   {
     id: 137,

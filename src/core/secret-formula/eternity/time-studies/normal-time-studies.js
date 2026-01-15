@@ -6,9 +6,9 @@ const thisInfinityMult = thisInfinity => {
 };
 const passiveIPMult = () => {
   const isEffarigLimited = Effarig.isRunning && Effarig.currentStage === EFFARIG_STAGES.ETERNITY;
-  const normalValue = Perk.studyPassive.isBought ? 1e50 : 1e25;
+  const normalValue = Perk.studyPassive.isBought ? DC.E50 : DC.E25;
   return isEffarigLimited
-    ? Math.min(normalValue, Effarig.eternityCap.toNumber())
+    ? Decimal.min(normalValue, Effarig.eternityCap)
     : normalValue;
 };
 

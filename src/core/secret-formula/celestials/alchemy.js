@@ -202,10 +202,8 @@ export const alchemyResources = {
     uiOrder: 2,
     unlockedAt: 13,
     description: "increases the yield of Alchemy Reactions",
-    formatEffect(value) {
-      return `Alchemy Reaction efficiency ${formatPercents(0.3)} ➜ ${formatPercents(value, 2, 2)}
-        ${(!Achievement(175).isUnlocked && value.gte(1)) ? " (Capped)" : ""}`;
-    },
+    formatEffect: value => `Alchemy Reaction efficiency ${formatPercents(0.3)} ➜ ${formatPercents(value, 2, 2)}
+        ${(!Achievement(175).isUnlocked && value.gte(1)) ? " (Capped)" : ""}`,
     reagents: [
       {
         resource: ALCHEMY_RESOURCE.EFFARIG,

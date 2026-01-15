@@ -27,7 +27,6 @@ export class DarkMatterDimensionState extends DimensionState {
   }
 
   constructor(tier) {
-    // eslint-disable-next-line no-debugger, max-statements-per-line
     super(() => player.celestials.laitela.dimensions, tier);
   }
 

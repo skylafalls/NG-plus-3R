@@ -171,8 +171,9 @@ export class Galaxy {
       TimeStudy(223),
       TimeStudy(224),
       TimeStudy(302),
-      EternityChallenge(5).reward
-    ).add(GlyphInfo.power.sacrificeInfo.effect());
+      EternityChallenge(5).reward,
+      GlyphInfo.power.sacrifice
+    );
   }
 
   static get type() {

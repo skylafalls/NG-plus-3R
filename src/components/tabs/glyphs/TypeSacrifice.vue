@@ -24,7 +24,7 @@ export default {
       return GlyphInfo[this.type];
     },
     sacConfig() {
-      return GlyphInfo[this.type].sacrificeInfo;
+      return GlyphInfo[this.type].sacrifice;
     },
     style() {
       if (!this.isColored) return { };
@@ -45,10 +45,10 @@ export default {
       return format(this.amount, 2, 2);
     },
     description() {
-      return this.sacConfig.description(this.effectValue);
+      return this.sacConfig.config.description(this.effectValue);
     },
     newDescription() {
-      return this.sacConfig.description(this.sacConfig.effect(this.currentSacrifice.sacrificeValue));
+      return this.sacConfig.config.description(this.sacConfig.effectValueForInput(this.currentSacrifice.sacrificeValue));
     },
     currentSacrifice() {
       const viewModel = this.$viewModel.tabs.reality;
@@ -77,7 +77,7 @@ export default {
   methods: {
     update() {
       this.amount.copyFrom(player.reality.glyphs.sac[this.type]);
-      this.effectValue = GlyphInfo[this.type].sacrificeInfo.effect();
+      this.effectValue = GlyphInfo[this.type].sacrifice.effectValue;
       this.isColored = player.options.glyphTextColors;
       this.willSacrifice = AutoGlyphProcessor.sacMode === AUTO_GLYPH_REJECT.SACRIFICE ||
         (AutoGlyphProcessor.sacMode === AUTO_GLYPH_REJECT.REFINE_TO_CAP &&

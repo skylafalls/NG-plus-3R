@@ -145,8 +145,8 @@ export function getTachyonGalaxyMult(thresholdUpgrade) {
   // This specifically needs to be an undefined check because sometimes thresholdUpgrade is zero
   const upgrade = thresholdUpgrade === undefined ? DilationUpgrade.galaxyThreshold.effectValue : thresholdUpgrade;
   const thresholdMult = upgrade.mul(3.65).add(0.35);
-  const glyphEffect = getAdjustedGlyphEffect("dilationgalaxyThreshold");
-  const glyphReduction = glyphEffect === 0 ? 1 : glyphEffect;
+  const glyphEffect = GlyphEffects.dilationgalaxyThreshold.primary.effectValue;
+  const glyphReduction = glyphEffect.eq(0) ? 1 : glyphEffect;
   const power = DilationUpgrade.galaxyThresholdPelle.canBeApplied
     ? DilationUpgrade.galaxyThresholdPelle.effectValue : DC.D1;
   return thresholdMult.mul(glyphReduction).add(1).pow(power);
@@ -154,39 +154,38 @@ export function getTachyonGalaxyMult(thresholdUpgrade) {
 
 export function getDilationGainPerSecond() {
   if (Pelle.isDoomed) {
-    const tachyonEffect = Currency.tachyonParticles.value.pow(PelleRifts.paradox.milestones[1].effectOrDefault(1));
-    return new Decimal(tachyonEffect)
-      .timesEffectsOf(DilationUpgrade.dtGain, DilationUpgrade.dtGainPelle, DilationUpgrade.flatDilationMult)
-      .times(Pelle.specialGlyphEffect.dilation).div(1e5);
+    const tachyonEffect = Currency.tachyonParticles.value.powEffectOf(PelleRifts.paradox.milestones[1]);
+    return tachyonEffect.timesEffectsOf(DilationUpgrade.dtGain, DilationUpgrade.dtGainPelle, DilationUpgrade.flatDilationMult,
+      GlyphInfo.dilation.pelleEffect).div(1e5);
   }
-  let dtRate = new Decimal(Currency.tachyonParticles.value)
-    .timesEffectsOf(
-      DilationUpgrade.dtGain,
-      Achievement(132),
-      Achievement(137),
-      RealityUpgrade(1),
-      AlchemyResource.dilation,
-      Ra.unlocks.continuousTTBoost.effects.dilatedTime,
-      Ra.unlocks.peakGamespeedDT
-    );
-  dtRate = dtRate.times(getAdjustedGlyphEffect("dilationDT"));
+  let dtRate = Currency.tachyonParticles.value.timesEffectsOf(
+    DilationUpgrade.dtGain,
+    Achievement(132),
+    Achievement(137),
+    RealityUpgrade(1),
+    AlchemyResource.dilation,
+    Ra.unlocks.continuousTTBoost.effects.dilatedTime,
+    Ra.unlocks.peakGamespeedDT,
+    GlyphEffects.dilationDT.primary,
+  );
   dtRate = dtRate.times(
-    Decimal.clampMin(Decimal.log10(Replicanti.amount.add(1)).mul(getAdjustedGlyphEffect("replicationdtgain")), 1));
-  if (Enslaved.isRunning && !dtRate.eq(0)) dtRate = Decimal.pow10(Decimal.pow(dtRate.plus(1).log10(), 0.85).sub(1));
+    Replicanti.amount.add(1).log10().times(GlyphEffects.replicationdtgain.primary.effectValue.clampMin(1)));
+  if (Enslaved.isRunning && !dtRate.eq(0)) dtRate = dtRate.plus(1).log10().pow(0.85).sub(1).pow10();
   if (V.isRunning) dtRate = dtRate.pow(0.5);
   return dtRate;
 }
 
 export function tachyonGainMultiplier() {
-  if (Pelle.isDisabled("tpMults")) return new Decimal(1);
+  if (Pelle.isDisabled("tpMults")) return DC.D1;
   const pow = Enslaved.isRunning ? Enslaved.tachyonNerf : 1;
   return DC.D1.timesEffectsOf(
     DilationUpgrade.tachyonGain,
     Achievement(132),
     RealityUpgrade(4),
     RealityUpgrade(8),
-    RealityUpgrade(15)
-  ).times(GlyphInfo.dilation.sacrificeInfo.effect()).pow(pow);
+    RealityUpgrade(15),
+    GlyphInfo.dilation.sacrifice
+  ).pow(pow);
 }
 
 export function rewardTP() {
@@ -223,12 +222,7 @@ export function getTachyonGain(requireEternity, tpMult = true) {
 export function getTachyonReq() {
   let effectiveTP = Currency.tachyonParticles.value.dividedBy(tachyonGainMultiplier());
   if (Enslaved.isRunning) effectiveTP = effectiveTP.pow(1 / Enslaved.tachyonNerf);
-  return Decimal.pow10(
-    effectiveTP
-      .times(Math.pow(400, 1.5))
-      .pow(2 / 3)
-      .toNumber()
-  );
+  return effectiveTP.times(Math.pow(400, 1.5)).pow(2 / 3).pow10();
 }
 
 export function getDilationTimeEstimate(goal) {

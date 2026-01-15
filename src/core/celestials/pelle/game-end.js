@@ -1,5 +1,3 @@
-import { isDecimal } from "../../../utility/type-check";
-
 export const END_STATE_MARKERS = {
   // Tab zalgoification starts as soon as endState > 0
   GAME_END: 1,

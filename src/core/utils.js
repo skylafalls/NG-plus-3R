@@ -11,4 +11,5 @@ import "./math";
 import "./async-utils";
 import "./event-hub";
 
+export * from "../utility/index";
 export * from "./game-mechanics";

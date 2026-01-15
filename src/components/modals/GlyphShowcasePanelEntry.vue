@@ -96,11 +96,9 @@ export default {
       };
     },
     glyphEffectList() {
-      const db = GlyphEffects;
       const effects =
-      getGlyphEffectValuesFromArray(this.glyph.effects, this.effectiveLevel, this.glyph.strength, this.type);
-      const effectStrings = effects
-        .map(e => this.formatEffectString(db[e.id], e.value));
+        getGlyphEffectValuesFromArray(this.glyph.effects, this.effectiveLevel, this.glyph.strength, this.type);
+      const effectStrings = effects.map(e => this.formatEffectString(GlyphEffects[e.id], e.value));
       // Filter out undefined results since shortDesc only exists for generated effects
       return effectStrings.filter(s => s !== "undefined");
     },
@@ -123,16 +121,12 @@ export default {
       return heights[effects - 1];
     },
     formatEffectString(dbEntry, value) {
-      const rawDesc = dbEntry.shortDesc;
-      const singleValue = dbEntry.formatSingleEffect
-        ? dbEntry.formatSingleEffect(value)
-        : dbEntry.formatEffect(value);
-      const alteredValue = dbEntry.conversion
-        ? dbEntry.formatSecondaryEffect(dbEntry.conversion(value))
+      const alteredValue = dbEntry.secondary
+        ? dbEntry.secondary.formatEffect(dbEntry.conversion(value))
         : "";
       return {
-        text: `${rawDesc}`
-          .replace("{value}", singleValue)
+        text: dbEntry.shortDesc
+          .replace("{value}", dbEntry.primary.formatSingleEffect(value))
           .replace("{value2}", alteredValue),
         isPelleDisabled: dbEntry.isDisabledByDoomed
       };

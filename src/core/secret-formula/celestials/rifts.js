@@ -28,7 +28,8 @@ export const pelleRifts = {
       {
         resource: "vacuum",
         requirement: 0.04,
-        description: "You can equip a single basic Glyph with decreased level and rarity"
+        description: "You can equip a single basic Glyph with decreased level and rarity",
+        effect: 1
       },
       {
         resource: "vacuum",

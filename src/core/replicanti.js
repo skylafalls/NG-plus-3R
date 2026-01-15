@@ -127,13 +127,13 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
 // and celestial nerfs) interact very weirdly and the game balance relies on this behavior, and we also use this same
 // value in the multiplier tab too
 export function totalReplicantiSpeedMult(overCap) {
-  let totalMult = DC.D1;
-
   // These are the only effects active in Pelle - the function shortcuts everything else if we're in Pelle
-  totalMult = totalMult.times(PelleRifts.decay.effectValue);
-  totalMult = totalMult.times(Pelle.specialGlyphEffect.replication);
-  if (Pelle.isDisabled("replicantiIntervalMult")) return totalMult;
+  if (Pelle.isDisabled("replicantiIntervalMult")) return DC.D1.timesEffectsOf(
+    PelleRifts.decay,
+    GlyphInfo.replication.pelleEffect,
+  );
 
+  let totalMult = DC.D1;
   const preCelestialEffects = Effects.product(
     TimeStudy(62),
     TimeStudy(213),
@@ -261,11 +261,11 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), 2)
+  return Decimal.log2(Replicanti.amount.clampMin(1)).pow(2)
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)
-    .pow(getAdjustedGlyphEffect("replicationpow"));
+    .powEffectOf(GlyphEffects.replicationpow.primary);
 }
 
 /** @abstract */
@@ -424,11 +424,11 @@ export const ReplicantiUpgrade = {
     set baseCost(value) { player.replicanti.galCost = value; }
 
     get distantRGStart() {
-      return GlyphInfo.replication.sacrificeInfo.effect().add(100);
+      return GlyphInfo.replication.sacrifice.effectValue.add(100);
     }
 
     get remoteRGStart() {
-      return GlyphInfo.replication.sacrificeInfo.effect().add(1000);
+      return GlyphInfo.replication.sacrifice.effectValue.add(1000);
     }
 
     get costIncrease() {
@@ -458,8 +458,8 @@ export const ReplicantiUpgrade = {
       const logBase = new Decimal(170);
       const logBaseIncrease = EternityChallenge(6).isRunning ? DC.D2 : new Decimal(25);
       const logCostScaling = EternityChallenge(6).isRunning ? DC.D2 : DC.D5;
-      const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
-      const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(1000);
+      const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrifice.effectValue.add(100);
+      const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrifice.effectValue.add(1000);
       const logDistantScaling = new Decimal(50);
       const logRemoteScaling = DC.D5;
 
@@ -516,8 +516,8 @@ export const ReplicantiUpgrade = {
       const logBase = new Decimal(170);
       const logBaseIncrease = EternityChallenge(6).isRunning ? 2 : 25;
       const logCostScaling = EternityChallenge(6).isRunning ? 2 : 5;
-      const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
-      const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(1000);
+      const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrifice.effectValue.add(100);
+      const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrifice.effectValue.add(1000);
       let logCost = logBase.add(count.times(logBaseIncrease))
         .add((count.times(count.sub(1)).div(2)).times(logCostScaling));
       if (count.gt(distantReplicatedGalaxyStart)) {

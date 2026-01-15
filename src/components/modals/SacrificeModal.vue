@@ -21,8 +21,6 @@ export default {
     },
     multiplierText() {
       return i18n("modal", "dsMultText", [formatX(this.currentMultiplier, 2, 2), formatX(this.nextMultiplier, 2, 2)]);
-      return `Multiplier is currently ${formatX(this.currentMultiplier, 2, 2)} and will increase to
-        ${formatX(this.nextMultiplier, 2, 2)} on Dimensional Sacrifice.`;
     },
   },
   methods: {

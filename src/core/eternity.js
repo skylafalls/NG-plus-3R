@@ -1,5 +1,6 @@
 import { GameMechanicState, SetPurchasableMechanicState } from "./game-mechanics";
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
+import { Lazy } from "./cache";
 
 function giveEternityRewards(auto) {
   player.records.bestEternity.time = Decimal.min(player.records.thisEternity.time, player.records.bestEternity.time);
@@ -237,10 +238,11 @@ function askEternityConfirmation() {
 
 export function gainedEternities() {
   return Pelle.isDisabled("eternityMults")
-    ? new Decimal(1)
-    : new Decimal(getAdjustedGlyphEffect("timeetermult"))
-      .timesEffectsOf(RealityUpgrade(3), Achievement(113))
-      .pow(AlchemyResource.eternity.effectValue);
+    ? DC.D1
+    : DC.D1.timesEffectsOf(
+      GlyphEffects.timeetermult.primary,
+      RealityUpgrade(3), Achievement(113)
+    ).powEffectOf(AlchemyResource.eternity);
 }
 
 export class EternityMilestoneState {
@@ -298,10 +300,6 @@ class EPMultiplierState extends GameMechanicState {
     Autobuyer.eternity.bumpAmount(DC.D5.pow(diff));
   }
 
-  get isCustomEffect() {
-    return true;
-  }
-
   get effectValue() {
     return this.cachedEffectValue.value;
   }
@@ -321,7 +319,6 @@ class EPMultiplierState extends GameMechanicState {
     if (cur.gt(this.costIncreaseThresholds[3])) {
       cur = Decimal.log(cur.div(500), 1e3);
       return cur.add(Math.pow(1332, 1.2)).root(1.2).floor().max(1332);
-      // eslint-disable-next-line no-else-return
     }
     if (cur.gt(this.costIncreaseThresholds[2])) {
       bulk = this.costIncreaseThresholds[2].div(500).log(500).floor();

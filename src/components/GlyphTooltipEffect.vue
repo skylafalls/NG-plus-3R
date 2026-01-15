@@ -30,11 +30,11 @@ export default {
       return this.effectConfig.singleDesc;
     },
     primaryEffectText() {
-      const value = this.effectConfig.formatSingleEffect(this.value);
+      const value = this.effectConfig.primary.formatSingleEffect(this.value);
       return this.boostColor ? `⯅${value}` : value;
     },
     secondaryEffectText() {
-      const value = this.effectConfig.formatSingleSecondaryEffect(
+      const value = this.effectConfig.secondary.formatSingleEffect(
         this.effectConfig.conversion(this.value));
       return this.boostColor ? `⯅${value}` : value;
     },

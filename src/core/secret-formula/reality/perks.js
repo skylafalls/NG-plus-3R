@@ -573,7 +573,7 @@ export const perkConnections = (function() {
       .filter(g => g.slice(1).some(groupPerk => groupPerk === perk))
       .map(g => g[0]);
     connectedPerks.push(...indirectConnections);
-    connections[perk.id] = [...new Set(connectedPerks.map(connectedPerk => connectedPerk.id))];
+    connections[perk.id] = connectedPerks.map(connectedPerk => connectedPerk.id).removeDuplicates();
   }
   return connections;
 }());

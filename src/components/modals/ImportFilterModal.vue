@@ -1,5 +1,5 @@
 <script>
-import { GlyphInfo } from "../../core/secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../../core/glyphs/glyph-types";
 
 import ImportFilterSingleType from "./ImportFilterSingleType";
 import ModalWrapperChoice from "@/components/modals/ModalWrapperChoice";

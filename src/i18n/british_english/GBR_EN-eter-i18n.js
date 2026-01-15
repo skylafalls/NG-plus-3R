@@ -104,7 +104,7 @@ export const eter = {
   remreq: "Requires $1aX Remnants",
   pelleexitdil: "Dilation is permanent.",
   exitdil: "Disable Dilation",
-  tpgain: "Gain $1aX",
+  tpgain: "Gain $1aX.",
   tp: "Tachyon Particle",
   reachip: "Reach $1aX to Eternity and gain Tachyon Particles",
   ip: "Infinity Point",

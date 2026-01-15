@@ -149,7 +149,7 @@ export default {
         v-if="isAutobuyerUnlocked && !isEC8Running"
         v-model="isAutobuyerOn"
         class="o-primary-btn--id-auto"
-        :label="Auto()"
+        :label="auto"
       />
       <PrimaryButton
         v-else

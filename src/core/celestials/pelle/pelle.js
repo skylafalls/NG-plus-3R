@@ -198,60 +198,14 @@ export const Pelle = {
       53, 60, 61, 62, 80, 81, 82, 83, 100, 103, 104, 105, 106, 201, 202, 203, 204];
   },
 
-  get specialGlyphEffect() {
-    const isUnlocked = this.isDoomed && PelleRifts.chaos.milestones[1].canBeApplied;
-    const description = this.getSpecialGlyphEffectDescription(this.activeGlyphType);
-    const isActive = type => isUnlocked && this.activeGlyphType === type;
+  get specialGlyphEffectInfo() {
     return {
-      isUnlocked,
-      description,
-      infinity: (isActive("infinity") && player.challenge.eternity.current <= 8)
-        ? Currency.infinityPoints.value.plus(1).pow(0.2)
-        : DC.D1,
-      time: isActive("time")
-        ? Currency.eternityPoints.value.plus(1).pow(0.3)
-        : DC.D1,
-      replication: isActive("replication")
-        ? 10 ** 53 ** (PelleRifts.vacuum.percentage)
-        : 1,
-      dilation: isActive("dilation")
-        ? Decimal.pow(player.dilation.totalTachyonGalaxies, 1.5).max(1)
-        : DC.D1,
-      power: isActive("power")
-        ? 1.02
-        : 1,
-      companion: isActive("companion")
-        ? 1.34
-        : 1,
-      isScaling: () => ["infinity", "time", "replication", "dilation"].includes(this.activeGlyphType),
+      isUnlocked: this.isDoomed && PelleRifts.chaos.milestones[1].canBeApplied,
+      description: Glyphs.activeList.map(g => g.type)
+        .removeDuplicates()
+        .filter(g => GlyphInfo[g].pelleEffect !== undefined)
+        .map(g => GlyphInfo[g].pelleEffect.description),
     };
-  },
-  getSpecialGlyphEffectDescription(type) {
-    switch (type) {
-      case "infinity":
-        return `Infinity Point gain ${player.challenge.eternity.current <= 8
-          ? formatX(Currency.infinityPoints.value.plus(1).pow(0.2), 2)
-          : formatX(DC.D1, 2)} (based on current IP)`;
-      case "time":
-        return `Eternity Point gain ${formatX(Currency.eternityPoints.value.plus(1).pow(0.3), 2)}
-          (based on current EP)`;
-      case "replication":
-        return `Replication speed ${formatX(10 ** 53 ** (PelleRifts.vacuum.percentage), 2)} \
-        (based on ${wordShift.wordCycle(PelleRifts.vacuum.name)})`;
-      case "dilation":
-        return `Dilated Time gain ${formatX(Decimal.pow(player.dilation.totalTachyonGalaxies, 1.5).max(1), 2)}
-          (based on Tachyon Galaxies)`;
-      case "power":
-        return `Galaxies are ${formatPercents(0.02)} stronger`;
-      case "companion":
-        return `You feel ${formatPercents(0.34)} better`;
-      // Undefined means that there is no glyph equipped, needs to be here since this function is used in
-      // both Current Glyph Effects and Glyph Tooltip
-      case undefined:
-        return "No Glyph equipped!";
-      default:
-        return "You cannot equip this Glyph while Doomed!";
-    }
   },
 
   get remnantRequirementForDilation() {
@@ -317,10 +271,6 @@ export const Pelle = {
 
   antimatterDimensionMult(x) {
     return Decimal.pow(10, Decimal.log10(x.add(1)).add(x.pow(5.1).div(1e3)).add(DC.D4.pow(x).div(1e19)));
-  },
-
-  get activeGlyphType() {
-    return Glyphs.active.filter(Boolean)[0]?.type;
   },
 
   get hasGalaxyGenerator() {
@@ -461,8 +411,6 @@ export class RebuyablePelleUpgradeState extends RebuyableMechanicState {
     return this.boughtAmount.gte(this.config.cap);
   }
 
-  get isCustomEffect() { return true; }
-
   get effectValue() {
     return this.config.effect(this.boughtAmount);
   }
@@ -473,7 +421,6 @@ export class RebuyablePelleUpgradeState extends RebuyableMechanicState {
 }
 
 export class PelleUpgradeState extends SetPurchasableMechanicState {
-
   get set() {
     return player.celestials.pelle.upgrades;
   }

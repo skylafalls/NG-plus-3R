@@ -1,7 +1,7 @@
 import { AUTOMATOR_MODE } from "./automator/automator-backend";
 import { AutomatorPanels } from "@/components/tabs/automator/AutomatorDocs";
 import { deepmergeAll } from "@/utility/deepmerge";
-import { GlyphInfo } from "./secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "./glyphs/glyph-types";
 import { GlyphInfoVue } from "@/components/modals/options/SelectGlyphInfoDropdown";
 
 // This is actually reassigned when importing saves
@@ -1037,7 +1037,7 @@ export const Player = {
 
 export function guardFromNaNValues(obj) {
   function isObject(ob) {
-    return ob !== null && typeof ob === "object" && !(ob instanceof Decimal);
+    return ob !== null && typeof ob === "object" && !isDecimal(ob);
   }
 
   for (const key in obj) {
@@ -1051,7 +1051,7 @@ export function guardFromNaNValues(obj) {
       continue;
     }
 
-    if (typeof value === "number") {
+    if (isNumber(value)) {
       Object.defineProperty(obj, key, {
         enumerable: true,
         configurable: true,
@@ -1061,7 +1061,7 @@ export function guardFromNaNValues(obj) {
           if (newValue === null || newValue === undefined) {
             throw new Error("null/undefined player property assignment");
           }
-          if (typeof newValue !== "number" && !(newValue instanceof Decimal)) {
+          if (!isConstant(newValue)) {
             throw new Error("Non-Number assignment to Number player property");
           }
           if (!Decimal.isFinite(newValue)) {
@@ -1072,7 +1072,7 @@ export function guardFromNaNValues(obj) {
       });
     }
 
-    if (value instanceof Decimal) {
+    if (isDecimal(value)) {
       Object.defineProperty(obj, key, {
         enumerable: true,
         configurable: true,
@@ -1082,7 +1082,7 @@ export function guardFromNaNValues(obj) {
           if (newValue === null || newValue === undefined) {
             throw new Error("null/undefined player property assignment");
           }
-          if (!(newValue instanceof Decimal)) {
+          if (!isDecimal(newValue)) {
             throw new Error("Non-Decimal assignment to Decimal player property");
           }
           if (!isFinite(newValue.mag) || !isFinite(newValue.sign) || !isFinite(newValue.layer)) {

@@ -27,14 +27,14 @@ export default {
       return i18n("modal", "ecModalEterLabel", [this.id]);
     },
     reward() {
-      let rewardDescription = this.challenge._config.reward.description;
+      let rewardDescription = this.challenge.config.reward.description;
       if (typeof rewardDescription === "function") {
         rewardDescription = rewardDescription();
       }
       return i18n("modal", "ecModalRewardText", [this.rewardDescription]);
     },
     condition() {
-      let conditionOfChallenge = this.challenge._config.description;
+      let conditionOfChallenge = this.challenge.config.description;
       if (typeof conditionOfChallenge === "function") {
         conditionOfChallenge = conditionOfChallenge();
       }

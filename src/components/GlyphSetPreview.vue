@@ -1,5 +1,5 @@
 <script>
-import { GlyphInfo } from "../core/secret-formula/reality/core-glyph-info";
+import { GlyphInfo } from "../core/glyphs/glyph-types";
 
 import GlyphComponent from "@/components/GlyphComponent";
 import GlyphSetName from "@/components/GlyphSetName";
@@ -91,7 +91,8 @@ export default {
       // Handle multiple reality glyphs
       const realityGlyphs = this.glyphs.filter(g => g?.type === "reality");
       if (realityGlyphs.length > 0) {
-        this.realityGlyphBoost = realityGlyphs.reduce((a, b) => a.add(GlyphEffects.realityglyphlevel.effect(b.level)), new Decimal());
+        this.realityGlyphBoost = realityGlyphs.reduce(
+          (a, b) => a.add(GlyphEffects.realityglyphlevel.primary.effectValueForInput(b.level)), new Decimal());
       } else {
         this.realityGlyphBoost = new Decimal();
       }
