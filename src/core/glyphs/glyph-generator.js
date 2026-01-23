@@ -164,6 +164,7 @@ export const GlyphGenerator = {
 
   // These Glyphs are given on entering Doomed to prevent the player
   // from having none of each basic glyphs which are requied to beat pelle
+  // TODO: Change to taking doomed effect list from glyph-types.js
   doomedGlyph(type) {
     const effects = GlyphEffects.all.filter(e => e.id.startsWith(type)).map(n => n.id);
     effects.push(GlyphEffects.timespeed);
@@ -251,8 +252,8 @@ export const GlyphGenerator = {
     const maxEffects = !Ra.unlocks.glyphEffectCount.canBeApplied && type === "effarig" ? 4
       : GlyphInfo[type].effects.length;
     let num = Decimal.floor(Decimal.pow(random1, DC.D1.sub((Decimal.pow(level.times(strength), 0.5)).div(100))).times(1.5).add(1))
-      .min(1e200).toNumber();
-    // Incase someone somehow forgets to put a limit, this .min(1e200) just stops infinity, should not be relied on.
+    // Catchall min function.
+      .min(1e8).toNumber();
     // If we do decide to add anything else that boosts chance of an extra effect, keeping the code like this
     // makes it easier to do (add it to the Effects.max).
     if (RealityUpgrade(17).isBought && random2 < Effects.max(0, RealityUpgrade(17)).toNumber()) {
@@ -279,8 +280,9 @@ export const GlyphGenerator = {
   generateEffects(type, count, rng, guarenteedEffects = []) {
     const glyphTypeEffects = GlyphInfo[type].effects;
     const effectValues = glyphTypeEffects.mapToObject(x => x.id, () => rng.uniform());
-    // Get a bunch of random numbers so that we always use 250 here. Can be increased if you *really* need to
-    // Note: This basically means we always roll rng 250 times for 250 different values, so that the same seed will always produce the same result.
+    // TODO: Change this to instead of always being 250, it should always be the amount of effects the glyph with the most effects could ever have
+    // This would mean in vanilla, it would be 7, but in a mod with a glyph of 12 effects, it would be 12, etc.
+    // Call the RNG code the same number of times regardless of glyph (by overcalling) to improve determinism
     Array.range(0, 250 - glyphTypeEffects.length).forEach(() => rng.uniform());
 
     if (GlyphInfo[type].effectWeights) {
@@ -309,7 +311,7 @@ export const GlyphGenerator = {
 
     for (let i = 0; i < guarenteedEffects.length; i++) {
       // eslint-disable-next-line no-loop-func
-      effectValues[GlyphInfo[type].effects().filter(e => e.id === guarenteedEffects[i])[0].id] = 2;
+      effectValues[GlyphInfo[type].effects.filter(e => e.id === guarenteedEffects[i])[0].id] = 2;
     }
 
     if (GlyphInfo[type].primaryEffects !== undefined) {
@@ -334,7 +336,6 @@ export const GlyphGenerator = {
       sum += types[type];
     }
     const chosen = rng.uniform() * sum;
-    // Reuse the sum variable since its no longer used for its old purpose
     sum = 0;
     for (const value in types) {
       sum += types[value];
@@ -369,12 +370,12 @@ export const GlyphGenerator = {
     const effectsAsIds = [];
     for (let i = 0; i <= (GlyphSelection.choiceCount - 1); i++) {
       // eslint-disable-next-line max-len
-      const effectPerm = permutationIndex(GlyphInfo[glyphsChosen[i]].effects().length, (7 + initSeed % 5) * groupNum + initSeed % 11);
+      const effectPerm = permutationIndex(GlyphInfo[glyphsChosen[i]].effects.length, (7 + initSeed % 5) * groupNum + initSeed % 11);
       // Why add n - 1?
       // Well, +(n-1) = -1, since in modulo n arithmetic +n = +0. This way also prevents negatives, read above comments
       // eslint-disable-next-line max-len
-      groupIndex = effectPerm[realityCount.add(GlyphInfo[glyphsChosen[i]].effects().length - 1).mod(GlyphInfo[glyphsChosen[i]].effects().length).toNumber()];
-      effectsAsIds.push(GlyphInfo[glyphsChosen[i]].effects()[groupIndex].id);
+      groupIndex = effectPerm[realityCount.add(GlyphInfo[glyphsChosen[i]].effects.length - 1).mod(GlyphInfo[glyphsChosen[i]].effects.length).toNumber()];
+      effectsAsIds.push(GlyphInfo[glyphsChosen[i]].effects[groupIndex].id);
     }
 
     const glyphs = [];

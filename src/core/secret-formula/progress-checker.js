@@ -1,3 +1,4 @@
+// TODO: Decimalise
 export const progressStages = [
   /**
    * This is used in both the catchup modal.

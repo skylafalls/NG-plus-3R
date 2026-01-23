@@ -190,12 +190,9 @@ export const GameStorage = {
     this.save(true);
   },
 
-  // Some minimal save verification; if the save is valid then this returns an empty string, otherwise it returns a
-  // a string roughly stating what's wrong with the save. In order for importing to work properly, this must return
-  // an empty string.
+  // Some minimal save verification; if the save is valid then this returns an empty string.
   checkPlayerObject(save) {
-    // Sometimes save is the output of GameSaveSerializer.deserialize, and if that function fails then it will result
-    // in the input parameter here being undefined
+    // If save is the output of GameSaveSerializer.deserialize, and that function fails it will result in the input parameter here being undefined
     if (save === undefined || save === null) return "Save decoding failed (invalid format)";
     // Right now all we do is check for the existence of an antimatter prop, but if we wanted to do further save
     // verification then here's where we'd do it
@@ -234,6 +231,7 @@ export const GameStorage = {
     }
     checkNaN(save, "player");
 
+    // TODO: Check if it can be fixed by dev tools. If it can, ignore it.
     if (invalidProps.length === 0) return "";
     return `${quantify("NaN player property", invalidProps.length)} found:
       ${invalidProps.join(", ")}`;
@@ -423,6 +421,11 @@ export const GameStorage = {
 
       // For pre-Reality versions, we additionally need to fire off an event to ensure certain achievements and
       // notifications trigger properly. Missing props are filled in at this step via deepmerge
+      if (playerObject.version < 13) {
+        // eslint-disable-next-line no-console
+        console.log("loadPlayerObject was called with a save that had a problematic player version, aborted load.")
+        return;
+      }
       const isPreviousVersionSave = playerObject.version < migrations.firstRealityMigration;
       player = migrations.patchPreReality(playerObject);
       if (isPreviousVersionSave) {
@@ -441,7 +444,7 @@ export const GameStorage = {
 
       // DO NOT REMOVE
       // The below code is critical to making sure imported saves from the be port redecimalise glyphs,
-      // since they are not handled by deepmerge.
+      // since they are not handled under normal conditions.
       if (player.version >= 83) {
         const fixGlyph = glyph => {
           glyph.level = new Decimal(glyph.level);

@@ -1,3 +1,4 @@
+// TODO: Make this array instead of bitmask
 export const speedrunMilestones = [
   {
     id: 1,

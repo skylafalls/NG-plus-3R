@@ -3,12 +3,9 @@ export const GlyphSacrificeHandler = {
   // Anything scaling on sacrifice caps at this value, even though the actual sacrifice values can go higher
   maxSacrificeForEffects: DC.E100,
   // This is used for glyph UI-related things in a few places, but is handled here as a getter which is only called
-  // sparingly - that is, whenever the cache is invalidated after a glyph is sacrificed. Thus it only gets recalculated
-  // when glyphs are actually sacrificed, rather than every render cycle.
+  // sparingly, only recalculated when glyphs are actually sacrificed, rather than every render cycle.
   get logTotalSacrifice() {
-    // We check elsewhere for this equalling zero to determine if the player has ever sacrificed. Technically this
-    // should check for -Infinity, but the clampMin works in practice because the minimum possible sacrifice
-    // value is greater than 1 for even the weakest possible glyph
+    // We check elsewhere for this equalling zero to determine if the player has ever sacrificed.
     return GlyphInfo.basicGlyphTypes.reduce(
       (tot, type) => ((tot instanceof Decimal)
         ? tot.add(Decimal.log10(Decimal.max(player.reality.glyphs.sac[type], 1), 0))
@@ -100,11 +97,8 @@ export const GlyphSacrificeHandler = {
     return this.glyphRawRefinementGain(glyph).div(this.glyphRefinementEfficiency);
   },
   attemptRefineGlyph(glyph, force) {
-    if (glyph.type === "reality") return;
-    if (glyph.type === "cursed") {
-      Glyphs.removeFromInventory(glyph);
-      return;
-    }
+    // If somehow this is called through this, something has gone wrong. Handle it anyways.
+    if (!GlyphInfo[glyph.type].alchemyResource) return;
     const decoherence = AlchemyResource.decoherence.isUnlocked;
     if (!Ra.unlocks.unlockGlyphAlchemy.canBeApplied ||
         (this.glyphRefinementGain(glyph).eq(DC.D0) && !decoherence) ||
@@ -126,10 +120,7 @@ export const GlyphSacrificeHandler = {
   refineGlyph(glyph) {
     if (Pelle.isDoomed) return;
     const resource = AlchemyResource[glyph.type];
-    // This technically completely trashes the glyph for no rewards if not unlocked, but this will only happen ever
-    // if the player specificially tries to do so (in which case they're made aware that it's useless) or if the
-    // Reality choices contain *only* locked glyph choices. That's a rare enough edge case that I think it's okay
-    // to just delete it instead of complicating the program flow more than it already is by attempting sacrifice.
+    // This technically completely trashes the glyph for no rewards if not unlocked, but only under rare/intentional edge-cases.
     if (!resource.isUnlocked) {
       Glyphs.removeFromInventory(glyph);
       return;

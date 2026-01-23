@@ -46,9 +46,10 @@ import { GlyphCombiner } from "./glyph-effects";
 // It's not perfect, you will likely still need to touch GlyphSetName.vue to implement new glyphs completely, but I tried my best :P
 // PS. There is a sample glyph below to show you how the structure of your glyph might look
 
-// TODO: remove this
+// TODO: Move to glyph-types.js
 const complexIncludes = (x, filterItem) => x.some(n => n === filterItem);
 
+// TODO: Add special glyph removal handlers here.
 export const glyphTypes = {
   // eslint-disable-next-line capitalized-comments, multiline-comment-style
   /*
@@ -64,7 +65,7 @@ export const glyphTypes = {
       [() => true, "sampleEffectA"]
       [() => true, "sampleEffectB"]
       [() => true, "sampleEffectC"]
-      [() => player.realities.log10() > 1000, "sampleEffectC"]
+      [() => player.realities.log10().gt(1000), "sampleEffectD"]
     ]
     adjective: { high: "Big", mid: "Medium", low: "Small" },
     noun: "Glyph",
@@ -210,7 +211,7 @@ export const glyphTypes = {
       effect: 1.34,
       formatEffect: effect => formatPercents(effect.sub(1)),
       description: "You feel {value} better",
-      combine: GlyphCombiner.multiply,
+      combine: GlyphCombiner.addExponents,
     },
     isGenerated: false,
     canCustomize: false,
@@ -256,7 +257,7 @@ export const glyphTypes = {
       effect: 0.02,
       formatEffect: effect => formatPercents(effect.sub(1)),
       description: "Galaxies are {value} stronger",
-      combine: x => x.reduce(Decimal.sumReducer, DC.D0).add(1),
+      combine: GlyphCombiner.addExponents,
     },
     isGenerated: true,
     adjNounImportance: 1,

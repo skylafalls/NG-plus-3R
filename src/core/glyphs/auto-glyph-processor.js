@@ -14,7 +14,7 @@ export const AutoGlyphProcessor = {
   get types() {
     return player.reality.glyphs.filter.types;
   },
-  // This exists only to make a couple code sections cleaner.
+  // TODO: Remove
   bitmaskIndexOffset(type) {
     switch (type) {
       case "time":
@@ -33,9 +33,7 @@ export const AutoGlyphProcessor = {
         throw new Error("Unknown glyph type mode in bitmaskIndexOffset");
     }
   },
-  // This function is meant to be something which assigns a value to every glyph, with the assumption that
-  // higher numbers correspond to better glyphs. This value is also displayed on tooltips when it depends
-  // on only the glyph itself and not external factors.
+  // TODO: Make this function suck less
   filterValue(glyph) {
     const nogen = ["reality"];
     const typeCfg = this.types[glyph.type];

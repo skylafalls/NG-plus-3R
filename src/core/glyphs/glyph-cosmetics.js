@@ -31,7 +31,8 @@ class CosmeticGlyphType {
     const isNormallyDark = !GlyphAppearanceHandler.isLightBG;
     return {
       border: color,
-      bg: (isNormallyDark === (this.id === "cursed")) ? "white" : "black",
+      // This is xor
+      bg: (isNormallyDark ^ this.id === "cursed") ? "black" : "white",
     };
   }
 
@@ -89,9 +90,6 @@ export const CosmeticGlyphTypes = {
 export const GlyphAppearanceHandler = {
   setInModal: null,
   chosenFromModal: null,
-  get cosmeticsEnabled() {
-    return player.reality.glyphs.cosmetics.active;
-  },
   get symbolMap() {
     return player.reality.glyphs.cosmetics.symbolMap;
   },
@@ -104,6 +102,7 @@ export const GlyphAppearanceHandler = {
       .map(s => s.symbol)
       .filter(s => s);
   },
+  // TODO: Make this function better explained (If it does what i think it does, maybe make it better than it is)
   // Sort the colors by hue, otherwise finding specific colors would be a mess for UX.
   // However, colors "close enough to grayscale" are sorted separately and first
   get availableColors() {
@@ -157,10 +156,6 @@ export const GlyphAppearanceHandler = {
       .filter(s => s.preventBlur)
       .map(s => s.symbol)
       .flat();
-  },
-  // Note: This can *technically* be inconsistent with the actual number of sets, but only y a cheated save.
-  get expectedSetCount() {
-    return player.records.fullGameCompletions;
   },
 
   // Returns true for "light" BG glyphs and false for "dark" BG glyphs
