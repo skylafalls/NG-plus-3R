@@ -59,7 +59,7 @@ export default {
     },
     lastOpened() {
       const ms = Date.now() - this.player.lastUpdate;
-      const formatms = TimeSpan.fromMilliseconds(new Decimal(ms).abs()).toString();
+      const formatms = TimeSpan.fromMilliseconds(Decimal.abs(ms)).toString();
       return this.isFromFuture
         ? i18n("modal", "saveFromFuture", [formatms])
         : i18n("modal", "saveFromPast", [formatms]);
@@ -81,9 +81,7 @@ export default {
       }
     },
     offlineDetails() {
-      if (this.offlineImport === OFFLINE_PROGRESS_TYPE.IGNORED) {
-        return i18n("modal", "willImpWOoffline");
-      }
+      if (this.offlineImport === OFFLINE_PROGRESS_TYPE.IGNORED) return i18n("modal", "willImpWOoffline");
       if (!GameStorage.offlineEnabled) return i18n("modal", "wontApplyOffline");
       if (this.isFromFuture) return i18n("modal", "noOfflineFuture");
 
@@ -220,7 +218,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="importSave"
     >
-      {{ i18n("modal", "importAlt") }}
+      {{ i18n("modal", "import") }}
     </PrimaryButton>
   </ModalWrapperChoice>
 </template>

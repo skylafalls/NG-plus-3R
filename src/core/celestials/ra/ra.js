@@ -25,9 +25,7 @@ class RaUnlockState extends GameMechanicState {
   }
 
   get reward() {
-    return typeof this.config.reward === "function"
-      ? this.config.reward()
-      : this.config.reward;
+    return handlePossibleFunction(this.config.reward);
   }
 
   get displayIcon() {

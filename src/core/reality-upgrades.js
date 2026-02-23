@@ -7,7 +7,7 @@ class RealityUpgradeState extends BitPurchasableMechanicState {
   }
 
   get automatorPoints() {
-    return this.config.automatorPoints ? this.config.automatorPoints : 0;
+    return this.config.automatorPoints ?? 0;
   }
 
   get name() {
@@ -19,11 +19,11 @@ class RealityUpgradeState extends BitPurchasableMechanicState {
   }
 
   get requirement() {
-    return typeof this.config.requirement === "function" ? this.config.requirement() : this.config.requirement;
+    return handlePossibleFunction(this.config.requirement);
   }
 
   get lockEvent() {
-    return typeof this.config.lockEvent === "function" ? this.config.lockEvent() : this.config.lockEvent;
+    return handlePossibleFunction(this.config.lockEvent);
   }
 
   get currency() {

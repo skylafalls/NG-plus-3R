@@ -70,8 +70,8 @@ export default {
     <OpenModalHotkeysButton />
     <div v-if="hasSeenGamespeedAlteringEffects">
       {{ i18n("auto", "autoTabTextA").split("$")[0] }}
-      <b>{{ i18n("auto", "autoTabTextA").split("$")[0] }}</b>
-      {{ i18n("auto", "autoTabTextA").split("$")[0] }}
+      <b>{{ i18n("auto", "autoTabTextA").split("$")[1] }}</b>
+      {{ i18n("auto", "autoTabTextA").split("$")[2] }}
       <br>
       {{ i18n("auto", "autoTabTextB") }}
       <br>

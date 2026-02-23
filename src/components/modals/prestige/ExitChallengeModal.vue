@@ -48,7 +48,7 @@ export default {
   >
     <template #header>
       {{ i18n("modal", "aboutTo") }} {{ isRestarting ? i18n("modal", "restartLowercase") :
-        i18n("modal", "restartLowercase") }} {{ challengeName }}
+        i18n("modal", "exitLowercase") }} {{ challengeName }}
     </template>
 
     <div class="c-modal-message__text">

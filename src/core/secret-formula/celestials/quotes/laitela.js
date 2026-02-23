@@ -25,7 +25,7 @@ export const laitelaQuotes = {
     requirement: () => Currency.singularities.gte(1),
     lines: [() => i("lai3q0"), () => i("lai3q1"), () => i("lai3q2"), () => i("lai3q3"), () => i("lai3q4"), () => i("lai3q5"), () => i("lai3q6"), () => i("lai3q7")]
   },
-  // Note: Shown when unlocking DMD3 requirement is auto-condensing 20 singularities and it happens around ~200 total
+  // Note: Shown when unlocking DMD3; requirement is auto-condensing 20 singularities and it happens around ~200 total
   thirdDMD: {
     id: 5,
     lines: [() => i("lai5q0"), () => i("lai5q1"), () => i("lai5q2"), () => i("lai5q3"), () => i("lai5q4"), () => i("lai5q5")]

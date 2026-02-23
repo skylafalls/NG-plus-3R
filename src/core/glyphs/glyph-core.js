@@ -361,7 +361,7 @@ export const Glyphs = {
         // eslint-disable-next-line no-sequences
         quantifyInt(i18n("modal", "glyph"), stillEquipped),
         `${target}${hasOther ? i18n("modal", "opt").split("$")[2] : ""}`,
-        i18n("modal", itthem).split("$")[stillEquipped === 1 ? 0 : 1]
+        i18n("modal", "itthem").split("$")[stillEquipped === 1 ? 0 : 1]
       ]), { closeEvent: GAME_EVENT.GLYPHS_CHANGED }),
       50);
     }

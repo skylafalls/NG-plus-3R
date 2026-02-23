@@ -42,7 +42,7 @@ export default {
       ]);
     },
     isntUnlockedMessage() {
-      return i18n("modal", "refineMsgA", [this.resourceName]);
+      return i18n("modal", "refineMsgB", [this.resourceName]);
     }
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
       v-if="resourceUnlocked"
       class="c-modal-message__text"
     >
-      {{ isntUnlockedMessage }}
+      {{ isUnlockedMessage }}
     </div>
     <div
       v-else

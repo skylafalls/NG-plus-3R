@@ -13,13 +13,11 @@ class PelleStrikeState extends BitUpgradeState {
   }
 
   get requirement() {
-    const x = this.config.requirementDescription;
-    return typeof x === "function" ? x() : x;
+    return handlePossibleFunction(this.config.requirementDescription);
   }
 
   get penalty() {
-    const x = this.config.penaltyDescription;
-    return typeof x === "function" ? x() : x;
+    return handlePossibleFunction(this.config.penaltyDescription);
   }
 
   reward() {

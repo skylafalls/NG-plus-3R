@@ -221,7 +221,7 @@ export const v = {
       // Base rate is 60 ECs at 20 minutes each
       format: x => (Ra.unlocks.instantECAndRealityUpgradeAutobuyers.canBeApplied
         ? "Instant (Ra upgrade)"
-        : `${TimeSpan.fromMinutes(new Decimal(1200).div(x)).toStringShort()} for full completion`),
+        : `${TimeSpan.fromMinutes(Decimal.div(1200, x)).toStringShort()} for full completion`),
       requirement: () => V.spaceTheorems >= 10
     },
     autoAutoClean: {

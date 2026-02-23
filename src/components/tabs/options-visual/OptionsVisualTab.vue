@@ -68,6 +68,10 @@ export default {
         : this.sidebarDB.find(e => e.id === player.options.sidebarResourceID).optionName;
       this.headerTextColored = options.headerTextColored;
     },
+    styles(z) {
+      // To make dropdowns work properly, rows are given a z index decreasing as you go down
+      return { "z-index": z };
+    }
   }
 };
 </script>
@@ -75,7 +79,10 @@ export default {
 <template>
   <div class="l-options-tab">
     <div class="l-options-grid">
-      <div class="l-options-grid__row">
+      <div
+        class="l-options-grid__row"
+        :style="styles(5)"
+      >
         <OptionsButton
           class="o-primary-btn--option_font-large"
           onclick="GameOptions.toggleUI()"
@@ -83,14 +90,6 @@ export default {
           {{ UILabel }}
         </OptionsButton>
         <UpdateRateSlider />
-        <OptionsButton
-          class="o-primary-btn--option"
-          onclick="Modal.newsOptions.show();"
-        >
-          Open News Options
-        </OptionsButton>
-      </div>
-      <div class="l-options-grid__row">
         <ExpandingControlBox
           class="l-options-grid__button c-options-grid__notations"
           button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
@@ -100,14 +99,27 @@ export default {
             <SelectThemeDropdown />
           </template>
         </ExpandingControlBox>
+      </div>
+      <div
+        class="l-options-grid__row"
+        :style="styles(4)"
+      >
         <ExpandingControlBox
           class="l-options-grid__button c-options-grid__notations"
           button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
           :label="notationLabel"
-          needs-high-zindex="true"
         >
           <template #dropdown>
             <SelectNotationDropdown />
+          </template>
+        </ExpandingControlBox>
+        <ExpandingControlBox
+          class="l-options-grid__button c-options-grid__notations"
+          button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
+          :label="postNotationLabel"
+        >
+          <template #dropdown>
+            <SelectLargeNotationDropdown />
           </template>
         </ExpandingControlBox>
         <OptionsButton
@@ -117,7 +129,10 @@ export default {
           Open Exponent Notation Options
         </OptionsButton>
       </div>
-      <div class="l-options-grid__row">
+      <div
+        class="l-options-grid__row"
+        :style="styles(3)"
+      >
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.animationOptions.show();"
@@ -137,7 +152,10 @@ export default {
           Open Away Progress Options
         </OptionsButton>
       </div>
-      <div class="l-options-grid__row">
+      <div
+        class="l-options-grid__row"
+        :style="styles(2)"
+      >
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.hiddenTabs.show()"
@@ -149,6 +167,23 @@ export default {
           class="o-primary-btn--option l-options-grid__button"
           label="Relative prestige gain text coloring:"
         />
+        <OptionsButton
+          class="o-primary-btn--option"
+          onclick="Modal.newsOptions.show();"
+        >
+          Open News Options
+        </OptionsButton>
+      </div>
+      <div
+        class="l-options-grid__row"
+        :style="styles(1)"
+      >
+        <OptionsButton
+          class="o-primary-btn--option"
+          onclick="Modal.switchLanguage.show()"
+        >
+          {{ languageLabel }}
+        </OptionsButton>
         <ExpandingControlBox
           v-if="$viewModel.newUI"
           class="l-options-grid__button c-options-grid__notations"
@@ -159,23 +194,6 @@ export default {
             <SelectSidebarDropdown />
           </template>
         </ExpandingControlBox>
-      </div>
-      <div class="l-options-grid__row">
-        <ExpandingControlBox
-          class="l-options-grid__button c-options-grid__notations"
-          button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
-          :label="postNotationLabel"
-        >
-          <template #dropdown>
-            <SelectLargeNotationDropdown />
-          </template>
-        </ExpandingControlBox>
-        <OptionsButton
-          class="o-primary-btn--option"
-          onclick="Modal.switchLanguage.show()"
-        >
-          {{ languageLabel }}
-        </OptionsButton>
       </div>
       <OpenModalHotkeysButton />
     </div>

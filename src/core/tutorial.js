@@ -39,7 +39,6 @@ const tutorialStates = [
 ];
 
 export const Tutorial = {
-
   isActive(atState) {
     return player.records.fullGameCompletions === 0 && ui.view.tutorialState === atState && ui.view.tutorialActive;
   },

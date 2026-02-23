@@ -383,7 +383,7 @@ export const PerkNetwork = {
       PerkNetwork.pulseTimer += 0.1;
       // Make the nodes pulse continuously on Cancer theme
       const mod = Theme.current().name === "S4"
-        ? 10 * Math.sin(5 * PerkNetwork.pulseTimer + 0.1 * perk._config.id)
+        ? 10 * Math.sin(5 * PerkNetwork.pulseTimer + 0.1 * perk.config.id)
         : 0;
       if (perk.config.label === "START") return 35 + mod;
       if (perk.isBought) return 25 + mod;

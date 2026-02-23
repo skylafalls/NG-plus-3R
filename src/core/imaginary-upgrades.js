@@ -11,11 +11,11 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
   }
 
   get requirement() {
-    return typeof this.config.requirement === "function" ? this.config.requirement() : this.config.requirement;
+    return handlePossibleFunction(this.config.requirement);
   }
 
   get lockEvent() {
-    return typeof this.config.lockEvent === "function" ? this.config.lockEvent() : this.config.lockEvent;
+    return handlePossibleFunction(this.config.lockEvent);
   }
 
   get currency() {

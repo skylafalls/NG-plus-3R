@@ -143,7 +143,7 @@ export const eternityChallenges = [
     goal: DC.E3000,
     pelleGoal: DC.E3200,
     goalIncrease: DC.E300,
-    effect: () => Decimal.pow(Currency.infinitiesTotal.value, 950).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
+    effect: () => Currency.infinitiesTotal.value.pow(950).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
     reward: {
       description: () => i18n("chall", "ec10rew"),
       effect: completions => {
@@ -153,8 +153,9 @@ export const eternityChallenges = [
       formatEffect: value => {
         // Since TS31 is already accounted for in the effect prop, we need to "undo" it to display the base value here
         const mult = formatX(value, 2, 1);
+        const ts31mult = formatX(value.pow(1 / TimeStudy(31).effectValue), 2, 1);
         return TimeStudy(31).canBeApplied
-          ? i18n("chall", "ec10rewFormat", [value, mult])
+          ? i18n("chall", "ec10rewFormat", [ts31mult, mult])
           : mult;
       }
     }

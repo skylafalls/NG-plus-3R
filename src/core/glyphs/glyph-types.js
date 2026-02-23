@@ -49,10 +49,8 @@ class GlyphType {
     // This would also occur if the glyph had no weigts defined by default.
     this.effectWeights = config.effectWeights;
     this.adjNounImportance = config.adjNounImportance;
-    // TODO: Make getter with default true
-    this.isGenerated = config.isGenerated;
-    // TODO: Make getter with default true
-    this.canCustomize = config.canCustomize;
+    this.isGenerated = config.isGenerated ?? true;
+    this.canCustomize = config.canCustomize ?? true;
     this.color = config.color;
     this.primaryEffects = config.primaryEffects;
     this.setColor = config.setColor;

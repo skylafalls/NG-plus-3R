@@ -64,7 +64,7 @@ export default {
 
 <template>
   <ResetModal
-    header="You are about to Infinity"
+    :header="aboutToInf"
     :message="message"
     :gained-resources="ipGainInfo"
     :starting-resources="startingResources"

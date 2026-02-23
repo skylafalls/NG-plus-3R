@@ -160,8 +160,7 @@ export default {
 }
 
 .c-s12-window__content-container {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
   width: 100%;
   height: 100%;
   position: relative;

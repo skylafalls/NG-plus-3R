@@ -105,7 +105,7 @@ export const dilationUpgrades = {
     },
     effect: () => {
       let rep10 = replicantiMult().pLog10().div(10);
-      rep10 = rep10.gt(9000) ? new Decimal(9000).add((rep10.sub(9e3)).div(2)) : rep10;
+      rep10 = rep10.gt(9e3) ? Decimal.add(9e3, rep10.sub(9e3).div(2)) : rep10;
       return Decimal.pow10(rep10);
     },
     formatEffect: value => formatX(value, 2, 1)

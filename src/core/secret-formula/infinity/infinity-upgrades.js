@@ -2,8 +2,8 @@ function dimInfinityMult() {
   return Currency.infinitiesTotal.value.times(0.2).plus(1);
 }
 function chargedDimInfinityMult() {
-  return Decimal.log10(Decimal.max(1, Currency.infinitiesTotal.value.pLog10()))
-    .mul(Math.sqrt(Ra.pets.teresa.level) / 150).add(1);
+  return Currency.infinitiesTotal.value.max(1).log10().max(1).log10()
+    .times(Math.sqrt(Ra.pets.teresa.level)).div(150).add(1);
 }
 
 export const infinityUpgrades = {
@@ -11,13 +11,12 @@ export const infinityUpgrades = {
     id: "timeMult",
     cost: 1,
     get description() { return i18n("inf", "iU11"); },
-    effect: () => Decimal.pow(Time.totalTimePlayed.totalMinutes.div(2), 0.15),
+    effect: () => Time.totalTimePlayed.totalMinutes.div(2).pow(0.15),
     formatEffect: value => formatX(value, 2, 2),
     charged: {
       description: () => i18n("inf", "iU11c"),
-      effect: () =>
-        Decimal.log10(Decimal.log10(Time.totalTimePlayed.totalMilliseconds))
-          .times(Decimal.pow(Ra.pets.teresa.level, 0.5)).div(150).add(1),
+      effect: () => Time.totalTimePlayed.totalMilliseconds.max(1).log10().max(1).log10()
+        .times(Math.sqrt(Ra.pets.teresa.level)).div(150).add(1),
       formatEffect: value => formatPow(value, 4, 4)
     }
   },
@@ -113,7 +112,7 @@ export const infinityUpgrades = {
     id: "timeMult2",
     cost: 3,
     get description() { return i18n("inf", "iU31"); },
-    effect: () => Decimal.max(Decimal.pow(Time.thisInfinity.totalMinutes.div(4), 0.25), 1),
+    effect: () => Time.thisInfinity.totalMinutes.div(4).pow(0.25).clampMin(1),
     formatEffect: value => formatX(value, 2, 2),
     charged: {
       description: () => i18n("inf", "iU31c"),
@@ -132,7 +131,7 @@ export const infinityUpgrades = {
     formatEffect: value => formatX(value, 2, 2),
     charged: {
       description: () => i18n("inf", "iU32c"),
-      effect: () => Currency.infinityPoints.value.dividedBy(2).pow(Math.sqrt(Ra.pets.teresa.level) * 1.5).plus(1),
+      effect: () => Currency.infinityPoints.value.div(2).pow(Math.sqrt(Ra.pets.teresa.level) * 1.5).plus(1),
       formatEffect: value => formatX(value, 2, 2)
     }
   },

@@ -3,8 +3,8 @@ import { GameMechanicState } from "../game-mechanics";
 class SecretAchievementState extends GameMechanicState {
   constructor(config) {
     super(config);
-    this._row = Math.floor(this.id / 10);
-    this._column = this.id % 10;
+    this.row = Math.floor(this.id / 10);
+    this.column = this.id % 10;
     this._bitmask = 1 << (this.column - 1);
     this._inverseBitmask = ~this._bitmask;
     this.registerEvents(config.checkEvent, args => this.tryUnlock(args));
@@ -12,14 +12,6 @@ class SecretAchievementState extends GameMechanicState {
 
   get name() {
     return this.config.name;
-  }
-
-  get row() {
-    return this._row;
-  }
-
-  get column() {
-    return this._column;
   }
 
   get isUnlocked() {

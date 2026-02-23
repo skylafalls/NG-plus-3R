@@ -143,7 +143,7 @@ export const normalAchievements = [
     id: 35,
     get name() { return i18n("ach", "ach35title"); },
     get description() { return i18n("ach", "ach35desc", [formatInt(6)]).split("$")[PlayerProgress.realityUnlocked() ? 1 : 0]; },
-    checkRequirement: () => Date.now() - new Decimal(player.lastUpdate).toNumber() >= 21600000,
+    checkRequirement: () => Date.now() - player.lastUpdate >= 21600000,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE
   },
   {
@@ -152,7 +152,7 @@ export const normalAchievements = [
     get description() { return i18n("ach", "ach36desc", [formatInt(1)]); },
     checkRequirement: () => player.galaxies.eq(1),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
-    get reward() { return i18n("ach", "ach36reward", [format(1.02)]); },
+    get reward() { return i18n("ach", "ach36reward", [format(1.02, 2, 2)]); },
     effect: 1 / 1.02
   },
   {
@@ -204,7 +204,7 @@ export const normalAchievements = [
       return true;
     },
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    get reward() { return i18n("ach", "ach43reward", [formatPercents(8), formatPercents(7)]); },
+    get reward() { return i18n("ach", "ach43reward", [formatPercents(0.08), formatPercents(0.07)]); },
   },
   {
     id: 44,
@@ -221,7 +221,7 @@ export const normalAchievements = [
     checkRequirement: () => Tickspeed.current.lte(1e-26),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach45reward", [formatX(1.02, 0, 2)]); },
-    effect: 0.98
+    effect: 1 / 1.02
   },
   {
     id: 46,
@@ -284,7 +284,7 @@ export const normalAchievements = [
   {
     id: 55,
     get name() { return i18n("ach", "ach55title"); },
-    get description() { return i18n("ach", "ach55desc", [formatInt(10)]); },
+    get description() { return i18n("ach", "ach55desc", [formatInt(1)]); },
     checkRequirement: () => Time.thisInfinityRealTime.totalMinutes.lte(1),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
     get description() { return i18n("ach", "ach55reward", [format(5e10)]); },
@@ -297,7 +297,7 @@ export const normalAchievements = [
     checkRequirement: () => NormalChallenge(2).isOnlyActiveChallenge && Time.thisInfinityRealTime.totalMinutes.lte(3),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
     get reward() { return i18n("ach", "ach56reward", [formatInt(3)]); },
-    effect: () => new Decimal(6).div(Time.thisInfinity.totalMinutes.add(3)).max(1),
+    effect: () => DC.D6.div(Time.thisInfinity.totalMinutes.add(3)).clampMin(1),
     effectCondition: () => Time.thisInfinity.totalMinutes.lt(3),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
@@ -363,7 +363,7 @@ export const normalAchievements = [
     checkRequirement: () => Time.challengeSum.totalMinutes.lt(3),
     checkEvent: [GAME_EVENT.BIG_CRUNCH_AFTER, GAME_EVENT.REALITY_RESET_AFTER],
     get reward() { return i18n("ach", "ach65reward", [formatInt(3)]); },
-    effect: () => (Player.isInAnyChallenge ? Decimal.max(new Decimal(4).div(Time.thisInfinity.totalMinutes.add(1)), 1) : 1),
+    effect: () => (Player.isInAnyChallenge ? DC.D4.div(Time.thisInfinity.totalMinutes.add(1)).clampMin(1) : 1),
     effectCondition: () => Player.isInAnyChallenge && Time.thisInfinity.totalMinutes.lt(3),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
@@ -402,7 +402,7 @@ export const normalAchievements = [
       DimBoost.purchasedBoosts.eq(0) &&
       player.galaxies.eq(0),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
-    get reward() { return i18n("ach", "ach68reward", [formatInt(3)]); },
+    get reward() { return i18n("ach", "ach71reward", [formatInt(3)]); },
     effect: 3
   },
   {
@@ -418,7 +418,7 @@ export const normalAchievements = [
     id: 73,
     // Check i18n note
     name: "THIS ACHIEVEMENT DOESN'T EXIST",
-    get description() { return i18n("ach", "ach73desc", [formatPostBreak(DC.D9_9999E9999, 4)]); },
+    get description() { return i18n("ach", "ach73desc", [formatPostBreak(DC.D9_9999E9999, 5)]); },
     checkRequirement: () => Currency.antimatter.gte(DC.D9_9999E9999),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach73reward"); },
@@ -451,7 +451,7 @@ export const normalAchievements = [
     checkRequirement: () => Time.totalTimePlayed.totalDays.gte(8),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach76reward"); },
-    effect: () => Decimal.max(Decimal.pow(Time.totalTimePlayed.totalDays.div(2), 0.05), 1),
+    effect: () => Time.totalTimePlayed.totalDays.div(2).pow(0.05).clampMin(1),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -517,7 +517,7 @@ export const normalAchievements = [
     id: 86,
     get name() { return i18n("ach", "ach86title"); },
     get description() { return i18n("ach", "ach85desc", [formatX(1e3)]); },
-    checkRequirement: () => Tickspeed.multiplier.recip().gte(1000),
+    checkRequirement: () => Tickspeed.multiplier.recip().gte(1e3),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach86reward", [formatPercents(0.01)]); },
     effect: 1.01
@@ -552,7 +552,7 @@ export const normalAchievements = [
     checkRequirement: () => Currency.infinityPoints.gain.gte(DC.E200) && Time.thisInfinityRealTime.totalSeconds.lte(2),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
     get reward() { return i18n("ach", "ach91reward", [formatInt(5)]); },
-    effect: () => Decimal.max((new Decimal(5).sub(Time.thisInfinity.totalSeconds)).times(60), 1),
+    effect: () => DC.D5.sub(Time.thisInfinity.totalSeconds).times(60).clampMin(1),
     effectCondition: () => Time.thisInfinity.totalSeconds.lt(5),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
@@ -563,7 +563,7 @@ export const normalAchievements = [
     checkRequirement: () => Currency.infinityPoints.gain.gte(DC.E250) && Time.thisInfinityRealTime.totalSeconds.lte(20),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
     get reward() { return i18n("ach", "ach92reward", [formatInt(60)]); },
-    effect: () => Decimal.max((DC.D1.sub(Time.thisInfinity.totalMinutes)).times(100), 1),
+    effect: () => DC.D1.sub(Time.thisInfinity.totalMinutes).times(100).clampMin(1),
     effectCondition: () => Time.thisInfinity.totalMinutes.lt(1),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
@@ -579,7 +579,7 @@ export const normalAchievements = [
   {
     id: 94,
     get name() { return i18n("ach", "ach94title"); },
-    get description() { return i18n("ach", "ach94desc", [format(DC.E360)]); },
+    get description() { return i18n("ach", "ach94desc", [format(DC.E260)]); },
     checkRequirement: () => Currency.infinityPower.gte(DC.E260),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach94reward"); },
@@ -599,7 +599,6 @@ export const normalAchievements = [
     id: 96,
     get name() { return i18n("ach", "ach96title"); },
     get description() { return i18n("ach", "ach96desc"); },
-    get reward() { return i18n("ach", "ach96reward"); },
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.ETERNITY_RESET_BEFORE
   },
@@ -636,7 +635,7 @@ export const normalAchievements = [
     // Check i18n note
     name: "Tätä saavutusta ei ole olemassa II",
     get description() { return i18n("ach", "ach103desc", [formatPostBreak(DC.D9_99999E999, 5, 0)]); },
-    checkRequirement: () => Currency.infinityPoints.gte(new Decimal("1e1000")),
+    checkRequirement: () => Currency.infinityPoints.gte("1e1000"),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach103reward", [formatInt(308), formatFloat(307.8, 1)]); },
     effect: 307.8
@@ -733,7 +732,7 @@ export const normalAchievements = [
     checkRequirement: () => Currency.infinities.lte(1),
     checkEvent: GAME_EVENT.ETERNITY_RESET_BEFORE,
     get reward() { return i18n("ach", "ach116reward"); },
-    effect: () => Decimal.pow(Currency.infinitiesTotal.value.clampMin(1), LOG10_2 / 4).powEffectOf(TimeStudy(31)),
+    effect: () => Currency.infinitiesTotal.value.clampMin(1).pow(LOG10_2 / 4).powEffectOf(TimeStudy(31)),
     cap: () => Effarig.eternityCap,
     formatEffect: value => {
       // Since TS31 is already accounted for in the effect prop, we need to "undo" it to display the base value here
@@ -765,7 +764,7 @@ export const normalAchievements = [
     id: 121,
     get name() { return i18n("ach", "ach121title"); },
     get description() { return i18n("ach", "ach121desc", [formatPostBreak("e30008")]); },
-    checkRequirement: () => Currency.infinityPoints.gte(new Decimal("e30008")),
+    checkRequirement: () => Currency.infinityPoints.gte("e30008"),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
@@ -785,7 +784,7 @@ export const normalAchievements = [
   {
     id: 124,
     get name() { return i18n("ach", "ach124title"); },
-    get description() { return i18n("ach", "ach124desc", [formatInt(50)]); },
+    get description() { return i18n("ach", "ach124desc", [formatInt(60)]); },
     checkRequirement: () => AchievementTimers.marathon2
       .check(
         !EternityChallenge(7).isRunning &&
@@ -853,7 +852,7 @@ export const normalAchievements = [
     checkRequirement: () => player.galaxies.gte(569) && player.requirementChecks.eternity.noRG,
     checkEvent: GAME_EVENT.GALAXY_RESET_AFTER,
     get reward() { return i18n("ach", "ach132reward"); },
-    effect: () => Decimal.max(Decimal.pow(player.galaxies, 0.04), 1).times(1.22),
+    effect: () => player.galaxies.pow(0.04).clampMin(1).times(1.22),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -1037,7 +1036,7 @@ export const normalAchievements = [
     get description() { return i18n("ach", "ach156desc"); },
     checkRequirement: () => player.requirementChecks.reality.noPurchasedTT,
     checkEvent: GAME_EVENT.REALITY_RESET_BEFORE,
-    get reward() { return i18n("ach", "ach154reward", [formatX(2.5)]); },
+    get reward() { return i18n("ach", "ach154reward", [formatX(2.5, 0, 1)]); },
     effect: 2.5
   },
   {
@@ -1114,7 +1113,7 @@ export const normalAchievements = [
     checkRequirement: () => Currency.realityMachines.gte(DC.NUMMAX),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return i18n("ach", "ach167reward"); },
-    effect: () => Decimal.clampMin(1, Currency.realityMachines.value.max(1).log2()),
+    effect: () => Currency.realityMachines.value.clampMin(1).log2().clampMin(1),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -1183,8 +1182,8 @@ export const normalAchievements = [
   {
     id: 178,
     get name() { return i18n("ach", "ach178title"); },
-    get description() { return i18n("ach", "ach178desc", [formatInt(100000)]); },
-    checkRequirement: () => player.galaxies.gte(100000),
+    get description() { return i18n("ach", "ach178desc", [formatInt(1e5)]); },
+    checkRequirement: () => player.galaxies.gte(1e5),
     checkEvent: GAME_EVENT.GALAXY_RESET_AFTER,
     get reward() { return i18n("ach", "ach178reward", [formatPercents(0.01)]); },
     effect: 1.01

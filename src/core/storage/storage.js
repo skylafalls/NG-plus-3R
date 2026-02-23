@@ -423,7 +423,7 @@ export const GameStorage = {
       // notifications trigger properly. Missing props are filled in at this step via deepmerge
       if (playerObject.version < 13) {
         // eslint-disable-next-line no-console
-        console.log("loadPlayerObject was called with a save that had a problematic player version, aborted load.")
+        console.log("loadPlayerObject was called with a save that had a problematic player version, aborted load.");
         return;
       }
       const isPreviousVersionSave = playerObject.version < migrations.firstRealityMigration;

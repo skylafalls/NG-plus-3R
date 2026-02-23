@@ -19,7 +19,7 @@ export default {
     extraMessage() {
       if (this.glyphsDeleted === 0) return i18n("modal", "noGlyphPurged");
       if (this.glyphsDeleted === this.glyphsTotal) return i18n("modal", "allGlyphPurged");
-      return i18n("modal", "allGlyphPurged", [this.harsh ? `Harsh` : ``,
+      return i18n("modal", "someGlyphPurged", [this.harsh ? `Harsh` : ``,
         `${formatInt(this.glyphsDeleted)}/${formatInt(this.glyphsTotal)}`]);
     },
     explanation() {
@@ -38,8 +38,7 @@ export default {
     },
 
     message() {
-      const msg = i18n("modal", "purgeMessage").split("$1aX");
-      return this.harsh ? msg[0] + msg[1] : msg[1];
+      return i18n("modal", "purgeMessage");
     }
   },
   methods: {

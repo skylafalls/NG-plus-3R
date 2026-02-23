@@ -113,13 +113,11 @@ class VUnlockState extends BitUpgradeState {
   }
 
   get description() {
-    return typeof this.config.description === "function" ? this.config.description()
-      : this.config.description;
+    return handlePossibleFunction(this.config.description);
   }
 
   get rewardText() {
-    return typeof this.config.reward === "function" ? this.config.reward()
-      : this.config.reward;
+    return handlePossibleFunction(this.config.reward);
   }
 
   get canBeUnlocked() {

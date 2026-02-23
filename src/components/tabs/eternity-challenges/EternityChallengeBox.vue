@@ -35,7 +35,7 @@ export default {
     },
     goalDisplay() {
       const config = this.config;
-      let goal = i18n("eter", "goal", [this.goalAtCompletions(this.completions)])
+      let goal = i18n("eter", "goal", [this.goalAtCompletions(this.completions)]);
       if (config.restriction) {
         goal += ` ${config.formatRestriction(config.restriction(this.completions))}`;
       }

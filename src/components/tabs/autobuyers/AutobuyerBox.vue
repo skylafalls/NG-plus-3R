@@ -95,7 +95,7 @@ export default {
       switch (this.currMode) {
         case AUTO_ETERNITY_MODE.TIME:
           return this.nextTime > 0
-            ? i18n("auto", "triggerInX", format(this.nextValue, 2), [TimeSpan.fromSeconds(new Decimal(this.nextTime)).toStringShort()])
+            ? i18n("auto", "triggerInX", [TimeSpan.fromSeconds(this.nextTime).toStringShort()])
             : i18n("auto", "asapTrigger");
         case AUTO_ETERNITY_MODE.X_HIGHEST:
         default:

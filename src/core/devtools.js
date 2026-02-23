@@ -351,7 +351,6 @@ dev.unlockAutomator = function() {
   player.reality.automator.forceUnlock = true;
 };
 
-// TODO Figure out if we want to remove this before release
 dev.unlockAllCosmeticSets = function() {
   player.reality.glyphs.cosmetics.unlockedFromNG = Object.keys(GameDatabase.reality.glyphCosmeticSets);
 };

@@ -30,7 +30,7 @@ This repository is worked on using Visual Studio Code and if you don't know what
 ## Run
 
 To run the game locally, you will need to install
-[Node.js](https://nodejs.org/) (v20 LTS recommended, unknown v21+ support).
+[Node.js](https://nodejs.org/) (v20 LTS recommended).
 
 First, run the following command in your terminal (or command line) while being
 inside the checked out repository:

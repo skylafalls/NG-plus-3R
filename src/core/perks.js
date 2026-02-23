@@ -10,7 +10,7 @@ class PerkState extends SetPurchasableMechanicState {
   }
 
   get automatorPoints() {
-    return this.config.automatorPoints ? this.config.automatorPoints : 0;
+    return this.config.automatorPoints ?? 0;
   }
 
   get label() {

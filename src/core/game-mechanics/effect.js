@@ -1,6 +1,7 @@
 function handleWithInput(value, input) {
-  if (input) return handlePossibleFunction(value, ...handlePossibleArray(input));
-  return handlePossibleFunction(value);
+  return input
+    ? handlePossibleFunction(value, ...handlePossibleArray(input))
+    : handlePossibleFunction(value);
 }
 
 function applyCap(value, cap, input) {

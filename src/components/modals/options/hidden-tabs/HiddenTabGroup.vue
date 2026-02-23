@@ -58,7 +58,7 @@ export default {
     rowVisibleIndicatorTooltip() {
       if (this.isHidden) return i18n("modal", "clickUnhide");
       if (!this.alwaysVisible) return i18n("modal", "clickHide");
-      return i18n("modal", "");
+      return i18n("modal", "cantHide");
     },
   },
   methods: {

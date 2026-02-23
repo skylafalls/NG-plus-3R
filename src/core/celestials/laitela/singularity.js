@@ -66,7 +66,7 @@ class SingularityMilestoneState extends GameMechanicState {
   }
 
   get completions() {
-    return Decimal.min(Decimal.floor(this.nerfCompletions(this.rawCompletions)), this.limit);
+    return Decimal.floor(this.nerfCompletions(this.rawCompletions)).clampMax(this.limit);
   }
 
   get remainingSingularities() {

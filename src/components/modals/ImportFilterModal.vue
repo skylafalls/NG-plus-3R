@@ -5,7 +5,6 @@ import ImportFilterSingleType from "./ImportFilterSingleType";
 import ModalWrapperChoice from "@/components/modals/ModalWrapperChoice";
 import PrimaryButton from "@/components/PrimaryButton";
 
-
 export default {
   name: "ImportFilterModal",
   components: {
@@ -104,9 +103,9 @@ export default {
     <template #header>
       {{ i18n("modal", "impGFS") }}
     </template>
-    {{ i18n("modal", "impGFS").split($)[0] }}
+    {{ i18n("modal", "GFSoverwrite").split("$")[0] }}
     <br>
-    {{ i18n("modal", "impGFS").split($)[1] }}
+    {{ i18n("modal", "GFSoverwrite").split("$")[1] }}
     <input
       ref="input"
       v-model="input"

@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     topLabel() {
-      return `You are about to do a Dimension Boost Reset`;
+      return i18n("modal", "dbResetHeader");
     },
     message() {
       const keepDimensions = Perk.antimatterNoReset.canBeApplied || Achievement(111).canBeApplied ||

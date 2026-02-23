@@ -482,6 +482,7 @@ export function compile(input, validateOnly = false) {
   if (validator.errorCount === 0 && !validateOnly) {
     compiled = new Compiler().visit(validator.parseResult);
   }
+
   return {
     errors: validator.errors,
     compiled,

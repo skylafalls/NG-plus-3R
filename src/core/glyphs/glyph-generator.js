@@ -31,6 +31,7 @@ class GlyphRNG {
       this.secondGaussian = GlyphRNG.SECOND_GAUSSIAN_DEFAULT_VALUE;
       return toReturn;
     }
+
     let u = 0, v = 0, s = 0;
     do {
       u = this.uniform() * 2 - 1;
@@ -226,7 +227,7 @@ export const GlyphGenerator = {
     if (Ra.unlocks.maxGlyphRarityAndShardSacrificeBoost.canBeApplied && !GlyphInfo[type].strOverride) return rarityToStrength(100);
     let result = GlyphGenerator.strengthMultiplier.mul(GlyphGenerator.gaussianBellCurve(rng));
     const relicShardFactor = Ra.unlocks.extraGlyphChoicesAndRelicShardRarityAlwaysMax.canBeApplied
-      ? new Decimal(1) : rng.uniform();
+      ? DC.D1 : rng.uniform();
     const increasedRarity = Effarig.maxRarityBoost.mul(relicShardFactor)
       .plusEffectsOf(
         Achievement(146),

@@ -20,10 +20,10 @@ export default {
     tabs: () => Tabs.currentUIFormat,
     topLabel: () => i18n("modal", "modifyVisibleHeader"),
     message: () => i18n("modal", "modifyVisibleMessage").split("$"),
-    cantHideNearEnd: () => i18n("modal", "modifyVisibleHeader"),
-    namelessA: () => i18n("modal", "modifyVisibleHeader"),
-    namelessB: () => i18n("modal", "modifyVisibleHeader"),
-    showAll: () => i18n("modal", "modifyVisibleHeader"),
+    cantHideNearEnd: () => i18n("modal", "cantHideNearEnd"),
+    namelessA: () => i18n("modal", "namelessHideTextA"),
+    namelessB: () => i18n("modal", "namelessHideTextB"),
+    showAll: () => i18n("modal", "showAllTabs"),
   },
   methods: {
     update() {

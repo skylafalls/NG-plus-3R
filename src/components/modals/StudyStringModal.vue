@@ -148,7 +148,7 @@ export default {
     },
     confirmText() {
       if (this.deleting) return i18n("modal", "del");
-      return this.isImporting ? i18n("modal", "importAlt") : i18n("modal", "save");
+      return this.isImporting ? i18n("modal", "import") : i18n("modal", "save");
     },
     hoverTextA() {
       return i18n("modal", "presetHas");

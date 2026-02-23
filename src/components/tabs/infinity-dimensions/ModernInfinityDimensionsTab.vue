@@ -121,7 +121,7 @@ export default {
         <p>
           {{ i18n("inf", "IDbuyTess", [tesseractCountString]) }}
         </p>
-        <p>{{ i18n("inf", "tessIncCap", [format(nextDimCapIncrease, 2)]) }}</p>
+        <p>{{ i18n("inf", "tessIncCapMod", [format(nextDimCapIncrease, 2)]) }}</p>
         <p><b>{{ i18n("inf", "tessCost", [format(tesseractCost)]) }}</b></p>
       </button>
     </div>

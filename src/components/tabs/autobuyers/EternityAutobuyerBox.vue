@@ -52,21 +52,21 @@ export default {
     modeProps(mode) {
       switch (mode) {
         case AUTO_ETERNITY_MODE.AMOUNT: return {
-          get title() { i18n("auto", "eterXEP"); },
+          get title() { return i18n("auto", "eterXEP"); },
           input: {
             property: "amount",
             type: "decimal"
           },
         };
         case AUTO_ETERNITY_MODE.TIME: return {
-          get title() { i18n("auto", "eterXTime"); },
+          get title() { return i18n("auto", "eterXTime"); },
           input: {
             property: "time",
             type: "float"
           },
         };
         case AUTO_ETERNITY_MODE.X_HIGHEST: return {
-          get title() { i18n("auto", "eterXHighest"); },
+          get title() { return i18n("auto", "eterXHighest"); },
           input: {
             property: "xHighest",
             type: "decimal"

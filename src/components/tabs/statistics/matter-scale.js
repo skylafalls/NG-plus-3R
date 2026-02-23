@@ -1,6 +1,7 @@
 function roundAndStr(decimal, amnt = 4) {
   return decimal.toString().substring(0, amnt + Math.ceil(decimal.log10().toNumber()));
 }
+
 export const MatterScale = {
   proton: new Decimal("2.82e-45"),
 

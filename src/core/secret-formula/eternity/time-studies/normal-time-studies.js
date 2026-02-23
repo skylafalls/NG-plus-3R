@@ -84,7 +84,7 @@ export const normalTimeStudies = [
     requirement: [22],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts32"),
-    effect: () => Decimal.max(DimBoost.totalBoosts, 1),
+    effect: () => DimBoost.totalBoosts.clampMin(1),
     formatEffect: value => formatX(value, 2)
   },
   {
@@ -105,7 +105,7 @@ export const normalTimeStudies = [
   },
   {
     id: 42,
-    cost: new Decimal(6),
+    cost: DC.D6,
     requirement: [32],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts42", [formatInt(52), formatInt(60)]),
@@ -147,7 +147,7 @@ export const normalTimeStudies = [
   },
   {
     id: 72,
-    cost: new Decimal(6),
+    cost: DC.D6,
     requirement: [61,
       () => Perk.studyECRequirement.isBought ||
         (!EternityChallenge(11).isUnlocked && !EternityChallenge(12).isUnlocked)],
@@ -177,11 +177,11 @@ export const normalTimeStudies = [
   },
   {
     id: 82,
-    cost: new Decimal(6),
+    cost: DC.D6,
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts82"),
-    effect: () => DC.D1_0000109.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_0000109.pow(DimBoost.totalBoosts.pow(2)),
     cap: DC.E1E7,
     formatEffect: value => formatX(value, 2, 1)
   },
@@ -201,7 +201,7 @@ export const normalTimeStudies = [
     requirement: [81],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts91"),
-    effect: () => Decimal.pow10(Decimal.min(Time.thisEternity.totalMinutes, 20).times(15)),
+    effect: () => Time.thisEternity.totalMinutes.clampMax(20).times(15).pow10(),
     cap: DC.E300,
     formatEffect: value => formatX(value, 2, 1)
   },
@@ -211,13 +211,13 @@ export const normalTimeStudies = [
     requirement: [82],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts92"),
-    effect: () => DC.D2.pow(new Decimal(60).div(Decimal.max(Time.bestEternity.totalSeconds, 2))),
+    effect: () => DC.D2.pow(Decimal.div(60, Time.bestEternity.totalSeconds.clampMin(2))),
     cap: DC.C2P30,
     formatEffect: value => formatX(value, 2, 1)
   },
   {
     id: 93,
-    cost: new Decimal(7),
+    cost: DC.D7,
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts93"),
@@ -235,7 +235,7 @@ export const normalTimeStudies = [
   },
   {
     id: 102,
-    cost: new Decimal(6),
+    cost: DC.D6,
     requirement: [92],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts102"),
@@ -244,7 +244,7 @@ export const normalTimeStudies = [
   },
   {
     id: 103,
-    cost: new Decimal(6),
+    cost: DC.D6,
     requirement: [93],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts103"),
@@ -253,7 +253,7 @@ export const normalTimeStudies = [
   },
   {
     id: 111,
-    cost: new Decimal(12),
+    cost: DC.D12,
     requirement: [101, 102, 103],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts111", [Achievement(103).canBeApplied ? formatFloat(307.8, 1) : formatInt(308), formatInt(285)]),
@@ -261,7 +261,7 @@ export const normalTimeStudies = [
   },
   {
     id: 121,
-    cost: new Decimal(9),
+    cost: DC.D9,
     STCost: 2,
     requirement: [111],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
@@ -271,13 +271,13 @@ export const normalTimeStudies = [
       : i18n("studies", PlayerProgress.realityUnlocked() ? "ts121r" : "ts121")),
     effect: () => (Perk.studyActiveEP.isBought
       ? new Decimal(50)
-      : new Decimal(250).div(Player.averageRealTimePerEternity).min(50).max(1)),
+      : Decimal.div(250, Player.averageRealTimePerEternity).min(50).max(1)),
     formatEffect: value => (Perk.studyActiveEP.isBought ? undefined : formatX(value, 1, 1)),
     cap: 50
   },
   {
     id: 122,
-    cost: new Decimal(9),
+    cost: DC.D9,
     STCost: 2,
     requirement: [111],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
@@ -287,7 +287,7 @@ export const normalTimeStudies = [
   },
   {
     id: 123,
-    cost: new Decimal(9),
+    cost: DC.D9,
     STCost: 2,
     requirement: [111],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
@@ -380,7 +380,7 @@ export const normalTimeStudies = [
   },
   {
     id: 151,
-    cost: new Decimal(8),
+    cost: DC.D8,
     requirement: [141, 142, 143],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts151", [formatX(1e4)]),
@@ -388,7 +388,7 @@ export const normalTimeStudies = [
   },
   {
     id: 161,
-    cost: new Decimal(7),
+    cost: DC.D7,
     requirement: [151],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts161", [formatX(DC.E616)]),
@@ -396,7 +396,7 @@ export const normalTimeStudies = [
   },
   {
     id: 162,
-    cost: new Decimal(7),
+    cost: DC.D7,
     requirement: [151],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studies", "ts162", [formatX(1e11)]),
@@ -404,7 +404,7 @@ export const normalTimeStudies = [
   },
   {
     id: 171,
-    cost: new Decimal(15),
+    cost: DC.D15,
     requirement: [161, 162],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => i18n("studes", "ts171", [formatX(1.33, 0, 2), formatX(1.25, 0, 2)]),
@@ -470,7 +470,7 @@ export const normalTimeStudies = [
     requirement: [191],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: i18n("studies", "ts212"),
-    effect: () => Decimal.pow(Currency.timeShards.value.clampMin(2).log2(), 0.005),
+    effect: () => Currency.timeShards.value.clampMin(2).log2().pow(0.005),
     cap: new Decimal(1.1),
     formatEffect: value => `+${formatPercents(value.sub(1), 3)}`
   },
@@ -539,7 +539,7 @@ export const normalTimeStudies = [
       const effect = TimeStudy(224).effectValue;
       return i18n("studies", "ts224", [quantifyInt(i18n("studies", "ts224gal"), effect), formatInt(1), formatInt(2000)]);
     },
-    effect: () => Decimal.floor(DimBoost.totalBoosts.div(2000))
+    effect: () => DimBoost.totalBoosts.div(2000).floor()
   },
   {
     id: 225,

@@ -369,7 +369,6 @@ GameKeyboard.bind("ctrl+shift", () => setShiftKey(false), "keyup");
 GameKeyboard.bind("alt+shift", () => setShiftKey(true), "keydown");
 GameKeyboard.bind("alt+shift", () => setShiftKey(false), "keyup");
 
-
 GameKeyboard.bindHotkey("alt+t", () => toggleAutobuyer(Autobuyer.tickspeed));
 GameKeyboard.bindHotkey("shift+alt+t", () => toggleBuySingles(Autobuyer.tickspeed));
 GameKeyboard.bindHotkey("alt+s", () => toggleAutobuyer(Autobuyer.sacrifice));

@@ -184,7 +184,7 @@ export default {
         />
         <!-- eslint-disable vue/no-multiple-objects-in-class -->
         <div
-          v-else 
+          v-else
           :class="['l-equipped-glyphs__empty', 'c-equipped-glyphs__empty',
                    {'c-equipped-glyphs__empty--dragover': dragoverIndex === idx},
                    {'c-equipped-glyphs__cantequip': !canEquip}]"

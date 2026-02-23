@@ -36,7 +36,7 @@ export default {
     editor mode, you can also use some smaller premade scripts from the template generator
     <div class="fas fa-file-code c-automator-button-icon" />.You can undo or redo a limited number of edits using
     <div class="fas fa-arrow-rotate-left c-automator-button-icon" /> or
-<div class="fas fa-arrow-rotate-right c-automator-button-icon" />, or by using the respective hotkeys. Edit history
+    <div class="fas fa-arrow-rotate-right c-automator-button-icon" />, or by using the respective hotkeys. Edit history
     is cleared upon switching, converting, or deleting scripts.
     <br>
     <br>

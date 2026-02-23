@@ -41,12 +41,8 @@ class EternityChallengeRewardState extends GameMechanicState {
 export class EternityChallengeState extends GameMechanicState {
   constructor(config) {
     super(config);
-    this._fullId = `eterc${this.id}`;
+    this.fullId = `eterc${this.id}`;
     this._reward = new EternityChallengeRewardState(config.reward, this);
-  }
-
-  get fullId() {
-    return this._fullId;
   }
 
   get isUnlocked() {

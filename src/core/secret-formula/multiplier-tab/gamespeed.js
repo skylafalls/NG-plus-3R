@@ -72,7 +72,6 @@ export const gamespeed = {
     isActive: () => Pelle.isDoomed && !EternityChallenge(12).isRunning,
     icon: MultiplierTabIcons.PELLE,
   },
-
   ec12: {
     name: "Eternity Challenge 12",
     multValue: () => 0.001 / getGameSpeedupForDisplay(),

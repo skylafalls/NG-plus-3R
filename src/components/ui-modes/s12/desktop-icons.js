@@ -12,7 +12,7 @@ export default {
         // "If you have not listened to first suite in E flat by Gustav Holst do it now" -Erf
         "https://www.youtube.com/watch?v=fLbP6qpI1YI",
       ];
-      window.open(links[Math.floor(Math.random() * links.length)]);
+      window.open(links.randomElement());
     },
     image: "desktop--windows-media-player.png"
   },

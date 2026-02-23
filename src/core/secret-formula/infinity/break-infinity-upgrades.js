@@ -1,6 +1,7 @@
 function rebuyable(config) {
   const effectFunction = config.effect || (x => x);
   const { id, maxUpgrades, description, isDisabled, noLabel, onPurchased } = config;
+
   return {
     rebuyable: true,
     id,
@@ -29,14 +30,14 @@ export const breakInfinityUpgrades = {
     id: "totalMult",
     cost: DC.E4,
     get description() { return i18n("inf", "BiU1"); },
-    effect: () => Decimal.pow(player.records.totalAntimatter.max(1).log10().add(1), 0.5),
+    effect: () => player.records.totalAntimatter.max(1).log10().add(1).pow(0.5),
     formatEffect: value => formatX(value, 2, 2)
   },
   currentAMMult: {
     id: "currentMult",
     cost: DC.E4.mul(5),
     get description() { return i18n("inf", "BiU2"); },
-    effect: () => Decimal.pow(Currency.antimatter.value.max(1).log10().add(1), 0.5),
+    effect: () => Currency.antimatter.value.max(1).log10().add(1).pow(0.5),
     formatEffect: value => formatX(value, 2, 2)
   },
   galaxyBoost: {
@@ -61,9 +62,9 @@ export const breakInfinityUpgrades = {
   },
   slowestChallengeMult: {
     id: "challengeMult",
-    cost: new Decimal(1e7),
+    cost: DC.E7,
     get description() { return i18n("inf", "BiU6"); },
-    effect: () => Decimal.clampMin(new Decimal(50).div(Time.worstChallenge.totalMinutes), 1),
+    effect: () => Decimal.div(50, Time.worstChallenge.totalMinutes).clampMin(1),
     formatEffect: value => formatX(value, 2, 2),
     hasCap: true,
     cap: DC.D3E4
@@ -131,7 +132,7 @@ export const breakInfinityUpgrades = {
     maxUpgrades: DC.E1,
     effect: value => Player.bestRunIPPM.times(value.div(20)),
     description: () => {
-      let generation = `${formatPercents(player.infinityRebuyables[2].div(20))}`;
+      let generation = formatPercents(player.infinityRebuyables[2].div(20));
       if (!BreakInfinityUpgrade.ipGen.isCapped) {
         generation += ` ➜ ${formatPercents(player.infinityRebuyables[2].add(1).div(20))}`;
       }

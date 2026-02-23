@@ -90,11 +90,11 @@ class QuoteLine {
   }
 
   get line() {
-    return typeof this._line === "function" ? this._line() : this._line;
+    return handlePossibleFunction(this._line);
   }
 
   get celestials() {
-    return typeof this._celestialArray === "function" ? this._celestialArray() : this._celestialArray;
+    return handlePossibleFunction(this._celestialArray);
   }
 
   get celestialSymbols() {

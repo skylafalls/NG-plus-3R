@@ -214,9 +214,9 @@ export default {
         {{ i18n("inf", "repEff4", [format(nextEffarigRGThreshold, 2)]) }}
       </div>
       <p class="c-replicanti-description">
-        {{ i18n("inf", "rephave").split("$1aX")[0] }}
+        {{ i18n("inf", "rephave").split("$")[0] }}
         <span class="c-replicanti-description__accent">{{ format(amount, 2, 0) }}</span>
-        {{ i18n("inf", "rephave").split("$1aX")[1] }}
+        {{ i18n("inf", "rephave").split("$")[1] }}
         <br>
         <span v-html="boostText" />
       </p>
