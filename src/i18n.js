@@ -1,6 +1,72 @@
 /* eslint-disable no-negated-condition */
 import * as i18nText from "./i18n/exports";
 
+// eslint-disable-next-line max-params
+function pluralHandling(textInput, rules, mods) {
+  // We dont wan't to modify inputs, so we'll redefine here.
+  let text = textInput;
+  // First off, we need to check whether we have a $0aX. If we do, then we need to replace it
+  // and we need to store it the function and values for later checks.
+  if (!textInput.match("/[0-9]{1,2}aX/g")) {
+    // The last value in "rules" is just a string, that we treat as other
+    // If there is no $0aX at the start, we just do this
+    return rules[-1];
+  }
+  // [Function, data]
+  let cache = [undefined, undefined];
+  function pseudoReplace(textToReplace, modHandle) {
+    // We will catch and log whenever we get here and call a non-function, cause that's really bad
+    try {
+      modHandle[0](modHandle[1]);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log("Expected an array of [function, number/decimal] for modifier input, but recieved otherwise.");
+      // eslint-disable-next-line no-console
+      console.log(`For info: ${textToReplace} and ${modHandle}`);
+      return `${rules[-1].replace("$$$", handlePossibleFunction(modHandle[i - 1]))}`;
+      // This should be as robust as possible for a given system
+    }
+    cache = [modHandle[0], modHandle[1]];
+    // If we are this far, then we know everything should work (given no stupid TOCTOU race bs)
+    return textToReplace;
+  }
+
+  // eslint-disable-next-line consistent-return
+  function ruleCycle(number, maxValue) {
+    if (new Decimal(number).gt(maxValue)) return rules[-1];
+    for (value of rules) {
+      // We need to ensure x is decimal not number
+      if (value?.condition && value.condition(new Decimal(number))) {
+        return value.text;
+      }
+      // We need to ensure x is a number not a decimal
+      if (value?.values && value.includes(Decimal.toNumber(number))) {
+        return value.text;
+      }
+      return value;
+    }
+    return value;
+  }
+
+  for (let i = 1; i <= mods.length; i++) {
+    regex = `/\$${i}aX/g`;
+    while (text.match(regex)) {
+      let maxToHandle = 1e4;
+      text = text.replace(regex, n => pseudoReplace(n, mods[i - 1]));
+      // eslint-disable-next-line eqeqeq
+      if (cache[0] == formatInt) {
+        maxToHandle = 1e9;
+      }
+      rule = ruleCycle(cache[1], maxToHandle);
+      // We can just return here, since we have done what we needed to, we don't actually need to keep going
+      // (there is only a single 0aX type going through here)
+      return rule.replaceAll("$$$", cache[0](cache[1]));
+    }
+  }
+
+  return rules[-1];
+}
+
 window.i18n = function(type, id, mods = []) {
   let text = "";
   // eslint-disable-next-line import/namespace
@@ -8,19 +74,32 @@ window.i18n = function(type, id, mods = []) {
   if (Lang.showFormula) {
     text = Lang.current.allText[type][id];
   }
+
   // Else go to language
   if (text === undefined || text === "") {
     text = Lang.current.allText[type][id];
   }
+
   // If it's not defined for that language, default to English
   if (text === undefined || text === "") {
     text = Lang.GBR_EN.allText[type][id];
   }
+
   // If it's not defined for English, default to "Placeholder"
   if (text === undefined || text === "") {
     text = "Placeholder";
   }
-  for (let i = 1; i <= mods.length; i ++) {
+
+  // We do this first, since $1aX$KEY$$ needs to be handled before it becomes VALUE$KEY$$ and breaks
+  // Note if a key:name is not defined, it just wont get substituted here, but that only happens if bad translating anyways
+  // (You would have to call a pluralisation and then not define it for it to occur, but plurals can just not be used)
+  plurals = Lang.plurals;
+  for (value in plurals) {
+    key = Lang.plurals[value];
+    text = text.replaceAll(`/\$([0-9]{1,2}aX)?\$${key.key}\$\$/g`, match => pluralHandling(match, key.rules, mods));
+  }
+
+  for (let i = 1; i <= mods.length; i++) {
     text = text.replaceAll(`$${i}aX`, handlePossibleFunction(mods[i - 1]));
   }
   return text;

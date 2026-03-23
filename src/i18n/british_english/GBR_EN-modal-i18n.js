@@ -143,7 +143,7 @@ Timers for online backups only run when the game is open, and offline backups on
 Additionally, your current save is saved into the last slot any time a backup from here is loaded.`,
   autoBackupTextB: `These backups are still stored in the same place as your game save and can still be lost if you do anything
 external to the game which would delete your save itself, such as $1aX. You can import/export all backups at once as files, using these buttons:`,
-  steamUninstalll: "fully uninstalling the game",
+  steamUninstall: "fully uninstalling the game",
   cookieDelete: "clearing your browser cookies",
   loadWithNoOffline: "Load with offline progress disabled",
   exportAsFile: "Export as file",

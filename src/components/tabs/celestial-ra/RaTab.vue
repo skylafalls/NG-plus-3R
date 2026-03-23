@@ -114,12 +114,12 @@ export default {
       <div v-if="!isRaCapped">
         Each Memory Chunk generates a base of one Memory per second<span v-if="memoriesPerChunk.gt(1)">,
           which has been increased to {{ quantify("Memory", memoriesPerChunk, 2, 3) }} per second</span>.
-        <br>
-        Storing real time prevents Memory Chunk generation, but Memories will still be gained normally.
         <span v-if="memoriesPerChunk.gt(1)">
           <br>
           This is being increased due to {{ memoryBoosts }}.
         </span>
+        <br>
+        Storing real time prevents Memory Chunk generation, but Memories will still be gained normally.
       </div>
       <div v-else>
         All Memories have been returned.

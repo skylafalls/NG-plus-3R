@@ -30,7 +30,7 @@ export default {
     },
     textB() {
       return i18n("modal", "autoBackupTextB",
-        [STEAM ? "fully uninstalling the game" : "clearing your browser cookies"]);
+        [STEAM ? i18n("modal", "steamUninstall") : i18n("modal", "cookieDelete")]);
     },
     exportingText() {
       return i18n("modal", "exportAsFile");
