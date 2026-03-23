@@ -68,6 +68,8 @@ export function eternityResetRequest() {
   askEternityConfirmation();
 }
 
+// The prop specialConditions also includes now exiting a challenge
+// eslint-disable-next-line complexity
 export function eternity(force, auto, specialConditions = {}) {
   if (specialConditions.switchingDilation && !Player.canEternity) {
     // eslint-disable-next-line no-param-reassign
@@ -78,6 +80,7 @@ export function eternity(force, auto, specialConditions = {}) {
   // Annoyingly, we need to check for studies right here; giveEternityRewards removes studies if we're in an EC,
   // so doing the check later doesn't give us the initial state of having studies or not.
   const noStudies = player.timestudy.studies.length === 0;
+  let isInEc;
   if (!force) {
     if (!Player.canEternity) return false;
     if (RealityUpgrade(10).isLockingMechanics) {
@@ -90,6 +93,7 @@ export function eternity(force, auto, specialConditions = {}) {
     }
     EventHub.dispatch(GAME_EVENT.ETERNITY_RESET_BEFORE);
     giveEternityRewards(auto);
+    isInEc = EternityChallenge.isRunning;
     player.requirementChecks.reality.noEternities = false;
   }
 
@@ -118,11 +122,15 @@ export function eternity(force, auto, specialConditions = {}) {
   resetChallengeStuff();
   AntimatterDimensions.reset();
 
-  if (!specialConditions.enteringEC && player.respec) {
+  if (!specialConditions.enteringEC &&
+    !specialConditions.restartingChallenge && (player.respec || specialConditions.exitChallenge || isInEc)) {
     if (noStudies) {
       SecretAchievement(34).unlock();
     }
-    respecTimeStudies(auto);
+    // If you are exiting a challenge, and have respec enabled, only respec the EC.
+    // eslint-disable-next-line no-negated-condition
+    if ((isInEc || specialConditions.exitChallenge) ^ player.respec) respecTimeStudies(auto);
+    else respecECTS(auto);
     player.respec = false;
   }
 

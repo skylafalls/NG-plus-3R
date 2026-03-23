@@ -236,8 +236,7 @@ export class EternityChallengeState extends GameMechanicState {
       Player.antimatterChallenge.exit();
     }
     player.challenge.eternity.current = 0;
-    if (!isRestarting) player.respec = true;
-    eternity(true);
+    eternity(true, false, { exitChallenge: !isRestarting, restartingChallenge: isRestarting });
   }
 
   fail(auto = false) {

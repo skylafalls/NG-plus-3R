@@ -136,6 +136,18 @@ export function buyStudiesUntil(id, ec = -1) {
   return studyArray;
 }
 
+export function respecECTS(auto) {
+  const ecStudy = TimeStudy.eternityChallenge.current();
+  if (ecStudy !== undefined) {
+    ecStudy.refund();
+    player.challenge.eternity.unlocked = 0;
+  }
+  if (!auto) {
+    Tab.eternity.studies.show();
+  }
+  GameCache.currentStudyTree.invalidate();
+}
+
 export function respecTimeStudies(auto) {
   for (const study of TimeStudy.boughtNormalTS()) {
     study.refund();
