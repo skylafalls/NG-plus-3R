@@ -108,7 +108,7 @@ export default {
         giving {{ formatPercents(matterExtraPurchasePercentage, 2) }} more purchases from Continuum</span>.
     </div>
     <div class="o-laitela-matter-amount">
-      Dark Matter Dimensions are unaffected by storing real time.
+      Dark Matter Dimensions are unaffected by storing real time, and generate based on real time.
     </div>
     <h2
       v-if="!singularitiesUnlocked"

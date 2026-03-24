@@ -93,7 +93,7 @@ export default {
           </div>
           <div>
             You have <span class="c-remnants-amount">{{ format(realityShards, 2) }}</span> Reality Shards.
-            <span class="c-remnants-amount">+{{ format(shardRate, 2, 2) }}/s</span>
+            <span class="c-remnants-amount">You are gaining {{ format(shardRate, 2, 2) }} every real time second</span>
           </div>
         </div>
       </div>
