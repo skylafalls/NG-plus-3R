@@ -281,6 +281,26 @@ window.player = {
       [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, "", DC.D0]),
     recentRealities: Array.range(0, 10).map(() =>
       [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, "", DC.D0, DC.D0]),
+    thisBoost: {
+      time: DC.D0,
+      realTime: DC.D0,
+      trueTime: 0,
+    },
+    bestBoost: {
+      time: DC.BEMAX,
+      realTime: DC.BEMAX,
+      trueTime: 0
+    },
+    thisGalaxy: {
+      time: DC.D0,
+      realTime: DC.D0,
+      trueTime: 0,
+    },
+    bestGalaxy: {
+      time: DC.BEMAX,
+      realTime: DC.BEMAX,
+      trueTime: 0
+    },
     thisInfinity: {
       time: DC.D0,
       realTime: DC.D0,

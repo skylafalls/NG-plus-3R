@@ -195,6 +195,13 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
   } else {
     Currency.antimatter.reset();
   }
+  // Timings
+  player.records.bestBoost.trueTime =
+    Math.min(player.records.bestBoost.trueTime, player.records.thisBoost.trueTime);
+  player.records.bestBoost.time =
+    Decimal.min(player.records.bestBoost.time, player.records.thisBoost.time);
+  player.records.bestBoost.realTime =
+    Decimal.min(player.records.bestBoost.realTime, player.records.thisBoost.realTime);
   EventHub.dispatch(GAME_EVENT.DIMBOOST_AFTER, bulk);
 }
 

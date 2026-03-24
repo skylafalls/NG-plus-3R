@@ -202,6 +202,15 @@ export function galaxyReset() {
   player.requirementChecks.permanent.emojiGalaxies.add(1);
   // This is specifically reset here because the check is actually per-galaxy and not per-infinity
   player.requirementChecks.infinity.noSacrifice = true;
+
+  // Timings
+  player.records.bestGalaxy.trueTime =
+    Math.min(player.records.bestGalaxy.trueTime, player.records.thisGalaxy.trueTime);
+  player.records.bestGalaxy.time =
+    Decimal.min(player.records.bestGalaxy.time, player.records.thisGalaxy.time);
+  player.records.bestGalaxy.realTime =
+    Decimal.min(player.records.bestGalaxy.realTime, player.records.thisGalaxy.realTime);
+
   EventHub.dispatch(GAME_EVENT.GALAXY_RESET_AFTER);
 }
 

@@ -18,6 +18,22 @@ export default {
       uniqueNews: 0,
       totalNews: 0,
       secretAchievementCount: 0,
+      boost: {
+        isUnlocked: false,
+        count: new Decimal(),
+        hasBest: false,
+        best: TimeSpan.zero,
+        this: TimeSpan.zero,
+        thisReal: TimeSpan.zero
+      },
+      galaxy: {
+        isUnlocked: false,
+        count: new Decimal(),
+        hasBest: false,
+        best: TimeSpan.zero,
+        this: TimeSpan.zero,
+        thisReal: TimeSpan.zero
+      },
       infinity: {
         isUnlocked: false,
         count: new Decimal(),
@@ -60,6 +76,18 @@ export default {
   computed: {
     // These are here to avoid extra spaces in-game pre-reality and to get around codefactor 120-char limits in the
     // HTML template due to the fact that adding a linebreak also adds a space
+    boostCountString() {
+      const num = this.boost.count;
+      return num.gt(0)
+        ? `${this.formatDecimalAmount(num)} ${pluralize("Dimension Boost", num.floor())}`
+        : "no Dimension Boosts";
+    },
+    galaxyCountString() {
+      const num = this.galaxy.count;
+      return num.gt(0)
+        ? `${this.formatDecimalAmount(num)} ${pluralize("Antimatter Galaxy", num.floor())}`
+        : "no Antimatter Galaxies";
+    },
     infinityCountString() {
       const num = this.infinity.count;
       return num.gt(0)
@@ -101,6 +129,28 @@ export default {
       this.timeSinceCreation = Date.now() - player.records.gameCreatedTime;
 
       const progress = PlayerProgress.current;
+      const hasBoosted = progress.isInfinityUnlocked || player.galaxies.gt(0) || player.dimensionBoosts.gt(0);
+      const boost = this.boost;
+      const bestBoost = records.boost;
+      boost.isUnlocked = hasBoosted;
+      if (hasBoosted) {
+        boost.count.copyFrom(player.dimensionBoosts);
+        boost.hasBest = !bestBoost.time.eq(DC.BEMAX);
+        boost.best.setFrom(bestBoost.time);
+        boost.this.setFrom(records.thisBoost.time);
+      }
+
+      const hasGalaxy = progress.isInfinityUnlocked || player.galaxies.gt(0);
+      const galaxy = this.galaxy;
+      const bestGalaxy = records.galaxy;
+      galaxy.isUnlocked = hasGalaxy;
+      if (hasGalaxy) {
+        galaxy.count.copyFrom(player.galaxies);
+        galaxy.hasBest = !bestGalaxy.time.eq(DC.BEMAX);
+        galaxy.best.setFrom(bestGalaxy.time);
+        galaxy.this.setFrom(records.thisGalaxy.time);
+      }
+
       const isInfinityUnlocked = progress.isInfinityUnlocked;
       const infinity = this.infinity;
       const bestInfinity = records.bestInfinity;
@@ -234,6 +284,57 @@ export default {
       </div>
       <br>
     </div>
+    <!-- Dimension Boost Stats -->
+    <div
+      v-if="boost.isUnlocked"
+      class="c-stats-tab-subheader c-stats-tab-general"
+    >
+      <div class="c-stats-tab-title">
+        Dimension Boost
+      </div>
+      <div>
+        You have {{ boostCountString }}<span v-if="galaxy.isUnlocked"> this Galaxy</span>.
+      </div>
+      <div v-if="boost.hasBest">
+        Your fastest Boost was {{ galaxy.best.toStringShort() }}.
+      </div>
+      <div v-else>
+        You have no fastest Boost<span v-if="boost.isUnlocked"> this Galaxy</span>.
+      </div>
+      <div>
+        You have spent {{ boost.this.toStringShort() }} since the last Boost.
+        <span v-if="reality.isUnlocked">
+          ({{ boost.thisReal.toStringShort() }} real time)
+        </span>
+      </div>
+      <br>
+    </div>
+    <!-- Antimatter Galaxy Stats -->
+    <div
+      v-if="galaxy.isUnlocked"
+      class="c-stats-tab-subheader c-stats-tab-general"
+    >
+      <div class="c-stats-tab-title">
+        Antimatter Galaxy
+      </div>
+      <div>
+        You have {{ galaxyCountString }}<span v-if="infinity.isUnlocked"> this Infinity</span>.
+      </div>
+      <div v-if="galaxy.hasBest">
+        Your fastest Galaxy was {{ galaxy.best.toStringShort() }}.
+      </div>
+      <div v-else>
+        You have no fastest Galaxy<span v-if="infinity.isUnlocked"> this Infinity</span>.
+      </div>
+      <div>
+        You have spent {{ galaxy.this.toStringShort() }} since the last Galaxy.
+        <span v-if="reality.isUnlocked">
+          ({{ galaxy.thisReal.toStringShort() }} real time)
+        </span>
+      </div>
+      <br>
+    </div>
+    <!-- Infinity Stats -->
     <div
       v-if="infinity.isUnlocked"
       class="c-stats-tab-subheader c-stats-tab-general"
@@ -267,6 +368,7 @@ export default {
       </div>
       <br>
     </div>
+    <!-- Eternity Stats -->
     <div
       v-if="eternity.isUnlocked"
       class="c-stats-tab-subheader c-stats-tab-general"
@@ -304,6 +406,7 @@ export default {
       </div>
       <br>
     </div>
+    <!-- Reality Stats -->
     <div
       v-if="reality.isUnlocked"
       class="c-stats-tab-subheader c-stats-tab-general"

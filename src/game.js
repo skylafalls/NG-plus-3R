@@ -363,6 +363,8 @@ export function realTimeMechanics(realDiff) {
   // When storing real time, skip everything else having to do with production once stats are updated
   if (Enslaved.isStoringRealTime) {
     player.records.realTimePlayed = player.records.realTimePlayed.add(realDiff);
+    player.records.thisBoost.realTime = player.records.thisBoost.realTime.add(realDiff);
+    player.records.thisGalaxy.realTime = player.records.thisGalaxy.realTime.add(realDiff);
     player.records.thisInfinity.realTime = player.records.thisInfinity.realTime.add(realDiff);
     player.records.thisEternity.realTime = player.records.thisEternity.realTime.add(realDiff);
     player.records.thisReality.realTime = player.records.thisReality.realTime.add(realDiff);
@@ -477,6 +479,10 @@ export function gameLoop(passedDiff, options = {}) {
     player.records.realTimeDoomed = player.records.realTimeDoomed.add(realDiff);
     player.records.realTimePlayed = player.records.realTimePlayed.add(realDiff);
     player.records.totalTimePlayed = player.records.totalTimePlayed.add(diff);
+    player.records.thisBoost.realTime = player.records.thisBoost.realTime.add(realDiff);
+    player.records.thisBoost.time = player.records.thisBoost.time.add(diff);
+    player.records.thisGalaxy.realTime = player.records.thisGalaxy.realTime.add(realDiff);
+    player.records.thisGalaxy.time = player.records.thisGalaxy.time.add(diff);
     player.records.thisInfinity.realTime = player.records.thisInfinity.realTime.add(realDiff);
     player.records.thisInfinity.time = player.records.thisInfinity.time.add(diff);
     player.records.thisEternity.realTime = player.records.thisEternity.realTime.add(realDiff);
@@ -490,6 +496,8 @@ export function gameLoop(passedDiff, options = {}) {
     player.records.thisReality.time = player.records.thisReality.time.add(diff);
 
     player.records.trueTimePlayed += trueDiff;
+    player.records.thisBoost.trueTime += trueDiff;
+    player.records.thisGalaxy.trueTime += trueDiff;
     player.records.thisInfinity.trueTime += trueDiff;
     player.records.thisEternity.trueTime += trueDiff;
     player.records.thisReality.trueTime += trueDiff;
