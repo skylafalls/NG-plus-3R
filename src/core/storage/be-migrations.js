@@ -4,6 +4,7 @@ function D(x) {
 }
 
 const BEMAX = new Decimal("10^^9000000000000000");
+const D1 = new Decimal(1);
 
 function updateGlyphs(glyph) {
   if (glyph.effects instanceof Array) return glyph;
@@ -216,28 +217,34 @@ export function beMigration(player) {
   player.records.realTimePlayed = D(player.records.realTimePlayed);
   player.records.trueTimePlayed = player.records.realTimePlayed.toNumber();
   for (let i = 0; i < 10; i++) {
-    player.records.recentEternities[i][6] = D(player.records.recentEternities[i][5]);
-    player.records.recentEternities[i][5] = player.records.recentEternities[i][4];
+    player.records.recentEternities[i][8] = D(player.records.recentEternities[i][5]);
+    player.records.recentEternities[i][7] = player.records.recentEternities[i][4];
     player.records.recentEternities[i][4] = D(player.records.recentEternities[i][3]);
     player.records.recentEternities[i][3] = D(player.records.recentEternities[i][2]);
     player.records.recentEternities[i][2] = D(player.records.recentEternities[i][1]);
     player.records.recentEternities[i][1] = D(player.records.recentEternities[i][0]);
-    if (player.records.recentEternities[i][5] instanceof Decimal) {
-      player.records.recentEternities[i][5] = "";
+    if (player.records.recentEternities[i][7] instanceof Decimal) {
+      player.records.recentEternities[i][7] = "";
     }
-    player.records.recentInfinities[i][5] = player.records.recentInfinities[i][4];
+    player.records.recentEternities[i][5] = D1;
+    player.records.recentEternities[i][6] = D1;
+    player.records.recentInfinities[i][7] = player.records.recentInfinities[i][4];
     player.records.recentInfinities[i][4] = D(player.records.recentInfinities[i][3]);
     player.records.recentInfinities[i][3] = D(player.records.recentInfinities[i][2]);
     player.records.recentInfinities[i][2] = D(player.records.recentInfinities[i][1]);
     player.records.recentInfinities[i][1] = D(player.records.recentInfinities[i][0]);
-    player.records.recentRealities[i][8] = D(player.records.recentRealities[i][7]);
-    player.records.recentRealities[i][7] = D(player.records.recentRealities[i][6]);
-    player.records.recentRealities[i][6] = D(player.records.recentRealities[i][5]);
-    player.records.recentRealities[i][5] = player.records.recentRealities[i][4];
+    player.records.recentInfinities[i][5] = D1;
+    player.records.recentInfinities[i][6] = D1;
+    player.records.recentRealities[i][10] = D(player.records.recentRealities[i][7]);
+    player.records.recentRealities[i][9] = D(player.records.recentRealities[i][6]);
+    player.records.recentRealities[i][8] = D(player.records.recentRealities[i][5]);
+    player.records.recentRealities[i][7] = player.records.recentRealities[i][4];
     player.records.recentRealities[i][4] = D(player.records.recentRealities[i][3]);
     player.records.recentRealities[i][3] = D(player.records.recentRealities[i][2]);
     player.records.recentRealities[i][2] = D(player.records.recentRealities[i][1]);
     player.records.recentRealities[i][1] = D(player.records.recentRealities[i][0]);
+    player.records.recentRealities[i][5] = D1;
+    player.records.recentRealities[i][6] = D1;
   }
   player.records.thisEternity.realTime = D(player.records.thisEternity.realTime);
   player.records.thisEternity.time = D(player.records.thisEternity.time);

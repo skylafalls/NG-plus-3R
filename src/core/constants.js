@@ -249,6 +249,7 @@ window.RECENT_PRESTIGE_RESOURCE = {
   RATE: 1,
   CURRENCY: 2,
   PRESTIGE_COUNT: 3,
+  DELTA_GAIN: 4,
 };
 
 // Used as drag and drop data type

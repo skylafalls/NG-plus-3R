@@ -108,7 +108,10 @@ export function addInfinityTime(trueTime, time, realTime, ip, infinities) {
   if (player.challenge.normal.current) challenge = `Normal Challenge ${player.challenge.normal.current}`;
   if (player.challenge.infinity.current) challenge = `Infinity Challenge ${player.challenge.infinity.current}`;
   player.records.recentInfinities.pop();
-  player.records.recentInfinities.unshift([trueTime, time, realTime, ip, infinities, challenge]);
+  const lastrun = player.records.recentInfinities[0];
+  const deltaip = ip.div(lastrun[3]);
+  const deltainf = infinities.div(lastrun[4]);
+  player.records.recentInfinities.unshift([trueTime, time, realTime, ip, infinities, deltaip, deltainf, challenge]);
   GameCache.bestRunIPPM.invalidate();
 }
 
@@ -140,7 +143,10 @@ export function addEternityTime(trueTime, time, realTime, ep, eternities) {
   // If we call this function outside of dilation, it uses the existing AM and produces an erroneous number
   const gainedTP = player.dilation.active ? getTachyonGain() : DC.D0;
   player.records.recentEternities.pop();
-  player.records.recentEternities.unshift([trueTime, time, realTime, ep, eternities, challenge, gainedTP]);
+  const lastrun = player.records.recentEternities[0];
+  const deltaep = ep.div(lastrun[3]);
+  const deltaeter = eternities.div(lastrun[4]);
+  player.records.recentEternities.unshift([trueTime, time, realTime, ep, eternities, deltaep, deltaeter, challenge, gainedTP]);
   GameCache.averageRealTimePerEternity.invalidate();
 }
 
@@ -182,8 +188,11 @@ export function addRealityTime(trueTime, time, realTime, rm, level, realities, a
   }
   const shards = Currency.relicShards.gain;
   player.records.recentRealities.pop();
+  const lastrun = player.records.recentRealities[0];
+  const deltarm = rm.div(lastrun[3]);
+  const deltareal = realities.div(lastrun[4]);
   player.records.recentRealities.unshift([trueTime, time, realTime, rm.times(ampFactor),
-    realities, reality, level, shards.mul(ampFactor), projIM]);
+    realities, deltarm, deltareal, reality, level, shards.mul(ampFactor), projIM]);
 }
 
 export function gainedInfinities() {

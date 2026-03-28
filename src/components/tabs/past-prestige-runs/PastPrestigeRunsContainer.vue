@@ -14,7 +14,9 @@ function averageRun(allRuns) {
     }
     const isNum = isNumber(runs[0][index]);
     const total = runs.map(run => run[index]).reduce(isNum ? Number.sumReducer : Decimal.sumReducer);
-    avgAttr.push(isNum ? total / runs.length : Decimal.div(total, runs.length));
+    const isMul = index === 5 || index === 6;
+    if (isMul) avgAttr.push(Decimal.root(total, runs.length));
+    else avgAttr.push(isNum ? total / runs.length : Decimal.div(total, runs.length));
   }
   return avgAttr;
 }
@@ -80,7 +82,7 @@ export default {
       this.hasIM = Currency.imaginaryMachines.cap.gt(0);
 
       // We have 4 different "useful" stat pairings we could display, but this ends up being pretty boilerplatey
-      const names = [this.points, `${this.points} Rate`, this.plural, `${this.singular} Rate`];
+      const names = [this.points, `${this.points} Rate`, this.plural, `${this.singular} Rate`, `${this.points} ×Last ${this.singular}`, `${this.plural} ×Last ${this.singular}`];
       switch (this.resourceType) {
         case RECENT_PRESTIGE_RESOURCE.ABSOLUTE_GAIN:
           this.selectedResources = [0, 2];
@@ -93,6 +95,9 @@ export default {
           break;
         case RECENT_PRESTIGE_RESOURCE.PRESTIGE_COUNT:
           this.selectedResources = [2, 3];
+          break;
+        case RECENT_PRESTIGE_RESOURCE.DELTA_GAIN:
+          this.selectedResources = [4, 5];
           break;
         default:
           throw new Error("Unrecognized Statistics tab resource type");
@@ -129,8 +134,8 @@ export default {
       if (this.hasRealTime) cells.push(this.realTime(run));
       if (this.hasRealTime) cells.push(this.trueTime(run));
 
-      const resources = [this.prestigeCurrencyGain(run), this.prestigeCurrencyRate(run),
-        this.prestigeCountGain(run), this.prestigeCountRate(run)];
+      const resources = [this.prestigeCurrencyGain(run), this.prestigeCurrencyRate(run), this.prestigeCountGain(run),
+        this.prestigeCountRate(run), this.prestigeCurrencyDelta(run), this.prestigeCountDelta(run)];
       cells.push(resources[this.selectedResources[0]]);
       cells.push(resources[this.selectedResources[1]]);
 
@@ -138,8 +143,8 @@ export default {
       for (let i = 0; i < this.layer.extra?.length && cells.length <= this.longestRow; i++) {
         if (!this.layer.showExtra[i]()) continue;
         const formatFn = this.layer.formatExtra[i];
-        const val = run[i + 5] ?? 0;
-        if (this.layer.allowRate[i] && this.showRate) cells.push(this.rateText(run, run[i + 5]));
+        const val = run[i + 7] ?? 0;
+        if (this.layer.allowRate[i] && this.showRate) cells.push(this.rateText(run, run[i + 7]));
         else cells.push(formatFn(val));
       }
 
@@ -183,6 +188,13 @@ export default {
     prestigeCountRate(run) {
       return this.rateText(run, run[4]);
     },
+    prestigeCurrencyDelta(run) {
+      if (this.hasIM && this.layer.name === "Reality") return `N/A`;
+      return `×${format(run[5], 2)} ${this.points}`;
+    },
+    prestigeCountDelta(run) {
+      return `×${quantify(this.singular, run[6], 2, 1)}`;
+    },
     rateText(run, amount) {
       const time = run[2];
       const rpm = ratePerMinute(amount, time);
@@ -192,7 +204,7 @@ export default {
     },
     challengeText(run) {
       // Special-case Nameless reality in order to keep this column small and not force a linebreak
-      const rawText = run[5];
+      const rawText = run[7];
       return rawText === "The Nameless Ones" ? "Nameless" : rawText;
     },
     toggleShown() {

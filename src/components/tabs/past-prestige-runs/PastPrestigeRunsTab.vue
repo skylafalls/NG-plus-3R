@@ -54,6 +54,8 @@ export default {
           return "prestige currency";
         case RECENT_PRESTIGE_RESOURCE.PRESTIGE_COUNT:
           return "prestige count";
+        case RECENT_PRESTIGE_RESOURCE.DELTA_GAIN:
+          return "currency change";
         default:
           throw new Error("Unrecognized Statistics tab resource type");
       }

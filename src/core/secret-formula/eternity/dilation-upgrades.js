@@ -31,7 +31,7 @@ export const dilationUpgrades = {
             Achievement(187)
           ).mul(2), 2, 2)
         ])
-        : i18n("rdu1")),
+        : i18n("eter", "rdu1")),
     effect: bought => {
       const base = Effects.product(
         SingularityMilestone.dilatedTimeFromSingularities,

@@ -254,7 +254,7 @@ export const glyphTypes = {
     },
     alchemyResource: "power",
     pelleUniqueEffect: {
-      effect: 0.02,
+      effect: 1.02,
       formatEffect: effect => formatPercents(effect.sub(1)),
       description: "Galaxies are {value} stronger",
       combine: GlyphCombiner.addExponents,

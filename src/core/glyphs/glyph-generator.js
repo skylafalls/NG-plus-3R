@@ -327,8 +327,7 @@ export const GlyphGenerator = {
   },
 
   randomType(rng) {
-    const generatable = generatedTypes.filter(x => (GlyphInfo[x].isGenerated ?? false) &&
-      (GlyphInfo[x].generationRequirement ? GlyphInfo[x].generationRequirement() : true));
+    const generatable = generatedTypes.filter(x => (GlyphInfo[x].isGenerated ?? false) && GlyphInfo[x].generationRequirement);
     const typesArray = generatedTypes.filter(x => generatable.includes(x));
     const types = typesArray.mapToObject(x => x, () => 1);
     let sum = 0;

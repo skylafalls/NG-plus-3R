@@ -407,7 +407,7 @@ export const normalTimeStudies = [
     cost: DC.D15,
     requirement: [161, 162],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => i18n("studes", "ts171", [formatX(1.33, 0, 2), formatX(1.25, 0, 2)]),
+    description: () => i18n("studies", "ts171", [formatX(1.33, 0, 2), formatX(1.25, 0, 2)]),
     effect: () => 1.25
   },
   {

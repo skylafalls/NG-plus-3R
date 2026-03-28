@@ -24,6 +24,7 @@ window.i18n = function(type, id, mods = []) {
     text = "Placeholder";
   }
 
+  /*
   // We do this first, since $1aX$KEY$$ needs to be handled before it becomes VALUE$KEY$$ and breaks
   // Note if a key:name is not defined, it just wont get substituted here, but that only happens if bad translating anyways
   // (You would have to call a pluralisation and then not define it for it to occur, but plurals can just not be used)
@@ -32,6 +33,8 @@ window.i18n = function(type, id, mods = []) {
     const key = Lang.current.allText.plurals[value];
     text = text.replaceAll(`/\$([0-9]{1,2}aX)?\$${key.key}\$\$/g`, match => pluralHandling(match, key.rules, mods));
   }
+
+  */
 
   for (let i = 1; i <= mods.length; i++) {
     text = text.replaceAll(`$${i}aX`, handlePossibleFunction(mods[i - 1]));

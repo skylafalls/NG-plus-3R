@@ -276,11 +276,14 @@ window.player = {
     previousRunRealTime: DC.D0,
     totalAntimatter: DC.E1,
     recentInfinities: Array.range(0, 10).map(() =>
-      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, ""]),
+      // True Time, Time, Real Time, IP, Inf, IP xLast, Prestige xLast, Challenge
+      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, DC.D1, DC.D1, ""]),
     recentEternities: Array.range(0, 10).map(() =>
-      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, "", DC.D0]),
+      // True Time, Real Time, Time, EP, Eter, EP xLast, Eter xLast, Challenge, TP
+      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, DC.D1, DC.D1, "", DC.D0]),
     recentRealities: Array.range(0, 10).map(() =>
-      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, "", DC.D0, DC.D0]),
+      // True Time, Real Time, Time, RM, Realities, RM xLast, Realities xLast, Challenge, Glyph Level, Shards, projIM
+      [Number.MAX_VALUE, DC.BEMAX, DC.BEMAX, DC.D1, DC.D1, DC.D1, DC.D1, "", DC.D0, DC.D0]),
     thisBoost: {
       time: DC.D0,
       realTime: DC.D0,

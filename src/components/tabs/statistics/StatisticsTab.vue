@@ -131,7 +131,7 @@ export default {
       const progress = PlayerProgress.current;
       const hasBoosted = progress.isInfinityUnlocked || player.galaxies.gt(0) || player.dimensionBoosts.gt(0);
       const boost = this.boost;
-      const bestBoost = records.boost;
+      const bestBoost = records.bestBoost;
       boost.isUnlocked = hasBoosted;
       if (hasBoosted) {
         boost.count.copyFrom(player.dimensionBoosts);
@@ -142,7 +142,7 @@ export default {
 
       const hasGalaxy = progress.isInfinityUnlocked || player.galaxies.gt(0);
       const galaxy = this.galaxy;
-      const bestGalaxy = records.galaxy;
+      const bestGalaxy = records.bestGalaxy;
       galaxy.isUnlocked = hasGalaxy;
       if (hasGalaxy) {
         galaxy.count.copyFrom(player.galaxies);

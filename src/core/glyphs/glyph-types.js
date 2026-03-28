@@ -129,7 +129,7 @@ class GlyphType {
 
   // Needs special handling
   get maxEquipped() {
-    return handlePossibleConditional(this.config.maxEquipped) ?? Infinity;
+    return handlePossibleFunction(this.config.maxEquipped) ?? Infinity;
   }
 
   // Dynamic, takes input
