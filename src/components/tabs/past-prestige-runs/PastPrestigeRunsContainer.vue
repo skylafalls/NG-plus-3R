@@ -13,8 +13,12 @@ function averageRun(allRuns) {
       continue;
     }
     const isNum = isNumber(runs[0][index]);
-    const total = runs.map(run => run[index]).reduce(isNum ? Number.sumReducer : Decimal.sumReducer);
     const isMul = index === 5 || index === 6;
+    let total;
+    // We do this weird edgecasing, such that if we have 9 x1 EP and an xe100 EP, we show an xe10 increase on average, not an e99x
+    // This first edgecasing also means that 5 e100x and 5 1x will average e50x not 5e10x
+    if (isMul) total = runs.map(run => run[index]).reduce(Decimal.prodReducer);
+    else total = runs.map(run => run[index]).reduce(isNum ? Number.sumReducer : Decimal.sumReducer);
     if (isMul) avgAttr.push(Decimal.root(total, runs.length));
     else avgAttr.push(isNum ? total / runs.length : Decimal.div(total, runs.length));
   }
@@ -220,7 +224,9 @@ export default {
         case 4:
         case 5:
           // Prestige currency is long, but the reality table can be shorter due to smaller numbers
-          width = this.layer.name === "Reality" ? "15rem" : "20rem";
+          // Note: We also check if we are doing xRealites last Reality. This text is long and takes a linebreak if we shorten column,
+          // so we will not shorten it if that is the case
+          width = this.layer.name === "Reality" && this.resourceType !== RECENT_PRESTIGE_RESOURCE.DELTA_GAIN ? "15rem" : "20rem";
           break;
         case 6:
           // Challenges can potentially be very long, but this is glyph level in the reality table

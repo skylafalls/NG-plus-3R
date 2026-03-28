@@ -554,7 +554,7 @@ Currency.realityMachines = new class extends DecimalCurrency {
   }
 
   get cappedGain() {
-    return Decimal.max(this.gain, this.hardcap);
+    return Decimal.min(this.gain, this.hardcap);
   }
 
   get hardcapMult() {
