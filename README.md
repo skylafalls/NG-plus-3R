@@ -1,4 +1,10 @@
 # Antimatter Dimensions - Break Eternity Port
+Note: You are currently viewing the refactor branch of the codebase.
+This is the branch that all pull requests, issues and updates are focused on.
+If you are modding and decide to fork the repository, change the main branch back
+to "main" in settings -> default branch.
+The main branch will remain unmodified until refactor is considered complete, at which point
+this branch will be merged into main, and this branch will be deleted in favor of main.
 
 ## Modifying
 This repository is worked on using Visual Studio Code and if you don't know what you are doing, you should use so aswell.
