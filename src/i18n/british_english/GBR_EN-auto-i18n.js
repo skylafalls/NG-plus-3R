@@ -56,7 +56,7 @@ export const auto = {
   autoTabTextE: "Antimatter Dimension Autobuyers can have their bulk upgrades once interval is below $1aX ms.",
   autoTabTextF: "Autobuyers with \"Instant\" interval will trigger every game tick ($1aX)",
   nMs: "$1ax ms",
-  enableddisable: "Enable all autobuyers$Disable all autobuyers",
+  enableDisable: "Enable all autobuyers$Disable all autobuyers",
   buy10buy1: "Antimatter Dimension autobuyers to Buy 10$Set autobuyers to Buy 1",
   continuum: "Continuum is disabled",
   autoBC: "Automatic Big Crunch",
