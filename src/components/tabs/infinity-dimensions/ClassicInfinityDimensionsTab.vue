@@ -36,6 +36,16 @@ export default {
       const extra = this.extraTesseracts.gt(0) ? ` + ${format(this.extraTesseracts, 2, 2)}` : "";
       return `${format(this.boughtTesseracts)}${extra}`;
     },
+    infinityPowerString() {
+      // The double mustache does not work if theres HTML within it which is why
+      // it needs to be its own computed value
+      return i18n("inf", "IDIPo", [
+        `<span class="c-infinity-dim-description__accent">${format(this.infinityPower, 2, 1)}</span>`,
+        i18n("inf", "IDconv", [`<span class="c-infinity-dim-description__accent">${formatPow(this.conversionRate, 2, 3)}</span>`]).split("$")[this.isEC9Running ? 1 : 0],
+        `<span class="c-infinity-dim-description__accent">${formatX(this.dimMultiplier, 2, 1)}</span>`,
+        i18n("inf", "IDec9").split("$")[this.isEC9Running ? 1 : 0],
+      ]);
+    }
   },
   methods: {
     update() {
@@ -97,14 +107,7 @@ export default {
       </PrimaryButton>
     </div>
     <div>
-      <p>
-        {{ i18n("inf", "IDIPo" [
-          `<span class="c-infinity-dim-description__accent">${format(infinityPower, 2, 1)}</span>`,
-          i18n("inf", "IDconv", [`<span class="c-infinity-dim-description__accent">${formatPow(conversionRate, 2, 3)}</span>`]).split("$")[isEC9Running ? 1 : 0],
-          `<span class="c-infinity-dim-description__accent">${formatX(dimMultiplier, 2, 1)}</span>`,
-          i18n("inf", "IDec9").split("$")[isEC9Running ? 1 : 0]
-        ]) }}
-      </p>
+      <p v-html="infinityPowerString" />
     </div>
     <div
       v-if="enslavedCompleted"

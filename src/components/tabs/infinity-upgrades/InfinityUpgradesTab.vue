@@ -169,8 +169,7 @@ export default {
         :class="btnClassObject(1)"
       />
     </div>
-    <div v-if="eternityUnlocked && bottomRowUnlocked">
-      {{ i18n("inf", "ipxNote", [formatPostBreak(ipMultSoftCap), formatPostBreak(ipMultHardCap)]) }}
+    <div v-if="eternityUnlocked && bottomRowUnlocked" v-html='i18n("inf", "ipxNote", [formatPostBreak(ipMultSoftCap), formatPostBreak(ipMultHardCap)])'>
     </div>
   </div>
 </template>

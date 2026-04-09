@@ -239,9 +239,7 @@ export default {
         <ReplicantiUpgradeButton :setup="replicantiIntervalSetup" />
         <ReplicantiUpgradeButton :setup="maxGalaxySetup" />
       </div>
-      <div>
-        {{ i18n("inf", "repRGnote", [distantRG, remoteRG]) }}
-      </div>
+      <div v-html='i18n("inf", "repRGnote", [distantRG, remoteRG])'/>
       <br><br>
       <ReplicantiGainText />
       <br>

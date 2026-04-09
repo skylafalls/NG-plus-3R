@@ -84,7 +84,7 @@ export const breakInfinityUpgrades = {
       );
       infinities = infinities.times(getAdjustedGlyphEffect("infinityinfmult"));
       const timeStr = Time.bestInfinity.totalMilliseconds.lte(50)
-        ? i18n("inf", "biU7cap", [TimeSpan.fromMilliseconds(new Decimal(100)).toStringShort()])
+        ? i18n("inf", "BiU7cap", [TimeSpan.fromMilliseconds(new Decimal(100)).toStringShort()])
         : `${Time.bestInfinity.times(new Decimal(2)).toStringShort()}`;
       return i18n("inf", "BiU7eff", [quantify(i18n("inf", "inf"), infinities), timeStr]);
     }

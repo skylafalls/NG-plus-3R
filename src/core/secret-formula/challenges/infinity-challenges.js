@@ -47,7 +47,7 @@ export const infinityChallenges = [
     isQuickResettable: true,
     effect: 0.25,
     reward: {
-      description: () => i18n("chall", "ic4rew", [formatPow(1.05, 2, 2)]),
+      description: () => i18n("chall", "ic4rew", [format(1.05, 2, 2)]),
       effect: 1.05
     },
     unlockAM: DC.E14000,
