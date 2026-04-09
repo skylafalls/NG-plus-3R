@@ -1,5 +1,3 @@
-import { sha512_256 } from "js-sha512";
-
 import { Player } from "./player";
 
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
@@ -425,3 +423,35 @@ dev.beTests.prepare = function() {
   GameStorage.import("blob");
   Notation.scientific.setAsCurrent();
 };
+
+/**
+ * Breaks infinity without needing to meet the big crunch autobuyer requirement.
+ */
+dev.breakInfinity = function breakInfinity() {
+  for (const autobuyer of Autobuyers.all) {
+    if (autobuyer.data.interval !== undefined) autobuyer.maxIntervalForFree();
+  }
+  // There's a potential migration edge case involving already-maxed autobuyers; this should give the achievement
+  Achievement(61).tryUnlock();
+  player.break = !player.break;
+  TabNotification.ICUnlock.tryTrigger();
+  EventHub.dispatch(player.break ? GAME_EVENT.BREAK_INFINITY : GAME_EVENT.FIX_INFINITY);
+  GameUI.update();
+}
+
+/**
+ * Bypasses certain stages of the game, useful for balancing and development
+ */
+dev.bypassStage = {
+  /**
+   * Bypass pre-NG+3 areas (0 AM to Meta Dimensions)
+   */
+  ng() {
+    player.eternities = new Decimal(1e10);
+    player.eternityPoints = new Decimal("1e4000");
+    player.dilation.tachyonParticles = new Decimal(1e100);
+    player.timestudy.theorems = new Decimal(14.7e9);
+    dev.beTests.completeChalleges.all();
+    dev.breakInfinity();
+  }
+}
