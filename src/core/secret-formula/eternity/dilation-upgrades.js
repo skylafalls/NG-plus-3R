@@ -141,7 +141,7 @@ export const dilationUpgrades = {
     cost: 1e15,
     description: i18n("eter", "du7"),
     effect: () => Currency.tachyonParticles.value.div(20000),
-    formatEffect: value => i18n("eter", "xperesc", [format(value, 2, 1)])
+    formatEffect: value => i18n("eter", "xpersec", [format(value, 2, 1)])
   },
   dtGainPelle: rebuyable({
     id: 11,

@@ -6,7 +6,7 @@ export default {
   name: "TimeDilationTab",
   components: {
     DilationButton,
-    DilationUpgradeButton
+    DilationUpgradeButton,
   },
   data() {
     return {
@@ -29,7 +29,7 @@ export default {
       return [
         DilationUpgrade.dtGain,
         DilationUpgrade.galaxyThreshold,
-        DilationUpgrade.tachyonGain
+        DilationUpgrade.tachyonGain,
       ];
     },
     upgrades() {
@@ -37,12 +37,12 @@ export default {
         [
           DilationUpgrade.doubleGalaxies,
           DilationUpgrade.tdMultReplicanti,
-          DilationUpgrade.ndMultDT
+          DilationUpgrade.ndMultDT,
         ],
         [
           DilationUpgrade.ipMultDT,
           DilationUpgrade.timeStudySplit,
-          DilationUpgrade.dilationPenalty
+          DilationUpgrade.dilationPenalty,
         ],
       ];
     },
@@ -56,13 +56,13 @@ export default {
       return [
         DilationUpgrade.dtGainPelle,
         DilationUpgrade.galaxyMultiplier,
-        DilationUpgrade.tickspeedPower
+        DilationUpgrade.tickspeedPower,
       ];
     },
     pelleUpgrades() {
       return [
         DilationUpgrade.galaxyThresholdPelle,
-        DilationUpgrade.flatDilationMult
+        DilationUpgrade.flatDilationMult,
       ];
     },
     ttGenerator() {
@@ -85,6 +85,22 @@ export default {
       upgradeRows.push([this.ttGenerator]);
       return upgradeRows;
     },
+    tachyonGalaxiesText() {
+      return i18n("eter", "nextAatB", [
+        `<span v-if="tachyonGalaxyGain.gt(1)">${format(this.tachyonGalaxyGain, 3, 0)}</span>
+        ${pluralize(i18n("eter", "tg"), this.tachyonGalaxyGain)}`,
+        `<span
+        class="c-dilation-tab__galaxy-threshold"
+        :ach-tooltip="galaxyTimeEstimate"
+        >${format(this.galaxyThreshold, 2, 1)}</span>`,
+        `<span
+        class="c-dilation-tab__galaxies"
+        :ach-tooltip="baseGalaxyText"
+        >${format(this.totalGalaxies, 3, 0)}</span>
+        ${pluralize(i18n("eter", "tg"), this.totalGalaxies)}
+        </span>`,
+      ]);
+    },
   },
   methods: {
     maxPurchaseDilationUpgrades() {
@@ -93,7 +109,9 @@ export default {
     update() {
       this.tachyons.copyFrom(Currency.tachyonParticles);
       this.dilatedTime.copyFrom(Currency.dilatedTime);
-      const rawDTGain = getDilationGainPerSecond().times(getGameSpeedupForDisplay().mul(getRealSpeedupForDisplay()));
+      const rawDTGain = getDilationGainPerSecond().times(
+        getGameSpeedupForDisplay().mul(getRealSpeedupForDisplay())
+      );
       this.galaxyTimeEstimate = getDilationTimeEstimate(this.galaxyThreshold);
       if (PelleRifts.paradox.isActive) {
         // The number can be small and either positive or negative with the rift active, which means that extra care
@@ -101,28 +119,44 @@ export default {
         // related to tick microstructure to make things accurate, and it seems to be to roughly 1 part in 5e6
         const tickProp = player.options.updateRate / 1000;
         const drainFactorPerTick = 1 - (1 - Pelle.riftDrainPercent) ** tickProp;
-        const drainPerSecond = this.dilatedTime.add(rawDTGain.times(tickProp)).times(drainFactorPerTick / tickProp);
+        const drainPerSecond = this.dilatedTime
+          .add(rawDTGain.times(tickProp))
+          .times(drainFactorPerTick / tickProp);
         this.dilatedTimeIncome = rawDTGain.minus(drainPerSecond);
       } else {
         this.dilatedTimeIncome = rawDTGain;
       }
-      this.galaxyThreshold = getTachyonGalaxyMult().pow(player.dilation.baseTachyonGalaxies).mul(1000);
+      this.galaxyThreshold = getTachyonGalaxyMult()
+        .pow(player.dilation.baseTachyonGalaxies)
+        .mul(1000);
       this.baseGalaxies.copyFrom(player.dilation.baseTachyonGalaxies);
       this.totalGalaxies.copyFrom(player.dilation.totalTachyonGalaxies);
-      this.hasPelleDilationUpgrades = PelleRifts.paradox.milestones[0].canBeApplied;
-      if (this.baseGalaxies.lt(500) && DilationUpgrade.doubleGalaxies.isBought) {
-        this.tachyonGalaxyGain = new Decimal(DilationUpgrade.doubleGalaxies.effectValue);
+      this.hasPelleDilationUpgrades =
+        PelleRifts.paradox.milestones[0].canBeApplied;
+      if (
+        this.baseGalaxies.lt(500) &&
+        DilationUpgrade.doubleGalaxies.isBought
+      ) {
+        this.tachyonGalaxyGain = new Decimal(
+          DilationUpgrade.doubleGalaxies.effectValue
+        );
       } else {
         this.tachyonGalaxyGain = new Decimal(1);
       }
-      this.tachyonGalaxyGain = this.tachyonGalaxyGain.times(DilationUpgrade.galaxyMultiplier.effectValue);
+      this.tachyonGalaxyGain = this.tachyonGalaxyGain.times(
+        DilationUpgrade.galaxyMultiplier.effectValue
+      );
       this.maxDT.copyFrom(player.records.thisReality.maxDT);
 
       const estimateText = getDilationTimeEstimate(this.maxDT);
-      if (this.dilatedTimeIncome.lte(0)) this.toMaxTooltip = i18n("eter", "nodtgain");
-      else this.toMaxTooltip = estimateText.startsWith("<") ? i18n("eter", "curinc") : estimateText;
-    }
-  }
+      if (this.dilatedTimeIncome.lte(0))
+        this.toMaxTooltip = i18n("eter", "nodtgain");
+      else
+        this.toMaxTooltip = estimateText.startsWith("<")
+          ? i18n("eter", "curinc")
+          : estimateText;
+    },
+  },
 };
 </script>
 
@@ -133,38 +167,32 @@ export default {
       <span class="c-dilation-tab__tachyons">{{ format(tachyons, 2, 1) }}</span>
       {{ pluralize(i18n("eter", "tp"), tachyons) }}.
     </span>
-    <div
-      @mouseover="isHovering = true"
-      @mouseleave="isHovering = false"
-    >
+    <div @mouseover="isHovering = true" @mouseleave="isHovering = false">
       <DilationButton />
     </div>
     <span>
-      {{ i18n("eter", "youhavedt", [`<span class="c-dilation-tab__dilated-time">${format(dilatedTime, 2, 1)}</span>`]) }}
-      <span class="c-dilation-tab__dilated-time-income">{{ dilatedTimeGainText }}/s</span>
+      <span
+        v-html="
+          i18n('eter', 'youhavedt', [
+            `<span class=&quot;c-dilation-tab__dilated-time&quot;>${format(
+              dilatedTime,
+              2,
+              1
+            )}</span>`,
+          ])
+        "
+      />
+      <span class="c-dilation-tab__dilated-time-income"
+        >{{ dilatedTimeGainText }}/s</span
+      >
     </span>
-    <span>
-      {{ i18n("eter", "nextAatB", [
-        `<span v-if="tachyonGalaxyGain.gt(1)">${format(tachyonGalaxyGain, 3, 0)}</span>
-      ${pluralize(i18n("eter", "tg"), tachyonGalaxyGain)}`,
-        `<span
-        class="c-dilation-tab__galaxy-threshold"
-        :ach-tooltip="galaxyTimeEstimate"
-      >${format(galaxyThreshold, 2, 1)}</span>`,
-        `<span
-        class="c-dilation-tab__galaxies"
-        :ach-tooltip="baseGalaxyText"
-      >${format(totalGalaxies, 3, 0)}</span>
-      ${pluralize(i18n("eter", "tg"), totalGalaxies)}
-    </span>`
-      ]) }}
-    </span>
+    <span v-html="tachyonGalaxiesText" />
     <span v-if="hasMaxText">
       {{ i18n("eter", "maxdt") }}
-      <span
-        v-tooltip="toMaxTooltip"
-        class="max-accent"
-      >{{ format(maxDT, 2, 1) }}</span>.
+      <span v-tooltip="toMaxTooltip" class="max-accent">{{
+        format(maxDT, 2, 1)
+      }}</span
+      >.
     </span>
     <button
       class="o-primary-btn l-button-container"
