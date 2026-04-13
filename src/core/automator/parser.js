@@ -1,10 +1,10 @@
-import { EOF, Parser } from "chevrotain";
+import { EOF, CstParser } from "chevrotain";
 
 import { automatorTokens, tokenMap as T } from "./lexer";
 import { AutomatorCommands } from "./automator-commands";
 
 // ----------------- parser -----------------
-class AutomatorParser extends Parser {
+class AutomatorParser extends CstParser {
   constructor() {
     super(automatorTokens, {
       recoveryEnabled: true,
