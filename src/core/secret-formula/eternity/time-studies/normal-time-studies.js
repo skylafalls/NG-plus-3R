@@ -525,7 +525,7 @@ export const normalTimeStudies = [
     requirement: [212],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [224],
-    description: () => i18n("studies", "ts223", formatInt(7)),
+    description: () => i18n("studies", "ts223", [formatInt(7)]),
     effect: 7
   },
   {
@@ -650,7 +650,7 @@ export const normalTimeStudies = [
     requirement: [() => Ra.unlocks.unlockHardV.effectOrDefault(0) >= 2, 223, 224, 232],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     requiresST: [223, 224, 232],
-    description: () => () => i18n("studies", "ts302", [formatInt(3000)]),
+    description: () => i18n("studies", "ts302", [formatInt(3000)]),
     effect: 3000,
     unlocked: () => Ra.unlocks.unlockHardV.effectOrDefault(0) >= 2
   },
@@ -661,7 +661,7 @@ export const normalTimeStudies = [
     requirement: [() => Ra.unlocks.unlockHardV.effectOrDefault(0) >= 3, 225, 226, 233],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     requiresST: [225, 226, 233],
-    description: () => () => i18n("studies", "ts303", [formatPercents(0.5)]),
+    description: () => i18n("studies", "ts303", [formatPercents(0.5)]),
     effect: 1.5,
     unlocked: () => Ra.unlocks.unlockHardV.effectOrDefault(0) >= 3
   },

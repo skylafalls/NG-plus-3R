@@ -58,7 +58,7 @@ export const studies = {
   ts221: "Time Dimension multiplier based on Dimension Boosts",
   ts222: "Dimension Boost costs scale by another $1aX less",
   ts223: "Distant Galaxy cost scaling starts $1aX Galaxies later",
-  ts224: "Distant Galaxy cost sclaing stats $1aX later ($2aX per $3ax Dim Boosts)",
+  ts224: "Distant Galaxy cost sclaing stats $1aX later ($2aX per $3aX Dim Boosts)",
   ts224gal: "Galaxy",
   ts225: "You gain extra Replicanti Galaxies based on Replicanti amount",
   ts226: "You gain extra Replicanti Galaxies based on their max",

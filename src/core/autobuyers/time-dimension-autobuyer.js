@@ -43,11 +43,8 @@ export class TimeDimensionAutobuyerState extends IntervaledAutobuyerState {
     const tier = this.tier;
     if (!TimeDimension(tier).isAvailableForPurchase) return;
     super.tick();
-    if (Currency.eternityPoints.value.add(1).log10().gte(10)) {
-      buyMaxTimeDimension(tier, 1, true);
-    } else {
-      buySingleTimeDimension(tier, true);
-    }
+    buyMaxTimeDimension(tier, 1, true);
+    buySingleTimeDimension(tier, true);
   }
 
   static get entryCount() { return 8; }
