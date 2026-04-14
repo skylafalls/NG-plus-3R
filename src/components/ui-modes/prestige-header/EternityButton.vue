@@ -38,7 +38,7 @@ export default {
       };
     },
     // Show EP/min below this threshold, color the EP number above it (1e40 is roughly when TS181 is attainable)
-    rateThreshold: () => 1e40,
+    rateThreshold: () => DC.E40,
     amountStyle() {
       if (!this.headerTextColored || this.currentEP.lt(this.rateThreshold)) return {
         "transition-duration": "0s"
@@ -92,7 +92,7 @@ export default {
       if (this.colorGainedTachyons.eq(0)) {
         // In this case, make it always red or green.
         // (Is it possible to gain 0 tachyons? Probably somehow it is.)
-        ratio = this.colorGainedTachyons.eq(0) ? 0 : Infinity;
+        ratio = this.colorGainedTachyons.eq(0) ? DC.D0 : Decimal.dInf;
       } else {
         ratio = this.colorGainedTachyons.div(this.currentTachyons.div(tachyonGainMultiplier()));
       }
