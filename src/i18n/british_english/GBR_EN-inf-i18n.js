@@ -81,7 +81,7 @@ export const inf = {
   repChanceUpg: "Replicate chance: $1aX$+$2aX Costs: $3aX IP",
   // Yes this looks ugly, it is fine
   repIntervalUpg: "< $1aXms$$1aXs$$1aXms$Interval: $2aX$➜ $3aX Costs: $4aX IP",
-  repMaxUpg: "Max Replicanti Galaxies$+$1aX Costs: $2aX IP",
+  repMaxUpg: "Max Replicanti Galaxies: $+$1aX Costs: $2aX IP",
   collapse: "The world has collapsed due to excess antimatter",
   crunch: "Big Crunch",
   reachAM: "Reach $1aX$antimatter",

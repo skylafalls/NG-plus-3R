@@ -67,7 +67,7 @@ export const normalTimeStudies = [
     cost: DC.D2,
     requirement: [11],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => i18n("studies", "ts22", formatInt(50), formatInt(1)),
+    description: () => i18n("studies", "ts22", [formatInt(50), formatInt(1)]),
     effect: 1
   },
   {
@@ -75,7 +75,7 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [21],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => i18n("studies", "ts31", formatPow(4)),
+    description: () => i18n("studies", "ts31", [formatPow(4)]),
     effect: 4
   },
   {
@@ -116,7 +116,7 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [41, 42],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => i18n("studies", "ts51", (formatX(1e15))),
+    description: () => i18n("studies", "ts51", [formatX(1e15)]),
     effect: 1e15
   },
   {
@@ -124,7 +124,7 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [51],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => i18n("studies", "ts63", [formatX(15)]),
+    description: () => i18n("studies", "ts61", [formatX(15)]),
     effect: 15
   },
   {

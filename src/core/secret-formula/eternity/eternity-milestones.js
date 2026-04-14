@@ -151,7 +151,7 @@ export const eternityMilestones = {
       // As far as I can tell, using templates here as Codefactor wants would lead to nested templates,
       // which seems messy to say the least.
       const realTime = PlayerProgress.seenAlteredSpeed() ? i18n("eter", "mm200b") : "";
-      const effectText = eternities.gt(0) ? i18n("eter", "mm200c", [format(eternities, 2, 2)]) : i18n("eter", "inacct");
+      const effectText = eternities.gt(0) ? i18n("eter", "mm200c", [format(eternities, 2, 2)]) : i18n("eter", "inact");
       return i18n("eter", "mm200d", [formatPercents(0.5), realTime, effectText]);
     },
     activeCondition: () => (player.options.offlineProgress

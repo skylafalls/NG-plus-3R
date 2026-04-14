@@ -47,7 +47,7 @@ export const studies = {
   ts171: "Time Shard requirement for the next Tickspeed upgrade goes up slower $1aX ➜ $2aX",
   ts181: "You gain $1aX of your Infinity Points gained on crunch each second",
   ts191: "After Eternity you permanently keep $1aX of your Infinities as Banked Infinities",
-  ts192: "Replicanti can go beyond $1ax, but growth slows down at higher amounts",
+  ts192: "Replicanti can go beyond $1aX, but growth slows down at higher amounts",
   ts192alt: "There is not enough space in this Reality",
   ts193: "Antimatter Dimension multiplier based on Eternities",
   ts201: "Pick a second path from the Dimension Split",
