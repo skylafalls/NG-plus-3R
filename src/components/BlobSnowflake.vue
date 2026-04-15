@@ -12,7 +12,7 @@ export default {
   mounted() {
     this.fly();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     for (const tween of this.tweens) {
       TWEEN.remove(tween);
     }

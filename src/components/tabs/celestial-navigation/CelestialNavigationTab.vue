@@ -110,7 +110,7 @@ export default {
     if (CelestialNavigationViewportCache.pan) this.panZoom.pan(CelestialNavigationViewportCache.pan);
     if (CelestialNavigationViewportCache.zoom) this.panZoom.zoom(CelestialNavigationViewportCache.zoom);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.panZoom) {
       CelestialNavigationViewportCache.zoom = this.panZoom.getZoom();
       CelestialNavigationViewportCache.pan = this.panZoom.getPan();

@@ -491,7 +491,7 @@ export default {
     // underneath it in order to make the tooltip appear
     setTimeout(() => this.tooltipEnabled = true, 10);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.isCurrentTooltip) this.hideTooltip();
     if (this.$viewModel.draggingUIID === this.componentID) this.$viewModel.draggingUIID = -1;
   },

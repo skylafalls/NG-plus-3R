@@ -579,7 +579,7 @@ export default {
     });
     this.isMounted = true;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.isComponentExists = false;
     this.unbindEvents();
   },

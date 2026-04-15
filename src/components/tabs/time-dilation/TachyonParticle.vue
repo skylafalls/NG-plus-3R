@@ -23,7 +23,7 @@ export default {
     this.blob = blobs[Math.floor(Math.random() * blobs.length)];
     this.fly();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     TWEEN.remove(this.tween);
   },
   methods: {

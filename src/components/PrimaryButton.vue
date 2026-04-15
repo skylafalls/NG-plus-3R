@@ -22,9 +22,8 @@ export default {
   <button
     class="o-primary-btn"
     :class="classObject"
-    v-on="$listeners"
+    v-bind="$attrs"
   >
     <slot />
   </button>
 </template>
-

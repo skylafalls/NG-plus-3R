@@ -21,7 +21,7 @@ export default {
     document.addEventListener("visibilitychange", () => this.restart.bind(this));
     this.restart();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.clearTimeouts();
   },
   methods: {

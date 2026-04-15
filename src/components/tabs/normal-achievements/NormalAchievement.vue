@@ -103,7 +103,7 @@ export default {
         : `Achieved after ${TimeSpan.fromMilliseconds(new Decimal(this.achievementTime)).toStringShort()}`;
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearTimeout(this.mouseOverInterval);
   },
   methods: {

@@ -103,7 +103,7 @@ export default {
     // and we don't want the player to see empty space while it's loading.
     document.body.scrollTop = 0;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     cancelAnimationFrame(this.renderAnimationId);
   },
   methods: {

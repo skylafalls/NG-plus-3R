@@ -53,7 +53,7 @@ export default {
       player.celestials.laitela.milestoneGlow = newValue;
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     player.celestials.laitela.lastCheckedMilestones = Currency.singularities.value;
   },
   methods: {

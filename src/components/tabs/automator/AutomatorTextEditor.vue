@@ -56,7 +56,7 @@ export default {
       this.UI.editor.scrollTo(null, AutomatorTextUI.savedVertPos);
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // This will stick around, otherwise
     AutomatorHighlighter.clearAllHighlightedLines();
     AutomatorTextUI.savedVertPos = AutomatorTextUI.editor.doc.scrollTop;

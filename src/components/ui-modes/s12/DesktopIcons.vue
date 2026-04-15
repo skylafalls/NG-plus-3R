@@ -12,7 +12,7 @@ export default {
   mounted() {
     document.body.addEventListener("click", this.clearSelected);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.body.removeEventListener("click", this.clearSelected);
     this.clearSelected();
   },

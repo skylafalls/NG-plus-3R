@@ -65,7 +65,7 @@ export default {
   created() {
     this.startRowRendering();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     cancelAnimationFrame(this.renderAnimationId);
   },
   methods: {
