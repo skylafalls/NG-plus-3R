@@ -1,6 +1,4 @@
-/* eslint-disable import/extensions */
-import pako from "pako/dist/pako.esm.mjs";
-/* eslint-enable import/extensions */
+import { deflateSync, inflateSync } from "fflate";
 
 export const GameSaveSerializer = {
   serialize(save) {
@@ -40,7 +38,7 @@ export const GameSaveSerializer = {
   // confuse your saves with AD saves but can still import AD saves (this will
   // also require changing some other code slightly, particularly decode).
   startingString: {
-    savefile: "ModdedAntimatterDimensionsSavefileFormat",
+    savefile: "AntimatterDimensionsVue3SavefileFormat",
     vanillasavefile: "AntimatterDimensionsSavefileFormat",
     settings: "AntimatterDimensionsOptionsFormat",
     "automator script": "AntimatterDimensionsAutomatorScriptFormat",
@@ -59,7 +57,7 @@ export const GameSaveSerializer = {
   // This should always be three characters long, and should ideally go AAA, AAB, AAC, etc.
   // so that we can do inequality tests on it to compare versions (though skipping a version
   // shouldn't be a problem).
-  version: "AAB",
+  version: "AAC",
   // Steps are given in encoding order.
   // It's important that `this` is what it should be in these function calls
   // (encoder/decoded for the first element, window for the fourth)
@@ -74,7 +72,7 @@ export const GameSaveSerializer = {
     // This step transforms saves into unsigned 8-bit arrays, as pako requires.
     { encode: x => GameSaveSerializer.encoder.encode(x), decode: x => GameSaveSerializer.decoder.decode(x) },
     // This step is  where the compression actually happens. The pako library works with unsigned 8-bit arrays.
-    { encode: x => pako.deflate(x), decode: x => pako.inflate(x) },
+    { encode: x => deflateSync(x), decode: x => inflateSync(x) },
     // This step converts from unsigned 8-bit arrays to strings with codepoints less than 256.
     // We need to do this outselves because GameSaveSerializer.decoder would give us unicode sometimes.
     {
