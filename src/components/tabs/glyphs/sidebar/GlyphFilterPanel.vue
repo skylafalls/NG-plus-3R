@@ -59,7 +59,7 @@ export default {
       };
     },
     questionmarkTooltip() {
-      return `All Glyph choices are given a score and compared to a threshold based on the chosen mode. 
+      return `All Glyph choices are given a score and compared to a threshold based on the chosen mode.
         The Glyph with the highest score is picked, but will still be ${this.isRefining ? "Refined" : "Sacrificed"}
         if below the threshold. (click for more detail)`;
     },
@@ -338,10 +338,12 @@ export default {
           @input="setRarityThreshold(advancedType, $event)"
         />
       </div>
-      <template v-for="type in glyphTypes">
+      <template
+        v-for="type in glyphTypes"
+        :key="glyphInfoFromType(type).id"
+      >
         <AutoSacrificeEffectTab
           v-show="glyphInfoFromType(type).id === advancedType"
-          :key="glyphInfoFromType(type).id"
           :glyph-type="glyphInfoFromType(type).id"
         />
       </template>
@@ -364,10 +366,12 @@ export default {
         </span>
       </div>
       <br>
-      <template v-for="type in glyphTypes">
+      <template
+        v-for="type in glyphTypes"
+        :key="glyphInfoFromType(type).id"
+      >
         <AutoSacrificeAdvancedTab
           v-show="glyphInfoFromType(type).id === advancedType"
-          :key="glyphInfoFromType(type).id"
           :glyph-type="glyphInfoFromType(type).id"
         />
       </template>

@@ -1,68 +1,13 @@
 import VTooltip from "v-tooltip";
+import { createApp, h } from "vue";
 
 import { DEV } from "@/env";
 
 import { useLongPress, useRepeatingClick } from "./longpress";
 import { notify } from "./notify";
-import { state } from "./ui.init";
+import { ui } from "./ui.init.js";
 
-import GameUIComponent from "@/components/GameUIComponent";
-
-Vue.mixin({
-  computed: {
-    $viewModel() {
-      return state.view;
-    }
-  },
-  created() {
-    if (this.update) {
-      this.on$(GAME_EVENT.UPDATE, this.update);
-      if (GameUI.initialized) {
-        this.update();
-      }
-    }
-
-    // Following is used to force the recomputation of computed values
-    // from this fiddle https://codepen.io/sirlancelot/pen/JBeXeV
-    const recomputed = Object.create(null);
-    const watchers = this._computedWatchers;
-
-    if (!watchers) return;
-
-    for (const key in watchers) makeRecomputable(watchers[key], key, recomputed);
-
-    this.$recompute = key => recomputed[key] = !recomputed[key];
-    Vue.observable(recomputed);
-  },
-  destroyed() {
-    EventHub.ui.offAll(this);
-  },
-  methods: {
-    emitClick() {
-      this.$emit("click");
-    },
-    emitInput(val) {
-      this.$emit("input", val);
-    },
-    emitClose() {
-      this.$emit("close");
-    },
-    on$(event, fn) {
-      EventHub.ui.on(event, fn, this);
-    },
-    format,
-    formatInt,
-    formatPercents,
-    formatRarity,
-    formatX,
-    formatPow,
-    formatPostBreak,
-    pluralize,
-    quantify,
-    quantifyInt,
-    i18n,
-  }
-});
+import App from "@/components/App.vue";
 
 // This function is also from the fiddle above
 function makeRecomputable(watcher, key, recomputed) {
@@ -142,7 +87,14 @@ export const GameUI = {
   },
   update() {
     this.dispatch(GAME_EVENT.UPDATE);
-  }
+  },
+  init() {
+    app.mount("#app");
+    document.addEventListener("DOMContentLoaded", () => {
+      this.initialized = true;
+      ui.view.initialized = true;
+    });
+  },
 };
 
 export const UIID = (function() {
@@ -156,75 +108,65 @@ VTooltip.options.defaultTemplate =
   '<div role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
 Vue.use(VTooltip);
 
-(function() {
-  const methodStrategy = Vue.config.optionMergeStrategies.methods;
-  // eslint-disable-next-line max-params
-  Vue.config.optionMergeStrategies.methods = (parentVal, childVal, vm, key) => {
-    const result = methodStrategy(parentVal, childVal, vm, key);
-    const hasUpdate = val => val && val.update;
-    if (!hasUpdate(parentVal) || !hasUpdate(childVal)) return result;
-    result.update = function() {
-      parentVal.update.call(this);
-      childVal.update.call(this);
-    };
-    return result;
-  };
-}());
-
 useLongPress(Vue);
 useRepeatingClick(Vue);
 
-export const ui = new Vue({
-  el: "#ui",
-  components: {
-    GameUIComponent
-  },
-  data: state,
+const app = createApp(App);
+
+app.mixin({
   computed: {
-    notation() {
-      return Notations.find(this.notationName);
-    },
-    lnotation() {
-      return LNotations.find(this.lnotationName);
-    },
-    currentGlyphTooltip() {
-      return this.view.tabs.reality.currentGlyphTooltip;
-    },
-    scrollWindow() {
-      return this.view.scrollWindow;
-    },
-    newUI() {
-      return this.view.newUI;
-    },
-  },
-  watch: {
-    currentGlyphTooltip(newVal) {
-      if (newVal !== -1 && !GameUI.globalClickListener) {
-        GameUI.globalClickListener = () => {
-          this.view.tabs.reality.currentGlyphTooltip = -1;
-          document.removeEventListener("click", GameUI.globalClickListener);
-          GameUI.globalClickListener = null;
-        };
-        document.addEventListener("click", GameUI.globalClickListener);
-      } else if (newVal === -1 && GameUI.globalClickListener) {
-        document.removeEventListener("click", GameUI.globalClickListener);
-        GameUI.globalClickListener = null;
-      }
-    },
-    scrollWindow(newVal, oldVal) {
-      if (newVal !== 0 && oldVal === 0) {
-        this.scroll(Date.now());
-      }
-    },
-  },
-  methods: {
-    scroll(t) {
-      const now = Date.now();
-      if (this.view.scrollWindow) {
-        window.scrollBy(0, this.view.scrollWindow * (now - t) / 2);
-        setTimeout(() => this.scroll(now), 20);
-      }
+    $viewModel() {
+      return ui.state.view;
     }
   },
-  render: h => h(GameUIComponent)
+  created() {
+    if (this.update) {
+      this.on$(GAME_EVENT.UPDATE, this.update);
+      if (GameUI.initialized) {
+        this.update();
+      }
+    }
+
+    // Following is used to force the recomputation of computed values
+    // from this fiddle https://codepen.io/sirlancelot/pen/JBeXeV
+    const recomputed = Object.create(null);
+    const watchers = this._computedWatchers;
+
+    if (!watchers) return;
+
+    for (const key in watchers) makeRecomputable(watchers[key], key, recomputed);
+
+    this.$recompute = key => recomputed[key] = !recomputed[key];
+    Vue.observable(recomputed);
+  },
+  unmounted() {
+    EventHub.ui.offAll(this);
+  },
+  methods: {
+    emitClick() {
+      this.$emit("click");
+    },
+    emitInput(val) {
+      this.$emit("input", val);
+    },
+    emitClose() {
+      this.$emit("close");
+    },
+    on$(event, fn) {
+      EventHub.ui.on(event, fn, this);
+    },
+    format,
+    formatInt,
+    formatPercents,
+    formatRarity,
+    formatX,
+    formatPow,
+    formatPostBreak,
+    pluralize,
+    quantify,
+    quantifyInt,
+    i18n,
+  }
 });
+
+export { ui } from "./ui.init.js";

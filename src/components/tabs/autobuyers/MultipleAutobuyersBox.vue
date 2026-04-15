@@ -91,9 +91,9 @@ export default {
     <div class="l-autobuyer-box__autobuyers">
       <template
         v-for="(autobuyer, id) in autobuyers"
+        :key="id"
       >
         <SingleAutobuyerInRow
-          :key="id"
           class="l-autobuyer-box__autobuyers-internal"
           :style="boxSize"
           :autobuyer="autobuyer"

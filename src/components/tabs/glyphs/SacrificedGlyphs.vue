@@ -166,9 +166,11 @@ export default {
           Reality Glyphs are unaffected by this multiplier and have no altered effects.
         </span>
       </div>
-      <template v-for="type in types">
+      <template
+        v-for="type in types"
+        :key="type + glyphSymbol(type)"
+      >
         <TypeSacrifice
-          :key="type + glyphSymbol(type)"
           :type="type"
           :has-dragover="hasDragover"
         />

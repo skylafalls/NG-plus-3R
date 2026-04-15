@@ -478,7 +478,7 @@ export function beginProcessReality(realityProps) {
       sleepTime: 1,
       asyncEntry: doneSoFar => {
         GameIntervals.stop();
-        ui.$viewModel.modal.progressBar = {
+        ui.view.modal.progressBar = {
           label: "Simulating Amplified Reality",
           info: () => `The game is currently calculating all the resources you would gain from repeating the
             Reality you just completed ${formatInt(glyphsToProcess)} more times. Pressing "Quick Glyphs" with
@@ -504,7 +504,7 @@ export function beginProcessReality(realityProps) {
               progress.maxIter -= progress.remaining - glyphsToSample;
               progress.remaining = glyphsToSample;
               // We update the progress bar max data (remaining will update automatically).
-              ui.$viewModel.modal.progressBar.max = progress.maxIter;
+              ui.view.modal.progressBar.max = progress.maxIter;
             }
           },
           {
@@ -519,10 +519,10 @@ export function beginProcessReality(realityProps) {
         };
       },
       asyncProgress: doneSoFar => {
-        ui.$viewModel.modal.progressBar.current = doneSoFar;
+        ui.view.modal.progressBar.current = doneSoFar;
       },
       asyncExit: () => {
-        ui.$viewModel.modal.progressBar = undefined;
+        ui.view.modal.progressBar = undefined;
         GameIntervals.start();
       },
       then: () => {

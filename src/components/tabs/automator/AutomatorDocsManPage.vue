@@ -35,13 +35,16 @@ export default {
         v-html="description"
       />
     </template>
-    <template v-for="section in command.sections">
-      <b :key="section.name">{{ section.name }}</b>
-      <template v-for="item in section.items">
-        <div
-          :key="item.header"
-          class="c-automator-docs-page__indented"
-        >
+    <template
+      v-for="section in command.sections"
+      :key="section.name"
+    >
+      <b>{{ section.name }}</b>
+      <template
+        v-for="item in section.items"
+        :key="item.header"
+      >
+        <div class="c-automator-docs-page__indented">
           <div v-html="item.header" />
           <div
             class="c-automator-docs-page__indented"

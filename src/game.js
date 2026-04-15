@@ -959,7 +959,7 @@ export function simulateTime(seconds, real, fast) {
         sleepTime: 1,
         asyncEntry: doneSoFar => {
           GameIntervals.stop();
-          ui.$viewModel.modal.progressBar = {
+          ui.view.modal.progressBar = {
             label: "Offline Progress Simulation",
             info: `The game is being run at a lower accuracy in order to quickly calculate the resources you
               gained while you were away. See the How To Play entry on "Offline Progress" for technical details. If
@@ -982,7 +982,7 @@ export function simulateTime(seconds, real, fast) {
                 progress.maxIter -= progress.remaining - newRemaining;
                 progress.remaining = newRemaining;
                 // We update the progress bar max data (remaining will update automatically).
-                ui.$viewModel.modal.progressBar.max = progress.maxIter;
+                ui.view.modal.progressBar.max = progress.maxIter;
               }
             },
             {
@@ -998,10 +998,10 @@ export function simulateTime(seconds, real, fast) {
           };
         },
         asyncProgress: doneSoFar => {
-          ui.$viewModel.modal.progressBar.current = doneSoFar;
+          ui.view.modal.progressBar.current = doneSoFar;
         },
         asyncExit: () => {
-          ui.$viewModel.modal.progressBar = undefined;
+          ui.view.modal.progressBar = undefined;
           // .postLoadStuff will restart GameIntervals
           GameStorage.postLoadStuff();
         },
@@ -1013,8 +1013,6 @@ export function simulateTime(seconds, real, fast) {
 
 window.onload = function() {
   const supportedBrowser = browserCheck();
-  GameUI.initialized = supportedBrowser;
-  ui.view.initialized = supportedBrowser;
   setTimeout(() => {
     ElectronRuntime.updateZoom();
     document.getElementById("loading").style.display = "none";
@@ -1053,9 +1051,9 @@ export function init() {
     // eslint-disable-next-line no-console
     console.log("👨‍💻 Development Mode 👩‍💻");
   }
+  GameUI.init();
   ElectronRuntime.initialize();
   GameStorage.load();
-  Tabs.all.find(t => t.config.id === player.options.lastOpenTab).show(true);
 }
 
 window.tweenTime = 0;

@@ -127,7 +127,7 @@ LongPress.initializeVars();
 
 export function useLongPress(vue) {
   vue.directive("long-press", {
-    bind(el, binding, vnode) {
+    beforeMount(el, binding, vnode) {
       // This seems to be the only way to get events to our component
       const emit = (name, data) => {
         const handlers = (vnode.data && vnode.data.on);
@@ -146,7 +146,7 @@ export function useLongPress(vue) {
 
 export function useRepeatingClick(vue) {
   vue.directive("repeating-click", {
-    bind(el, binding, vnode) {
+    beforeMount(el, binding, vnode) {
       // This seems to be the only way to get events to our component
       const emit = (name, data) => {
         const handlers = (vnode.data && vnode.data.on);

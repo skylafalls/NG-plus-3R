@@ -33,9 +33,9 @@ export default {
   <span class="l-autobuyer-singlet-group">
     <template
       v-for="(type, id) in singles"
+      :key="id"
     >
       <SingleAutobuyerBox
-        :key="id"
         :autobuyer="type"
         :style="boxSize"
       />

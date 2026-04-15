@@ -240,7 +240,7 @@ export const GameStorage = {
   // A few things in the current game state can prevent saving, which we want to do for all forms of saving
   canSave(ignoreSimulation = false) {
     const isSelectingGlyph = GlyphSelection.active;
-    const isSimulating = ui.$viewModel.modal.progressBar !== undefined && !ignoreSimulation;
+    const isSimulating = ui.view.modal.progressBar !== undefined && !ignoreSimulation;
     const isEnd = (GameEnd.endState >= END_STATE_MARKERS.SAVE_DISABLED && !GameEnd.removeAdditionalEnd) ||
       GameEnd.endState >= END_STATE_MARKERS.INTERACTIVITY_DISABLED;
     return !isEnd && !(isSelectingGlyph || isSimulating);
@@ -491,10 +491,10 @@ export const GameStorage = {
     V.updateTotalRunUnlocks();
     Enslaved.boostReality = false;
     GameEnd.additionalEnd = 0;
+    Notations.find(player.options.notation).setAsCurrent(true);
     Theme.set(Theme.currentName());
     Glyphs.unseen = [];
     Glyphs.unequipped = [];
-    Notations.find(player.options.notation).setAsCurrent(true);
     ADNotations.Settings.exponentCommas.min = 10 ** player.options.notationDigits.comma;
     ADNotations.Settings.exponentCommas.max = 10 ** player.options.notationDigits.notation;
 
