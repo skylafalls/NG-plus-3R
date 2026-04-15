@@ -1,3 +1,5 @@
+import { markRaw } from "vue";
+
 import EternityChallengeStartModal from "@/components/modals/challenges/EternityChallengeStartModal";
 import InfinityChallengeStartModal from "@/components/modals/challenges/InfinityChallengeStartModal";
 import MessageModal from "@/components/modals/MessageModal";
@@ -112,7 +114,7 @@ export class Modal {
 
     const modalQueue = ui.view.modal.queue;
     // Add this modal to the front of the queue and sort based on priority to ensure priority is maintained.
-    modalQueue.unshift(this);
+    modalQueue.unshift(markRaw(this));
     Modal.sortModalQueue();
   }
 

@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     view() {
-      return this.$viewModel;
+      return ui.view;
     },
     hideIfMatoFullscreen() {
       return {

@@ -20,9 +20,9 @@ export default {
 
 <template>
   <button
+    v-bind="$attrs"
     class="o-primary-btn"
     :class="classObject"
-    v-bind="$attrs"
   >
     <slot />
   </button>

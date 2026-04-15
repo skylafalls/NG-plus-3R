@@ -1,4 +1,4 @@
-import Vue from "vue";
+import { reactive } from "vue";
 
 export class BreakdownEntryInfo {
   constructor(key) {
@@ -19,7 +19,7 @@ export class BreakdownEntryInfo {
     this._isDilated = createGetter(dbEntry.isDilated, args);
     this._isBase = createGetter(dbEntry.isBase, args);
     this._ignoresNerfPowers = createGetter(dbEntry.ignoresNerfPowers, args);
-    this.data = Vue.observable({
+    this.data = reactive({
       mult: new Decimal(0),
       pow: 0,
       isVisible: false,

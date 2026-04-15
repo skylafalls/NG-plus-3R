@@ -71,8 +71,8 @@ export default {
     <span>Requires: {{ formatInt(requirement.amount) }} {{ dimName }} Antimatter D</span>
     <button
       :class="classObject"
-      @click.exact="dimensionBoost(true)"
-      @click.shift.exact="dimensionBoost(false)"
+      @click="dimensionBoost(true)"
+      @click.shift="dimensionBoost(false)"
     >
       {{ unlockedByBoost }}
       <div

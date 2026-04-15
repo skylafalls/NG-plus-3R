@@ -1,6 +1,5 @@
 import CodeMirror from "codemirror/lib/codemirror";
 import Decimal from "break_eternity.js";
-import Vue from "vue";
 
 import "codemirror/addon/mode/simple";
 import "codemirror/addon/hint/show-hint";
@@ -10,4 +9,3 @@ import "codemirror/addon/edit/closebrackets";
 
 window.CodeMirror = CodeMirror;
 window.Decimal = Decimal;
-window.Vue = Vue;

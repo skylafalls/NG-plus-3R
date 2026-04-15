@@ -1,4 +1,4 @@
-import VTooltip from "v-tooltip";
+import VTooltip from "floating-vue";
 import { createApp, h } from "vue";
 
 import { DEV } from "@/env";
@@ -102,17 +102,12 @@ export const UIID = (function() {
   return { next: () => id++ };
 }());
 
-VTooltip.options.defaultClass = "general-tooltip";
-VTooltip.options.popover.defaultBaseClass = "general-tooltip";
-VTooltip.options.defaultTemplate =
-  '<div role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
-Vue.use(VTooltip);
-
-useLongPress(Vue);
-useRepeatingClick(Vue);
 
 const app = createApp(App);
 
+VTooltip.install(app);
+useLongPress(app);
+useRepeatingClick(app);
 app.mixin({
   computed: {
     $viewModel() {

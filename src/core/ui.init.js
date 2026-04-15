@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, markRaw } from "vue";
 
 // TODO: the game currently assume this is merged with the component
 // ..excpet thats completely fucking stupid

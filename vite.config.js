@@ -7,21 +7,12 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const STEAM = env.VITE_STEAM === "true";
   return {
-    plugins: [vue({
-      template: {
-        compilerOptions: {
-          compatConfig: {
-            MODE: 3
-          }
-        }
-      }
-    })],
+    plugins: [vue()],
     base: "./",
     outDir: STEAM ? "../AppFiles" : "dist",
     resolve: {
       alias: {
         "@": path.resolve(import.meta.dirname, "./src"),
-        "vue": "@vue/compat",
       },
       extensions: [".js", ".vue"]
     }
